@@ -1,0 +1,69 @@
+SENSEVAL-3 Evaluation Exercise
+English Lexical Sample Task
+
+March 1, 2004
+
+
+[Task description]
+
+The goal of this task is to create a framework for the evaluation 
+of corpus-based learning systems that perform Word Sense Disambiguation 
+for English. The data was collected via the Open Mind Word Expert 
+(OMWE) interface (online at http://www.teach-computers.org/) 
+To ensure reliability, we collected at least two tags per item, 
+and conducted inter-tagger agreement and replicability tests. 
+Previously performed evaluations have proved the quality and 
+usefulness of the OMWE data. 
+We are providing training and test data for about 60 ambiguous nouns, 
+adjectives, and verbs. Part of the test data was contributed by 
+lexicographers from the Department of Linguistics at UNT. Another 
+section of the test data is extracted from the sense tagged corpus 
+collected over the Web. 
+A sensemap is also provided, to enable both fine grained and coarse 
+grained evaluations. 
+
+
+[Sense inventory]
+
+Nouns and adjectives are annotated using the WordNet 1.7.1 sense
+inventory (http://www.cogsci.princeton.edu/~wn/).
+Verbs are annotated based on Wordsmyth definitions 
+(http://www.wordsmyth.net)
+A mapping between Wordsmyth and WordNet verb senses is provided in
+the file EnglishLS.dictionary.mapping.xml
+
+[Corpus]
+
+All examples are drawn from the British National Corpus. Prior to
+annotation, the text was tokenized. We also identified and removed 
+examples containing collocations of the target word. For example, the 
+training/test examples for arm.n do not include examples for "contact 
+arm", "pickup arm", etc., but only examples that refer to "arm" as 
+a single lexical unit (not part of a collocation).
+
+
+[Data files]
+
+The data set distributed for this task includes the following files:
+
+EnglishLS.README	         - this file 
+EnglishLS.words                  - lists of words in the data set, and 
+                                   corresponding size of training/test data
+EnglishLS.dictionary.xml         - sense inventory used in the annotation
+EnglishLS.train                  - file containing training examples for all 
+                                   words in the data set
+EnglishLS.train.key              - answer key for training examples
+EnglishLS.test                   - file containing test examples for all words 
+			           in the data set
+EnglishLS.test.key               - answer key for test examples
+                                   (distributed only after the evaluation is
+                                    concluded)
+EnglishLS.sensemap               - sensemap that groups similar senses together
+
+
+
+[Task Coordinators]
+
+Rada Mihalcea, rada@cs.unt.edu 
+Tim Chklovski, timc@isi.edu
+Adam Kilgarriff, Adam.Kilgarriff@itri.brighton.ac.uk
