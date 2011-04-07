@@ -36,7 +36,7 @@ sentence "$1"|tail -n 1|wc -w
 #Print a row with id and sentence 
 #sentence|sed 's/|ID://'|tr '\n' '|'
 
-echo 'id|characterCount|wordCount'
+echo 'occurrance|characterCount|wordCount'
 while (( "$#" )); do
 word "$1"
 shift
