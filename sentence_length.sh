@@ -1,8 +1,14 @@
 #!/bin/bash
-instance="$1"
+#This extracts character and word counts from a series of files of one instance each
+#Run this script like so
+#sentence_length.sh <files>
+#For example
+#sentence_length.sh EnglishLS.train.instance0139*
+
 #Extract the sentence
 function sentence {
-cat "$instance"|
+#This takes one argument--instance file
+cat "$1"|
 #Extract the id number
 sed 's/<instance id="\([^"]*\)".*$/|ID<head>:\1/'|
 #Separate by sentence
@@ -15,13 +21,23 @@ sed 's/<[^<]*>//g'
 
 #Print the id number
 function id {
-sentence|sed -n 's/^|ID://p'|tr '\n' '|'
+sentence "$1"|sed -n 's/^|ID://p'
 }
 
-#Print a pipe-delimited row with id number and sentence length in characters
-id
-#Count the number of characters
-sentence|tail -n 1|wc -c
+function word {
+#Print a pipe-delimited row with id number,
+id "$1"|tr '\n' '|'
+#sentence length in characters and
+sentence "$1"|tail -n 1|wc -c|tr '\n' '|'
+#sentence length in words
+sentence "$1"|tail -n 1|wc -w
+}
 
 #Print a row with id and sentence 
 #sentence|sed 's/|ID://'|tr '\n' '|'
+
+echo 'id|characterCount|wordCount'
+while (( "$#" )); do
+word "$1"
+shift
+done
