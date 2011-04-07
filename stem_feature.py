@@ -7,4 +7,4 @@ a = []
 def stemCorpus(wordList):
   for x in wordList:
     a.append((x,stemmer.stem(x)))
-  print(a)
+  a
