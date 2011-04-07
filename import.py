@@ -7,5 +7,6 @@ if not os.path.exists(path):
 import nltk.data
 from nltk.corpus import senseval
 #Remove the Senseval-2 data
-for word in glob.glob('/home/tlevine/nltk_data/corpora/senseval/*.pos'):
+for word in glob.glob('~/nltk_data/corpora/senseval/*.pos'):
 	os.remove(word)
+
