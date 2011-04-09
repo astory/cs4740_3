@@ -1,0 +1,3 @@
+sample_output.csv illustrates a format that would be nice for data analysis
+sample_output-nofeatures.csv is the same thing without the features.
+words.csv is a list of the words
