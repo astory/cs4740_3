@@ -10,13 +10,11 @@ nltk.data.path[0]=path
 items = senseval.fileids()
 print items
 
-items = items[:1]
+items = items[:1] # maybe change this later
 windowSize = 4
 
-# look through the corpus and get the windowSize most common words
-
 # I copied pasted the english stopwords corpus from the nltk package here
-# for convenience
+# for convenience (I also added in some punctuation)
 stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',\
              'you', 'your', 'yours', 'yourself', 'yourselves', 'he', 'him',\
              'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its',\
@@ -32,5 +30,50 @@ stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',\
              'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any',\
              'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such',\
              'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too',\
-             'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']
+             'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now',\
+             '.', ',', '(', ')', '{', '}', '[', ']', '-', '?', '!', "n't"]
 
+# look through the corpus and get vectorSize most common words
+vectorSize = 12
+common = []
+
+def cooccurrence(windowSize, pos, context, vect_keys):
+    pass
+
+for item in items:
+    totalResult = []
+    
+    # first we must make a list of common words using this sense data
+    for instance in senseval.instances(item)[:1]:
+        # first load the cases for item and get the most common words
+        word_list = [x.lower() for x in instance.context]
+        temp_list = word_list
+        
+        # remove all the stopwords
+        for x in stopwords:
+            word_list = filter(lambda w: w != x, word_list)
+
+        # remove the head word
+        head = instance.context[instance.position].lower()
+        word_list = filter(lambda w: w != head, word_list)
+        
+        word_counts = {}
+        for word in word_list:
+            if word in word_counts:
+                word_counts[word] += 1
+            else:
+                word_counts[word] = 1
+
+        # sort the list in descending order and truncate to get most common
+        common = sorted(word_counts, key = word_counts.get, reverse = True)
+        common = common[:vectorSize]
+
+    # okay, now we can make the vectors for this item
+    for instance in senseval.instances(item)[:10]:
+        pos = instance.position
+        context = instance.context
+        instance.senses
+        print context
+        print context[pos]
+        d = cooccurrence(windowSize, pos, context, common)
+        print d
