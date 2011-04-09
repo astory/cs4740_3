@@ -13,20 +13,22 @@ items = items[:1]
 
 for item in items:
 	train=[]
-	for instance in senseval.instances(item)[:10]:
+	length = len(senseval.instances(item))
+	for instance in senseval.instances(item)[:length/2]:
 		pos = instance.position
 		context = instance.context
 		senses = instance.senses
 
 		d={}
 		d['prev_word']=context[pos-1]
+		d['actual_word']=context[pos]
 		d['next_word']=context[pos+1]
 		for sense in senses:
 			pair = (d,sense)
 			train.append(pair)
 			(feature_set, label) = pair
 	test = []
-	for instance in senseval.instances(item)[10:20]:
+	for instance in senseval.instances(item)[length/2:]:
 		pos = instance.position
 		context = instance.context
 		senses = instance.senses
