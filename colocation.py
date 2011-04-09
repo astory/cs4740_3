@@ -20,12 +20,14 @@ def colocation(windowSize, pos, context):
     backward= context[pos+1:]
     b= backward[:windowSize/2]
     for item in f:
-        key= "pre"+str(len(f)-f.index(item))+"-word"
-        value= item
+        #key= "pre"+str(len(f)-f.index(item))+"-word"
+        key= item
+        value= nltk.pos_tag(item)
         contextResult[key]=value
     for item in b:
-        key= "fol"+str(b.index(item)+1)+"-word"
-        value= item
+        #key= "fol"+str(b.index(item)+1)+"-word"
+        key= item
+        value= nltk.pos_tag(item)
         contextResult[key]=value
     return contextResult
         
