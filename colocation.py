@@ -8,7 +8,6 @@ nltk.data.path[0]=path
 
 items = senseval.fileids()
 print items
-#random comment
 items = items[:1]
 windowSize=4
 
