@@ -1,5 +1,6 @@
 import os, os.path
 import nltk
+from nltk import pos_tag, word_tokenize
 from nltk.corpus import senseval
 from nltk import pos_tag, word_tokenize
 from nltk.corpus import brown
@@ -25,12 +26,8 @@ def colocation(windowSize, pos, context):
         #key= "pre"+str(len(f)-f.index(item))+"-word"
         key= item
         value= pos_tag(word_tokenize(item))
-        contextResult[key]=value
-    for item in b:
-        #key= "fol"+str(b.index(item)+1)+"-word"
-        key= item
-        value = ""
-        #value= pos_tag(item)
+        text = nltk.word_tokenize(item)
+        value= nltk.pos_tag(text)
         contextResult[key]=value
     return contextResult
         
