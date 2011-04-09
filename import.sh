@@ -5,7 +5,7 @@
 train="$1"
 mkdir "$train".split 
 cd "$train".split
-#csplit -n 5 -f "$train".instance -s ../"$train" '/^<instance/' '{*}'
+csplit -n 5 -f "$train".instance -s ../"$train" '/^<instance/' '{*}'
 cd ..
 
 #Convert to Senseval-2--like format
