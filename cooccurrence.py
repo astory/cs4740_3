@@ -12,6 +12,8 @@ print items
 
 items = items[:1] # maybe change this later
 windowSize = 4
+# size of your feature vector for cooccurrence
+vectorSize = 12
 
 # I copied pasted the english stopwords corpus from the nltk package here
 # for convenience (I also added in some punctuation)
@@ -33,9 +35,43 @@ stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',\
              'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now',\
              '.', ',', '(', ')', '{', '}', '[', ']', '-', '?', '!', "n't"]
 
-# look through the corpus and get vectorSize most common words
-vectorSize = 12
-common = []
+# make sure we have the cooccurrence vector
+def initialize():
+    # let's see if common is already set
+    try:
+        common
+    except NameError:
+        common = None
+
+    # this must mean we're running training data, generate common
+    if common is None:
+        # look through the corpus and get vectorSize most common words
+        common = []
+        for item in items:
+            # first we must make a list of common words using this sense data
+            for instance in senseval.instances(item)[:1]: ## AAAAAHHH
+                # first load the cases for item and get the most common words
+                word_list = [x.lower() for x in instance.context]
+                temp_list = word_list
+                
+                # remove all the stopwords
+                for x in stopwords:
+                    word_list = filter(lambda w: w != x, word_list)
+
+                # remove the head word
+                head = instance.context[instance.position].lower()
+                word_list = filter(lambda w: w != head, word_list)
+                
+                word_counts = {}
+                for word in word_list:
+                    if word in word_counts:
+                        word_counts[word] += 1
+                    else:
+                        word_counts[word] = 1
+
+                # sort the list in descending order and truncate to get most common
+                common = sorted(word_counts, key = word_counts.get, reverse = True)
+                common = common[:vectorSize]
 
 def cooccurrence(windowSize, pos, context, vect_keys):
     pass
@@ -43,30 +79,7 @@ def cooccurrence(windowSize, pos, context, vect_keys):
 for item in items:
     totalResult = []
     
-    # first we must make a list of common words using this sense data
-    for instance in senseval.instances(item)[:1]:
-        # first load the cases for item and get the most common words
-        word_list = [x.lower() for x in instance.context]
-        temp_list = word_list
-        
-        # remove all the stopwords
-        for x in stopwords:
-            word_list = filter(lambda w: w != x, word_list)
 
-        # remove the head word
-        head = instance.context[instance.position].lower()
-        word_list = filter(lambda w: w != head, word_list)
-        
-        word_counts = {}
-        for word in word_list:
-            if word in word_counts:
-                word_counts[word] += 1
-            else:
-                word_counts[word] = 1
-
-        # sort the list in descending order and truncate to get most common
-        common = sorted(word_counts, key = word_counts.get, reverse = True)
-        common = common[:vectorSize]
 
     # okay, now we can make the vectors for this item
     for instance in senseval.instances(item)[:10]:
