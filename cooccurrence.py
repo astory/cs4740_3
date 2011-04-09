@@ -11,10 +11,11 @@ items = senseval.fileids()
 print items
 
 items = items[:1] # maybe change this later
-windowSize = 10
 
-# size of your feature vector for cooccurrence
-vectorSize = 12
+# the feature extractor code is below here -----------------------------------
+windowSize = 10     # number of words before and after to look for
+vectorSize = 12     # size of your feature vector for cooccurrence
+cooccur_vect = {}   # store the feature vector keys in here
 
 # I copied pasted the english stopwords corpus from the nltk package here
 # for convenience; however, there are also corpus specific stopwords here too
@@ -44,13 +45,6 @@ def feature_keys(ind):
 
        Upon supplying an index (use the instance id), it returns a list of words.
        This is the keys that are used in the cooccurrence feature vectors."""
-
-    # check to see if global variable cooccur_vect exists
-    try:
-        global cooccur_vect
-        cooccur_vect
-    except NameError:
-        cooccur_vect = {}
 
     # check to see if the feature vector we are looking for exists
     try:
@@ -100,5 +94,5 @@ for item in items:
         d = cooccurrence(windowSize,
                          instance.position,
                          instance.context,
-                         feature_keys(instance.context[instance.position]))
+                         feature_keys(instance.context]))
         print d
