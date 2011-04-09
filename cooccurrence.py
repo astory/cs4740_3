@@ -12,6 +12,7 @@ print items
 
 items = items[:1] # maybe change this later
 windowSize = 4
+
 # size of your feature vector for cooccurrence
 vectorSize = 12
 
@@ -35,18 +36,22 @@ stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',\
              'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now',\
              '.', ',', '(', ')', '{', '}', '[', ']', '-', '?', '!', "n't"]
 
-# make sure we have the cooccurrence vector
-def initialize():
-    # let's see if common is already set
-    try:
-        common
-    except NameError:
-        common = None
+def feature_keys(ind):
+    """ run this to get a global instance of your feature keyset"""
 
-    # this must mean we're running training data, generate common
-    if common is None:
-        # look through the corpus and get vectorSize most common words
-        common = []
+    # check to see if global variable cooccur_vect exists
+    try:
+        cooccur_vect
+    except NameError:
+        global cooccur_vect
+        cooccur_vect = {}
+
+    # check to see if the feature vector we are looking for exists
+    try:
+        return cooccur_vect[ind]
+    except KeyError:
+        global cooccur_vect
+        # does not exist, we have to make it
         for item in items:
             # first we must make a list of common words using this sense data
             for instance in senseval.instances(item)[:1]: ## AAAAAHHH
@@ -70,8 +75,57 @@ def initialize():
                         word_counts[word] = 1
 
                 # sort the list in descending order and truncate to get most common
-                common = sorted(word_counts, key = word_counts.get, reverse = True)
-                common = common[:vectorSize]
+                cooccur_vect[ind] = sorted(word_counts, key = word_counts.get, reverse = True)
+                cooccur_vect[ind] = cooccur_vect[ind][:vectorSize]
+        
+        return cooccur_vect[ind]
+
+
+
+# see if our features are already computed
+try:
+    common
+except NameError:
+    common = {}     
+
+# call this to get a list of feature keys. The parameter is the item you are looking for
+def get_features(ind):
+    # let's see if common is already set
+    try:
+        common
+    except NameError:
+        common = {}
+
+    # this must mean we're running training data, generate common
+    if common[ind] is None:
+        # look through the corpus and get vectorSize most common words
+        common = {}
+        for item in items:
+            # first we must make a list of common words using this sense data
+            for instance in senseval.instances(item)[:1]: ## AAAAAHHH
+                # first load the cases for item and get the most common words
+                word_list = [x.lower() for x in instance.context]
+                temp_list = word_list
+                
+                # remove all the stopwords
+                for x in stopwords:
+                    word_list = filter(lambda w: w != x, word_list)
+
+                # remove the head word
+                head = instance.context[instance.position].lower()
+                word_list = filter(lambda w: w != head, word_list)
+                
+                word_counts = {}
+                for word in word_list:
+                    if word in word_counts:
+                        word_counts[word] += 1
+                    else:
+                        word_counts[word] = 1
+
+                # sort the list in descending order and truncate to get most common
+                common[item] = sorted(word_counts, key = word_counts.get, reverse = True)
+                common[item] = common[item][:vectorSize]
+    else
 
 def cooccurrence(windowSize, pos, context, vect_keys):
     pass
