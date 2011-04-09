@@ -4,7 +4,9 @@ from nltk.stem import *
 from nltk.stem.porter import *
 stemmer = PorterStemmer()
 a = []
-def stemCorpus(wordList):
-  for x in wordList:
-    a.append((x,stemmer.stem(x)))
-  a
+def stemCorpus(inputList):
+  for x in inputList:
+    wordList = x.split("\t")
+    word = wordList[0]
+    a.append((x + "\t" + stemmer.stem(word)))
+  return a
