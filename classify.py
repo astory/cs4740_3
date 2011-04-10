@@ -35,32 +35,38 @@ def build_test(instances):
 		test.append(d)
 	return test
 
-items = senseval.fileids()
-
-tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
-
-senses = []
-for item in items:
-	lexitem = ".".join(item.split(".")[0:2])
-	trains=\
-		[dict(context=instance.context,\
-			position=instance.position,\
-			senses=instance.senses)\
-		for instance in senseval.instances(item)]
-	train=build_train(trains)
-	test=build_test(tests[lexitem])
-
+def classify(train,test):
 	classifier = nltk.NaiveBayesClassifier.train(train)
-	senseList = classifier.batch_classify(test)
-	senses.extend(senseList)
-	result = zip(senseList, [x['id_num'] for x in tests[lexitem]])
+	rawSenseList = classifier.batch_classify(test)
+	probDistList = classifier.batch_prob_classify(test)
+	return\
+		[dict(sense=sense,prob=prob.prob(sense))\
+		for sense,prob\
+		in zip(rawSenseList, probDistList)]
 
-#file writing stuff.  Will not work in the initial implementation.
-#requires all of words to have a sense
+def batch_classify(items, tests):
+	senses = []
+	for item in items:
+		lexitem = ".".join(item.split(".")[0:2])
+		trains=\
+			[dict(context=instance.context,\
+				position=instance.position,\
+				senses=instance.senses)\
+			for instance in senseval.instances(item)]
+		train=build_train(trains)
+		test=build_test(tests[lexitem])
+
+		senses.extend(classify(train,test))
+	return senses
+
+items = senseval.fileids()
+tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
+senses = batch_classify(items, tests)
+
 f = open('answers.txt')
 l = []
 for line in f:
   l.append(line)
 for x in range(len(senses)):
-  print(l[x].rstrip().rstrip('\n') + " " + senses[x])
+  print(l[x].rstrip().rstrip('\n') + " " + senses[x]['sense'])
 f.close()
