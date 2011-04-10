@@ -8,6 +8,8 @@ path = os.path.relpath('nltk_data')
 nltk.data.path[0]=path
 
 CUTOFF_PROB = .5
+BOOTSTRAP_CUTOFF_PROB = .8
+BOOTSTRAP_REPS = 5
 
 def assign_features(instance):
 	context = instance['context']
@@ -56,6 +58,14 @@ def batch_classify(items, tests):
 			for instance in senseval.instances(item)]
 		train=build_train(trains)
 		test=build_test(tests[lexitem])
+
+		# TODO(astory): make dynamic
+		for i in range(BOOTSTRAP_REPS):
+			classified = classify(train,test)
+			for result,test_inst in zip(classified, test):
+				if (result['prob'] > BOOTSTRAP_CUTOFF_PROB and
+					(test_inst, result['sense']) not in train):
+					train.append((test_inst, result['sense']))
 
 		senses.extend(classify(train,test))
 	return senses
