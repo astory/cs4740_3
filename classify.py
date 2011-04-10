@@ -39,23 +39,23 @@ for item in items:
 		test.append(d)
 
 #train2 = [
-#    (dict(a=1,b=1,c=1), 'y'),
-#    (dict(a=1,b=1,c=1), 'x'),
-#    (dict(a=1,b=1,c=0), 'y'),
-#    (dict(a=0,b=1,c=1), 'x'),
-#    (dict(a=0,b=1,c=1), 'y'),
-#    (dict(a=0,b=0,c=1), 'y'),
-#    (dict(a=0,b=1,c=0), 'x'),
-#    (dict(a=0,b=0,c=0), 'x'),
-#    (dict(a=0,b=1,c=1), 'y'),
+#    (dict(a=1,b=1,c="tr"), 'y'),
+#   (dict(a=1,b=1,c="l"), 'x'),
+#    (dict(a=1,b=1,c="m"), 'y'),
+#    (dict(a=0,b=1,c="try"), 'x'),
+#    (dict(a=0,b=1,c="tr"), 'y'),
+#    (dict(a=0,b=0,c="catch"), 'y'),
+#    (dict(a=0,b=1,c="fo"), 'x'),
+#    (dict(a=0,b=0,c="ll"), 'x'),
+#    (dict(a=0,b=1,c="87"), 'y'),
 #    ]
 #test = [
-#    (dict(a=1,b=0,c=1)), # unseen
-#    (dict(a=1,b=0,c=0)), # unseen
-#    (dict(a=0,b=1,c=1)), # seen 3 times, labels=y,y,x
-#    (dict(a=0,b=1,c=0)), # seen 1 time, label=x
+#    (dict(a=1,b=0,c="r")), # unseen
+#    (dict(a=1,b=0,c="e")), # unseen
+#    (dict(a=0,b=1,c="d")), # seen 3 times, labels=y,y,x
+#    (dict(a=0,b=1,c="d")), # seen 1 time, label=x
 #    ]
-#
+
 classifier = nltk.NaiveBayesClassifier.train(train)
 senseList = classifier.batch_classify(test)
 
