@@ -1,6 +1,6 @@
 #!/bin/bash
 #Run this like so
-#wsd.sh [training 
+#wsd.sh [test data key] 
 key=$1
 tmp=tmp-`date '+%s'`
 
