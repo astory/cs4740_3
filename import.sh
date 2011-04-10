@@ -1,12 +1,15 @@
 #!/bin/bash
-#Run this inside the EnglishLS.train directory to set things up for importing to python
-#It could take the EnglishLS.train file within that directory as the sole argument
-../import.py
+#This takes the ??.train file as the sole argument
+startdir=`pwd`
+cd `ls -d "$1" |sed 's+/.*$++'`
+
+./import.py
 train="$1"
 mkdir "$train".split 
 cd "$train".split
 csplit -n 5 -f "$train".instance -s ../"$train" '/^<instance/' '{*}'
-cd ..
+
+cd $startdir
 
 #Convert to Senseval-2--like format
 mkdir senseval2_format
