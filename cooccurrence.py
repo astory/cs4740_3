@@ -75,16 +75,21 @@ def feature_keys(ind):
     return cooccur_vect[ind]
 
 # the actual cooccurrence function
-def cooccurrence(windowSize, pos, context_dictionary):
+def cooccurrence(windowSize, pos, context, dictionary):
     inc_words = context[(pos - windowSize/2):pos + 1 + windowSize/2]
     inc_words.pop(pos / 2)
-    
-
+    keys = feature_keys(item)
+    for word in inc_words:
+        if word in keys:
+            dictionary["cooccurrence" + word] = 1
+        else:
+            dictionary["cooccurrence" + word] = 0
+    return dictionary
 
 # cooccurrence: perform the feature extraction
 for item in items:
     totalResult = []
-    for instance in senseval.instances(item):
+    for instance in senseval.instances(item)[:1]:
         #print "CONTEXT:"
         #print instance.context
         #print "SENSES:"
