@@ -13,31 +13,33 @@ parser.add_option("-o", "--fout", dest="fout",
                   help="Name of file to output sense tags")
 parser.add_option("-d", "--dir", dest="dir",
                   help="Directory to look for nltk data")
-parser.add_option("-c", "--classifier", dest="classifier"
+parser.add_option("-c", "--classifier", dest="classifier",
                   help="Choose which classifier to use")
-parser.add_option("-p", "--use_probs", dest="use_probs"
+parser.add_option("-p", "--use_probs", dest="use_probs",
                   help="Enable probabilities rather than 0, 1 decisions")
-parser.add_option("-u", "--cutoff_prob", dest="cutoff_prob"
+parser.add_option("-u", "--cutoff_prob", dest="cutoff_prob",
                   help="Choose decision probability cutoff")
-parser.add_option("-b", "--bootstrap", dest="bootstrap"
+parser.add_option("-b", "--bootstrap", dest="bootstrap",
                   help="Enable bootstrapping")
 
 # feature extractor options
-parser.add_option("-l", "--colocation", dest="colocation"
+parser.add_option("-l", "--colocation", dest="colocation",
                   help="Enable colocation feature extractor")
-parser.add_option("-r", "--cooccurrence", dest="cooccurrence"
+parser.add_option("-r", "--cooccurrence", dest="cooccurrence",
                   help="Enable cooccurrence feature extractor")
-parser.add_option("-t", "--stemming", dest="stemming"
+parser.add_option("-t", "--stemming", dest="stemming",
                   help="Enable stemming feature extractor")
-parser.add_option("-s", "--sentence_len", dest="sentence_len"
+parser.add_option("-s", "--sentence_len", dest="sentence_len",
                   help="Enable sentence length feature extractor")
-parser.add_option("-p", "--pos", dest="pos"
+parser.add_option("-e", "--pos", dest="pos",
                   help="Enable pos feature extractor")
 
-if dir is None:
+(options, args) = parser.parse_args()
+
+if options.dir is None:
         path = os.path.relpath('nltk_data')
 else:
-        path = os.path.relpath(dir)
+        path = os.path.relpath(options.dir)
 nltk.data.path[0]=path
 
 CUTOFF_PROB = .5
