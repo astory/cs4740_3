@@ -9,27 +9,23 @@ nltk.data.path[0]=path
 
 items = senseval.fileids()
 
-items = items[:1]
-
 tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
 
-
+senses = []
 for item in items:
 	train=[]
-	length = len(senseval.instances(item))
 	for instance in senseval.instances(item):
 		pos = instance.position
 		context = instance.context
-		senses = instance.senses
+		instance_senses = instance.senses
 
 		d={}
 		d['prev_word']=context[pos-1]
 		d['actual_word']=context[pos]
 		d['next_word']=context[pos+1]
-		for sense in senses:
+		for sense in instance_senses:
 			pair = (d,sense)
 			train.append(pair)
-			(feature_set, label) = pair
 
 	test=[]
 	lexitem = ".".join(item.split(".")[0:2])
@@ -42,29 +38,12 @@ for item in items:
 		d['actual_word']=context[pos]
 		d['next_word']=context[pos+1]
 		test.append(d)
-
-#train2 = [
-#    (dict(a=1,b=1,c="tr"), 'y'),
-#   (dict(a=1,b=1,c="l"), 'x'),
-#    (dict(a=1,b=1,c="m"), 'y'),
-#    (dict(a=0,b=1,c="try"), 'x'),
-#    (dict(a=0,b=1,c="tr"), 'y'),
-#    (dict(a=0,b=0,c="catch"), 'y'),
-#    (dict(a=0,b=1,c="fo"), 'x'),
-#    (dict(a=0,b=0,c="ll"), 'x'),
-#    (dict(a=0,b=1,c="87"), 'y'),
-#    ]
-#test = [
-#    (dict(a=1,b=0,c="r")), # unseen
-#    (dict(a=1,b=0,c="e")), # unseen
-#    (dict(a=0,b=1,c="d")), # seen 3 times, labels=y,y,x
-#    (dict(a=0,b=1,c="d")), # seen 1 time, label=x
-#    ]
-
-classifier = nltk.NaiveBayesClassifier.train(train)
-senseList = classifier.batch_classify(test)
-result = zip(senseList, [x['id_num'] for x in tests[lexitem]])
-print result
+	classifier = nltk.NaiveBayesClassifier.train(train)
+	senseList = classifier.batch_classify(test)
+	senses.extend(senseList)
+	result = zip(senseList, [x['id_num'] for x in tests[lexitem]])
+	print result
+	print classifier.show_most_informative_features()
 
 #file writing stuff.  Will not work in the initial implementation.
 #requires all of words to have a sense
@@ -73,8 +52,8 @@ out = open('responses.txt', 'w')
 l = []
 for line in f:
   l.append(line)
-for x in range(len(senseList)):
-  out.write(l[x].rstrip().rstrip('\n') + " " + senseList[x] + '\n')
+for x in range(len(senses)):
+  out.write(l[x].rstrip().rstrip('\n') + " " + senses[x] + '\n')
 f.close()
 out.close()
 print senseList
