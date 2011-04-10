@@ -12,10 +12,10 @@ BOOTSTRAP_CUTOFF_PROB = .8
 BOOTSTRAP_REPS = 5
 
 USE_PROBS = True
-USE_BOOTSTRAP = True # only matters if USE_PROBS is true
 
-#CLASSIFIER=nltk.DecisionTreeClassifier #does not provide a probability measure
 CLASSIFIER=nltk.NaiveBayesClassifier
+#CLASSIFIER=nltk.DecisionTreeClassifier #does not provide a probability measure
+#CLASSIFIER=nltk.MaxentClassifier #much slower, prints lots of crap
 
 def assign_features(instance):
 	context = instance['context']
@@ -67,13 +67,12 @@ def batch_classify(items, tests):
 		test=build_test(tests[lexitem])
 
 		# TODO(astory): make dynamic
-		if USE_PROBS and USE_BOOTSTRAP:
-			for i in range(BOOTSTRAP_REPS):
-				classified = classify(train,test)
-				for result,test_inst in zip(classified, test):
-					if (result['prob'] > BOOTSTRAP_CUTOFF_PROB and
-						(test_inst, result['sense']) not in train):
-						train.append((test_inst, result['sense']))
+		for i in range(BOOTSTRAP_REPS):
+			classified = classify(train,test)
+			for result,test_inst in zip(classified, test):
+				if (result['prob'] > BOOTSTRAP_CUTOFF_PROB and
+					(test_inst, result['sense']) not in train):
+					train.append((test_inst, result['sense']))
 
 		senses.extend(classify(train,test))
 	return senses
