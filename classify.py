@@ -9,6 +9,7 @@ nltk.data.path[0]=path
 
 CUTOFF_PROB = .5
 BOOTSTRAP_CUTOFF_PROB = .8
+# NOTE: Do not bootstrap (i.e., reps = 0) unless probabilities are on!
 BOOTSTRAP_REPS = 5
 
 USE_PROBS = True
@@ -54,6 +55,21 @@ def classify(train,test):
 		[dict(sense=sense,prob=prob.prob(sense) if USE_PROBS else 1)\
 		for sense,prob in zip(rawSenseList, probDistList)]
 
+def bootstrap(train, test, classified):
+	"""Bootstraps the classified test data onto the training
+	train: list of (feature_dict, sense) pairs
+	test:  list of (feature_dict)
+	classified: list of (sense,prob) pairs matching up with test
+
+	returns: a list of (feature_dict, sense) pairs containing all of train, with
+	possibly more appended to it
+	"""
+	for result,test_inst in zip(classified, test):
+		if result['prob'] > BOOTSTRAP_CUTOFF_PROB\
+				and (test_inst, result['sense']) not in train:
+			train.append((test_inst, result['sense']))
+	return train
+
 def batch_classify(items, tests):
 	senses = []
 	for item in items:
@@ -66,13 +82,10 @@ def batch_classify(items, tests):
 		train=build_train(trains)
 		test=build_test(tests[lexitem])
 
-		# TODO(astory): make dynamic
+		# TODO(astory): make dynamic?
 		for i in range(BOOTSTRAP_REPS):
 			classified = classify(train,test)
-			for result,test_inst in zip(classified, test):
-				if (result['prob'] > BOOTSTRAP_CUTOFF_PROB and
-					(test_inst, result['sense']) not in train):
-					train.append((test_inst, result['sense']))
+			train = bootstrap(train, test, classified)
 
 		senses.extend(classify(train,test))
 	return senses
