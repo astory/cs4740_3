@@ -3,7 +3,7 @@
 startdir=`pwd`
 cd `ls -d "$1" |sed 's+/.*$++'`
 
-$bin/import.py
+./import.py
 train="$1"
 mkdir "$train".split 
 cd "$train".split
