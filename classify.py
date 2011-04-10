@@ -7,6 +7,8 @@ from nltk.corpus import senseval
 path = os.path.relpath('nltk_data')
 nltk.data.path[0]=path
 
+CUTOFF_PROB = .5
+
 def assign_features(instance):
 	context = instance['context']
 	pos = instance['position']
@@ -41,8 +43,7 @@ def classify(train,test):
 	probDistList = classifier.batch_prob_classify(test)
 	return\
 		[dict(sense=sense,prob=prob.prob(sense))\
-		for sense,prob\
-		in zip(rawSenseList, probDistList)]
+		for sense,prob in zip(rawSenseList, probDistList)]
 
 def batch_classify(items, tests):
 	senses = []
@@ -68,5 +69,6 @@ l = []
 for line in f:
   l.append(line)
 for x in range(len(senses)):
-  print(l[x].rstrip().rstrip('\n') + " " + senses[x]['sense'])
+  print(l[x].rstrip().rstrip('\n') + " " +\
+  	(senses[x]['sense'] if senses[x]['prob'] > CUTOFF_PROB else 'U'))
 f.close()
