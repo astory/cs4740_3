@@ -10,8 +10,9 @@ items = senseval.fileids()
 print items
 items = items[:1]
 windowSize=4
+dictionary={}
 
-def colocation(windowSize, pos, context):
+def colocation(windowSize, pos, context,dictionary):
     contextResult= {}
     #going forward
     forward= context[:(pos)]
@@ -20,31 +21,35 @@ def colocation(windowSize, pos, context):
     backward= context[pos+1:]
     b= backward[:windowSize/2]
     for item in f:
-        #key= "pre"+str(len(f)-f.index(item))+"-word"
-        key= item
+        key= "pre"+str(len(f)-f.index(item))+"-word"
+        value= item
+        dictionary[key]=value
+        key= "pre"+str(len(f)-f.index(item))+"-pos"
         text = nltk.word_tokenize(item)
-        value= nltk.pos_tag(text)
-        contextResult[key]=value
+        value= nltk.pos_tag(text)[0][1]
+        dictionary[key]=value
     for item in b:
-        #key= "fol"+str(b.index(item)+1)+"-word"
-        key= item
+        key= "fol"+str(b.index(item)+1)+"-word"
+        value= item
+        dictionary[key]=value
+        key= "fol"+str(b.index(item)+1)+"-pos"
         text = nltk.word_tokenize(item)
-        value= nltk.pos_tag(text)
-        contextResult[key]=value
-    return contextResult
+        value= nltk.pos_tag(text)[0][1]
+        dictionary[key]=value
+    return dictionary
         
-
-for item in items:
-    totalResult= []
-    for instance in senseval.instances(item)[:10]:
-	    pos = instance.position
-	    context = instance.context
-	    senses = instance.senses
-	    print context
-	    print context[pos]
-	    d= colocation(windowSize, pos, context)
-	    print d
-		
+if __name__=="__main__":
+    for item in items:
+        totalResult= []
+        for instance in senseval.instances(item)[:10]:
+                pos = instance.position
+                context = instance.context
+                senses = instance.senses
+                print context
+                print context[pos]
+                d= colocation(windowSize, pos, context,dictionary)
+                print d
+                    
 		
 
 
