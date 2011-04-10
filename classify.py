@@ -52,7 +52,7 @@ f = open('answers.txt')
 l = []
 for line in f:
   l.append(line)
-for x in range(len(senseList)):
+for x in range(len(senses)):
   print(l[x].rstrip().rstrip('\n') + " " + senses[x])
 f.close()
 #out.close()
