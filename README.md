@@ -1,6 +1,14 @@
 How the system works from end to end
 =====================
 
+The system is built in python and bash.
+Optimal systems are identified with R.
+Some dependencies that you might not have.
+* nltk (Python library)
+* csplit
+
+
+
 Converting to pseudo--Senseval-2 format
 -------------------------
 
