@@ -2,6 +2,8 @@
 
 from BeautifulSoup import BeautifulStoneSoup
 import unicodedata
+import re
+import sys
 
 sample_doc = """<lexelt item="activate.v">
 <instance id="activate.v.bnc.00008457" docsrc="BNC">
@@ -15,6 +17,9 @@ This pattern persists up to 9.5d.p.c .   (  c )   when both stripes of expressio
 </context>
 </instance>
 </lexelt>"""
+
+targeter = re.compile(r"""<head>\w+<\/head>""")
+cleaner = re.compile(r"""<\/?head>""")
 
 def normalize(s):
 	return unicodedata.normalize('NFKD',s).encode('ascii','ignore')
@@ -36,10 +41,20 @@ def parse_text(doc):
 		parts = id.split('.')
 		lexelt = '.'.join(parts[0:2])
 		id_num = parts[3]
-		context = normalize(i.contents[1].next[1:]).split()
+		context_raw = i.contents[1].renderContents()[1:]
+		context = context_raw.split()
+		position = -1
+		for i in range(0,len(context)):
+			if targeter.match(context[i]):
+				position = i
+				context[i] = cleaner.sub("",context[i])
+				break
+		
 		if lexelt not in words:
 			words[lexelt] = []
-		words[lexelt].append((id_num,context))
+		if position is -1:
+			raise Exception("Error:  did not find target word")
+		words[lexelt].append(dict(id_num=id_num,context=context,position=position))
 	return words
 
 def parse_filehandle(filehandle):
@@ -48,4 +63,4 @@ def parse_filehandle(filehandle):
 def parse_file(filename):
 	return parse_filehandle(open(filename))
 
-print parse_file("EnglishLS.test/EnglishLS.test")
+parse_text(sample_doc)
