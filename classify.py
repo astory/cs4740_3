@@ -58,13 +58,9 @@ for item in items:
 #file writing stuff.  Will not work in the initial implementation.
 #requires all of words to have a sense
 f = open('answers.txt')
-#out = open('responses.txt', 'w')
 l = []
 for line in f:
   l.append(line)
 for x in range(len(senses)):
   print(l[x].rstrip().rstrip('\n') + " " + senses[x])
 f.close()
-#out.close()
-#print senseList
-#print classifier.show_most_informative_features()
