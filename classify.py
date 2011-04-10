@@ -42,19 +42,19 @@ for item in items:
 	senseList = classifier.batch_classify(test)
 	senses.extend(senseList)
 	result = zip(senseList, [x['id_num'] for x in tests[lexitem]])
-	print result
-	print classifier.show_most_informative_features()
+	#print result
+	#print classifier.show_most_informative_features()
 
 #file writing stuff.  Will not work in the initial implementation.
 #requires all of words to have a sense
 f = open('answers.txt')
-out = open('responses.txt', 'w')
+#out = open('responses.txt', 'w')
 l = []
 for line in f:
   l.append(line)
-for x in range(len(senses)):
-  out.write(l[x].rstrip().rstrip('\n') + " " + senses[x] + '\n')
+for x in range(len(senseList)):
+  print(l[x].rstrip().rstrip('\n') + " " + senses[x])
 f.close()
-out.close()
-print senseList
-print classifier.show_most_informative_features()
+#out.close()
+#print senseList
+#print classifier.show_most_informative_features()
