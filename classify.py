@@ -5,43 +5,6 @@ import pairing
 from nltk.corpus import senseval
 from optparse import OptionParser
 
-# command line options
-parser = OptionParser()
-parser.add_option("-i", "--fin", dest="fin",
-                  help="Name of file containing test data")
-parser.add_option("-o", "--fout", dest="fout",
-                  help="Name of file to output sense tags")
-parser.add_option("-d", "--dir", dest="dir",
-                  help="Directory to look for nltk data")
-parser.add_option("-c", "--classifier", dest="classifier",
-                  help="Choose which classifier to use")
-parser.add_option("-p", "--use_probs", dest="use_probs",
-                  help="Enable probabilities rather than 0, 1 decisions")
-parser.add_option("-u", "--cutoff_prob", dest="cutoff_prob",
-                  help="Choose decision probability cutoff")
-parser.add_option("-b", "--bootstrap", dest="bootstrap",
-                  help="Enable bootstrapping")
-
-# feature extractor options
-parser.add_option("-l", "--colocation", dest="colocation",
-                  help="Enable colocation feature extractor")
-parser.add_option("-r", "--cooccurrence", dest="cooccurrence",
-                  help="Enable cooccurrence feature extractor")
-parser.add_option("-t", "--stemming", dest="stemming",
-                  help="Enable stemming feature extractor")
-parser.add_option("-s", "--sentence_len", dest="sentence_len",
-                  help="Enable sentence length feature extractor")
-parser.add_option("-e", "--pos", dest="pos",
-                  help="Enable pos feature extractor")
-
-(options, args) = parser.parse_args()
-
-if options.dir is None:
-        path = os.path.relpath('nltk_data')
-else:
-        path = os.path.relpath(options.dir)
-nltk.data.path[0]=path
-
 CUTOFF_PROB = .5
 BOOTSTRAP_CUTOFF_PROB = .8
 # NOTE: Do not bootstrap (i.e., reps = 0) unless probabilities are on!
@@ -125,15 +88,53 @@ def batch_classify(items, tests):
 		senses.extend(classify(train,test))
 	return senses
 
-items = senseval.fileids()
-tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
-senses = batch_classify(items, tests)
+if __name__ == '__main__':
+	# command line options
+	parser = OptionParser()
+	parser.add_option("-i", "--fin", dest="fin",
+					  help="Name of file containing test data")
+	parser.add_option("-o", "--fout", dest="fout",
+					  help="Name of file to output sense tags")
+	parser.add_option("-d", "--dir", dest="dir",
+					  help="Directory to look for nltk data")
+	parser.add_option("-c", "--classifier", dest="classifier",
+					  help="Choose which classifier to use")
+	parser.add_option("-p", "--use_probs", dest="use_probs",
+					  help="Enable probabilities rather than 0, 1 decisions")
+	parser.add_option("-u", "--cutoff_prob", dest="cutoff_prob",
+					  help="Choose decision probability cutoff")
+	parser.add_option("-b", "--bootstrap", dest="bootstrap",
+					  help="Enable bootstrapping")
 
-f = open('answers.txt')
-l = []
-for line in f:
-  l.append(line)
-for x in range(len(senses)):
-  print(l[x].rstrip().rstrip('\n') + " " +\
-  	(senses[x]['sense'] if senses[x]['prob'] > CUTOFF_PROB else 'U'))
-f.close()
+	# feature extractor options
+	parser.add_option("-l", "--colocation", dest="colocation",
+					  help="Enable colocation feature extractor")
+	parser.add_option("-r", "--cooccurrence", dest="cooccurrence",
+					  help="Enable cooccurrence feature extractor")
+	parser.add_option("-t", "--stemming", dest="stemming",
+					  help="Enable stemming feature extractor")
+	parser.add_option("-s", "--sentence_len", dest="sentence_len",
+					  help="Enable sentence length feature extractor")
+	parser.add_option("-e", "--pos", dest="pos",
+					  help="Enable pos feature extractor")
+
+	(options, args) = parser.parse_args()
+
+	if options.dir is None:
+			path = os.path.relpath('nltk_data')
+	else:
+			path = os.path.relpath(options.dir)
+	nltk.data.path[0]=path
+
+	items = senseval.fileids()
+	tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
+	senses = batch_classify(items, tests)
+
+	f = open('answers.txt')
+	l = []
+	for line in f:
+	  l.append(line)
+	for x in range(len(senses)):
+	  print(l[x].rstrip().rstrip('\n') + " " +\
+		(senses[x]['sense'] if senses[x]['prob'] > CUTOFF_PROB else 'U'))
+	f.close()
