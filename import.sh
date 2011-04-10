@@ -19,7 +19,7 @@ for instance in `grep -l ^\<instance "$train".split/*`
 do
 word=`sed -n 's/<instance id="\([^.]*\.[a-z]\)\..*$/\1/p' "$instance"`
 cat "$instance" >> senseval2_format/$word.pos
-if [ $((($RANDOM+1)%4==3)) ]
+if [ $((($RANDOM+1)%4)) = 3 ]
 	then cat "$instance" >> subtest_set/$word.pos
 else
 	cat "$instance" >> subtrain_set/$word.pos
