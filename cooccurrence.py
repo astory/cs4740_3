@@ -52,7 +52,7 @@ def feature_keys(ind):
     except KeyError:
         # does not exist, we have to make it
         # first we must make a list of common words using this sense data
-        for instance in senseval.instances(item):
+        for instance in senseval.instances(item)[:1]:
             # first load the cases for item and get the most common words
             word_list = [x.lower() for x in instance.context]
             
@@ -75,15 +75,15 @@ def feature_keys(ind):
     return cooccur_vect[ind]
 
 # the actual cooccurrence function
-def cooccurrence(windowSize, pos, context, dictionary):
-    inc_words = context[(pos - windowSize/2):pos + 1 + windowSize/2]
-    inc_words.pop(pos / 2)
+def cooccurrence(pos, context, dictionary):
+    inc_words = context[pos - windowSize/2:pos]
+    inc_words.extend(context[(pos + 1): (pos + 1 + windowSize/2)])
     keys = feature_keys(item)
-    for word in inc_words:
-        if word in keys:
-            dictionary["cooccurrence" + word] = 1
+    for word in keys:
+        if word in inc_words:
+            dictionary["cooccurrence%" + word] = 1
         else:
-            dictionary["cooccurrence" + word] = 0
+            dictionary["cooccurrence%" + word] = 0
     return dictionary
 
 # cooccurrence: perform the feature extraction
@@ -96,10 +96,7 @@ for item in items:
         #print instance.senses
         #print "POSITION:"
         #print instance.context[instance.position]
-        d = cooccurrence(windowSize,
-                         instance.position,
+        d = cooccurrence(instance.position,
                          instance.context,
-                         feature_keys(item))
-        #print d
-
-print cooccur_vect
+                         {})
+        print d
