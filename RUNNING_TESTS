@@ -1,0 +1,34 @@
+First, we are going to ignore the test corpus and use only the training corpus.
+I've divided the training corpus into a training subset and a test subset, and
+those are what we should use here.
+
+We want to run nearly 2^(number of features) systems on this training corpus,
+so it would be nice to organize the output well. The
+experiment/systems_combinations.csv table tells you what to name output files.
+First, here is the table.
+
+$ head experiment/system_combinations.csv 
+"id","classifier","bootstrapping","colocation","cooccurrence","unstemmed","dependencyParsing","featureX","featureY","featureZ"
+1,"MEMM",FALSE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE
+2,"MEMM",FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE
+3,"MEMM",FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,FALSE,FALSE
+4,"MEMM",FALSE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE
+5,"MEMM",FALSE,TRUE,FALSE,TRUE,TRUE,FALSE,FALSE,FALSE
+6,"MEMM",FALSE,TRUE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE
+7,"MEMM",FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE
+8,"MEMM",FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE
+9,"MEMM",FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE
+
+In this table, FALSE indicates that a feature is turned off and TRUE
+indicates that a feature is turned on. For "classifier", the value
+indicates one of three classifiers.
+
+The "id" corresponds to the file name; the scores from the system
+corresponding to the first line after the header should be named
+something like trainingSystem2.csv.
+
+Edit wsd.sh to run a bunch of systems sequentially. I suggest using nested
+for loops with the deeper features corresponding to features on the right
+in this table. You don't have to do them in the order that they are listed
+in the table, but save what order they are in, either by editing the
+table or by saving the script (preferrably both).
