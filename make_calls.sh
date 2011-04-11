@@ -11,13 +11,7 @@ for classifier in -m -n -t; do
       for coocurrence in '' -r; do # -r enables cooccurrence usae
         for base_word in '' -e; do # -e enables base word usage
 #Run the actual system
-echo "./classify.py $classifier $bootstrap $colocation $coocurrence $base_word > experiment/trainingSystem/tmp$run" > trainingSystem_calls.sh
-#Convert to a nice format
-#./scoring/scorer2 $tmp $key  -v|sed -n -e 's/^score for //p'|
-#sed -e 's/: /,/' -e 's/^.*_/"/' -e 's/.bnc./.bnc","/' > experiment/trainingSystem/trainingSystem_$run.csv
-#Save the system combination
-#echo "$run,./classify.py $classifier $bootstrap $colocation $coocurrence $base_word">experiment/trainingSystem/calls.csv
-
+echo "./classify.py $classifier $bootstrap $colocation $coocurrence $base_word > experiment/trainingSystem/tmp$run" 
 run=$((run+1))
         done
       done
