@@ -9,8 +9,6 @@ nltk.data.path[0]=path
 
 items = senseval.fileids()
 
-#items = items[:1] # maybe change this later
-
 # the feature extractor code is below here -----------------------------------
 windowSize = 10     # number of words before and after to look for
 vectorSize = 12     # size of your feature vector for cooccurrence
@@ -37,7 +35,8 @@ stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',\
              
              '.', ',', '(', ')', '{', '}', '[', ']', '-', '?', '!', "n't", "'",\
              'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'fig.', 'ref', '20', 'b1',\
-             "'ve", "'d"]
+             "'ve", "'d", "'s", ":", ";", 'one', 'two', 'may', 'also', 'many', '%',\
+             'would', 'could']
 
 def feature_keys(ind):
     """This function must be called if one wants to get the words used in the
@@ -52,36 +51,40 @@ def feature_keys(ind):
     except KeyError:
         # does not exist, we have to make it
         # first we must make a list of common words using this sense data
+        word_list = []
+        heads = []
         for instance in senseval.instances(ind):
             # first load the cases for item and get the most common words
-            word_list = [x.lower() for x in instance.context]
+            heads = heads + [instance.context[instance.position].lower()]
+            word_list.extend([x.lower() for x in instance.context])
             
-            # remove all the stopwords and the head word
-            for x in stopwords:
-                word_list = filter(lambda w: w != x, word_list)
+        # remove the stop words
+        for x in stopwords + heads:
+            word_list = filter(lambda w: w != x, word_list)
+        
+        word_counts = {}
+        for word in word_list:
+            if word in word_counts:
+                word_counts[word] += 1
+            else:
+                word_counts[word] = 1
 
-            word_list = filter(lambda w: w != instance.context[instance.position].lower(), word_list)
-            
-            word_counts = {}
-            for word in word_list:
-                if word in word_counts:
-                    word_counts[word] += 1
-                else:
-                    word_counts[word] = 1
-
-            # sort the list in descending order and truncate to get most common
-            cooccur_vect[ind] = sorted(word_counts, key = word_counts.get, reverse = True)
-            cooccur_vect[ind] = cooccur_vect[ind][:vectorSize]
+        # sort the list in descending order and truncate to get most common
+        cooccur_vect[ind] = sorted(word_counts, key = word_counts.get, reverse = True)
+        cooccur_vect[ind] = cooccur_vect[ind][:vectorSize]
     return cooccur_vect[ind]
 
 # the actual cooccurrence function
 def cooccurrence(item, pos, context, dictionary):
-    inc_words = context[pos - windowSize/2:pos]
-    inc_words.extend(context[(pos + 1): (pos + 1 + windowSize/2)])
-    keys = feature_keys(item)
-    for word in keys:
+    inc_words = context[pos - windowSize/2:pos] + context[(pos + 1):(pos + 1 + windowSize / 2)]
+    common = feature_keys(item)
+    # a dictionary key should be "cooccurrence%word" and
+    # value should be a tuple of 0's or 1's
+    value = []
+    for word in common:
         if word in inc_words:
-            dictionary["cooccurrence%" + word] = 1
+            value = value + [1]
         else:
-            dictionary["cooccurrence%" + word] = 0
+            value = value + [0]
+    dictionary[("%s*%s%d" % ("cooccurrence",item,pos))] = tuple(value)
     return dictionary
