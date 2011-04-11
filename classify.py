@@ -10,7 +10,10 @@ BOOTSTRAP_CUTOFF_PROB = .8
 # NOTE: Do not bootstrap (i.e., reps = 0) unless probabilities are on!
 BOOTSTRAP_REPS = 5
 
-USE_PROBS = True
+USE_PROBS = False
+USE_COLOCATION = False
+USE_COOCCURRENCE = False
+USE_BASE_WORD = False
 
 CLASSIFIER=nltk.NaiveBayesClassifier
 #CLASSIFIER=nltk.DecisionTreeClassifier #does not provide a probability measure
@@ -93,38 +96,64 @@ if __name__ == '__main__':
 	parser = OptionParser()
 	parser.add_option("-i", "--fin", dest="fin",
 					  help="Name of file containing test data")
-	parser.add_option("-o", "--fout", dest="fout",
-					  help="Name of file to output sense tags")
-	parser.add_option("-d", "--dir", dest="dir",
+	parser.add_option("-d", "--dir", dest="dir", default="nltk_data",
 					  help="Directory to look for nltk data")
-	parser.add_option("-c", "--classifier", dest="classifier",
-					  help="Choose which classifier to use")
-	parser.add_option("-p", "--use_probs", dest="use_probs",
-					  help="Enable probabilities rather than 0, 1 decisions")
-	parser.add_option("-u", "--cutoff_prob", dest="cutoff_prob",
-					  help="Choose decision probability cutoff")
-	parser.add_option("-b", "--bootstrap", dest="bootstrap",
-					  help="Enable bootstrapping")
+	parser.add_option("-n", "--naive", action="store_const",
+					  const=nltk.NaiveBayesClassifier, dest="classifier",
+					  help="Use the naive Bayes classifier")
+	parser.add_option("-t", "--tree", action="store_const",
+					  const=nltk.DecisionTreeClassifier, dest="classifier",
+					  help="Use the decision tree classifier, implies no\
+					  probability measurements")
+#	parser.add_option("-m", "--maxentropy", action="store_const",
+#					  const=nltk.MaxentClassifier, dest="classifier", help="Use\
+#					  the maximum entropy classifier")
+	parser.add_option("-p", "--use_probs", dest="use_probs", default=False,
+					  action="store_true", help="Enable probability based\
+					  confidence measurements")
+	parser.add_option("-c", "--cutoff_prob", dest="cutoff_prob", default=.5,
+					  action="store", help="Unknown probability cutoff")
+	parser.add_option("-b", "--bootstrap", dest="bootstrap", default=0,
+					  type="int", action="store",
+					  help="Number of bootstrapping iterations, defaults to 0,\
+					  a value > 0 implies -p, and precludes the use of -t")
+	parser.add_option("-o", "--bootstrap_cutoff", dest="bootstrap_cutoff",
+					  default=.8, action="store", help="Bootstrapping\
+					  probability cutoff")
 
 	# feature extractor options
-	parser.add_option("-l", "--colocation", dest="colocation",
-					  help="Enable colocation feature extractor")
-	parser.add_option("-r", "--cooccurrence", dest="cooccurrence",
+	parser.add_option("-l", "--colocation", dest="colocation",default=False,
+					  action="store_true", help="Enable colocation feature\
+					  extractor")
+	parser.add_option("-r", "--cooccurrence", dest="cooccurrence", default=False,
+					  action="store_true",
 					  help="Enable cooccurrence feature extractor")
-	parser.add_option("-t", "--stemming", dest="stemming",
-					  help="Enable stemming feature extractor")
-	parser.add_option("-s", "--sentence_len", dest="sentence_len",
+	parser.add_option("-e", "--base", dest="base_word", default=False,
+					  action="store_true",
+					  help="Enable base word feature extractor")
+	parser.add_option("-s", "--sentence_len", dest="sentence_len", default=False,
+					  action="store_true",
 					  help="Enable sentence length feature extractor")
-	parser.add_option("-e", "--pos", dest="pos",
-					  help="Enable pos feature extractor")
 
 	(options, args) = parser.parse_args()
 
-	if options.dir is None:
-			path = os.path.relpath('nltk_data')
-	else:
-			path = os.path.relpath(options.dir)
-	nltk.data.path[0]=path
+	nltk.data.path[0]=os.path.relpath(options.dir)
+
+	USE_PROBS = options.use_probs
+	USE_COLOCATION = options.colocation
+	USE_COOCCURRENCE = options.cooccurrence
+	USE_BASE_WORD = options.base_word
+
+	CLASSIFIER=nltk.NaiveBayesClassifier
+	CLASSIFIER=options.classifier
+	CUTOFF_PROB=options.cutoff_prob
+	BOOTSTRAP_CUTOFF_PROB=options.bootstrap_cutoff
+	BOOTSTRAP_REPS=options.bootstrap
+	if BOOTSTRAP_REPS > 0:
+		USE_PROBS = True
+	if CLASSIFIER == nltk.DecisionTreeClassifier and USE_PROBS:
+		raise Exception("Decision tree classifier does not support probability\
+		measures")
 
 	items = senseval.fileids()
 	tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
