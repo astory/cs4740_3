@@ -3,3 +3,4 @@
 *.aux
 *.pyc
 *.swp
+nltk_data/corpora/senseval/*.pos

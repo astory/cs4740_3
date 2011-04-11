@@ -1,4 +1,4 @@
 "id","classifier","bootstrap","colocation","cooccurrence","base_word"
-1,"memm",0,TRUE,TRUE,TRUE
-,"naiveBayes",4,FALSE,FALSE,FALSE
-,"tree",16,,,
+1,"memm",0,0,TRUE,TRUE
+,"naiveBayes",4,1,FALSE,FALSE
+,"tree",16,2,,
