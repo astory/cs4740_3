@@ -50,10 +50,10 @@ def parse_text(doc):
 				context[i] = cleaner.sub("",context[i])
 				break
 		
-		if lexelt not in words:
-			words[lexelt] = []
 		if position is -1:
 			raise Exception("Error:  did not find target word")
+		if lexelt not in words:
+			words[lexelt] = []
 		words[lexelt].append(dict(id_num=id_num,context=context,position=position))
 	return words
 
