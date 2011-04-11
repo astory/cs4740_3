@@ -11,7 +11,7 @@ print items
 items = items[:1]
 
 def colocation(windowSize, pos, context,dictionary):
-    if windowSize<=0
+    if windowSize<=0:
         return dictionary
     #going forward
     forward= context[:(pos)]
