@@ -37,7 +37,8 @@ stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',\
              'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now',\
              
              '.', ',', '(', ')', '{', '}', '[', ']', '-', '?', '!', "n't", "'",\
-             'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'fig.', 'ref', '20', 'b1']
+             'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'fig.', 'ref', '20', 'b1',\
+             "'ve", "'d"]
 
 def feature_keys(ind):
     """This function must be called if one wants to get the words used in the
@@ -86,10 +87,11 @@ def cooccurrence(pos, context, dictionary):
             dictionary["cooccurrence%" + word] = 0
     return dictionary
 
-# cooccurrence: perform the feature extraction
+# cooccurrence: perform the feature extraction (take this out of the final file)
 for item in items:
     totalResult = []
-    for instance in senseval.instances(item)[:1]:
+    print item
+    for instance in senseval.instances(item):
         #print "CONTEXT:"
         #print instance.context
         #print "SENSES:"
@@ -99,4 +101,6 @@ for item in items:
         d = cooccurrence(instance.position,
                          instance.context,
                          {})
-        print d
+        #print d
+    i = d.popitem()
+    print i
