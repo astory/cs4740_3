@@ -8,7 +8,6 @@ path = os.path.relpath('nltk_data')
 nltk.data.path[0]=path
 
 items = senseval.fileids()
-print items
 
 #items = items[:1] # maybe change this later
 
@@ -53,7 +52,7 @@ def feature_keys(ind):
     except KeyError:
         # does not exist, we have to make it
         # first we must make a list of common words using this sense data
-        for instance in senseval.instances(item)[:1]:
+        for instance in senseval.instances(ind):
             # first load the cases for item and get the most common words
             word_list = [x.lower() for x in instance.context]
             
@@ -76,7 +75,7 @@ def feature_keys(ind):
     return cooccur_vect[ind]
 
 # the actual cooccurrence function
-def cooccurrence(pos, context, dictionary):
+def cooccurrence(item, pos, context, dictionary):
     inc_words = context[pos - windowSize/2:pos]
     inc_words.extend(context[(pos + 1): (pos + 1 + windowSize/2)])
     keys = feature_keys(item)
@@ -86,21 +85,3 @@ def cooccurrence(pos, context, dictionary):
         else:
             dictionary["cooccurrence%" + word] = 0
     return dictionary
-
-# cooccurrence: perform the feature extraction (take this out of the final file)
-for item in items:
-    totalResult = []
-    print item
-    for instance in senseval.instances(item):
-        #print "CONTEXT:"
-        #print instance.context
-        #print "SENSES:"
-        #print instance.senses
-        #print "POSITION:"
-        #print instance.context[instance.position]
-        d = cooccurrence(instance.position,
-                         instance.context,
-                         {})
-        #print d
-    i = d.popitem()
-    print i
