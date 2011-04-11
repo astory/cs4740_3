@@ -11,7 +11,7 @@ for classifier in -m -n -t; do
       for coocurrence in '' -r; do # -r enables cooccurrence usae
         for base_word in '' -e; do # -e enables base word usage
 #Run the actual system
-echo "./classify.py $classifier $bootstrap $colocation $coocurrence $base_word > experiment/trainingSystem/tmp$run" 
+echo "./classify.py $classifier $bootstrap $colocation $coocurrence $base_word -i EnglishLS.train/EnglishLS.subtest > experiment/trainingSystem/tmp$run" 
 run=$((run+1))
         done
       done
