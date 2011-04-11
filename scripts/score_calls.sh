@@ -1,5 +1,6 @@
 tmp=$1
-run=`echo $tmp|sed s/tmp//`
+key=$2
+run=`echo $tmp|sed s/^.*tmp//`
 
 #Convert to a nice format
 ./scoring/scorer2 $tmp $key  -v|sed -n -e 's/^score for //p'|
