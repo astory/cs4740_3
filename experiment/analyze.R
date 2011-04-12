@@ -102,13 +102,28 @@ plot.lowerorder=function(ag){
 main=function(){
 	library(ggplot2)
 	pdf('plots.pdf')
-	par(mfrow=c(3,1))
 	ag=import.aggregated()
+	ag$f=2*ag$precision*ag$recall/(ag$precision+ag$recall)
+
+	write.csv(ag[rowSums(ag[c(
+		"bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
+	)])<=1,],row.names=F,file='onefeature.csv')
+
+	plot(f~bootstrap,data=ag[rowSums(ag[c(
+                "bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
+        )])==ag$bootstrap,])
+
+	plot(f~colocation,data=ag[rowSums(ag[c(
+                "bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
+        )])==ag$colocation,])
+	
 	ag$bootstrap=as.factor(ag$bootstrap)
 	ag$colocation=as.factor(ag$colocation)
 	ag$base_word=as.factor(ag$base_word)
-	ag$f=2*ag$precision*ag$recall/(ag$precision+ag$recall)
+
+
 	write.csv(ag[order(ag$f),],row.names=F,file='findbrokenness.csv')
+
 	plot.aggregated(ag)
 	plot.lowerorder(ag)
 
