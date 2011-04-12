@@ -37,12 +37,11 @@ import.instances=function(){
 
 
 import.aggregated=function(){
-        library(foreign)
         #Read the identifiers for the different systems
         systems=read.csv(calls)
+	systems$run_id=paste('tmp',systems$run_id,sep='')
 	scores=read.csv(scores_file)
 	merge(scores,systems,by='run_id',all=F)
-
 }
 
 stepping=function(scores){
@@ -54,8 +53,13 @@ stepping=function(scores){
 	#bestglm(cbind(stuff[-4],stuff[4]))
 }
 
+plot.aggregated=function(ag){
+
+}
+
 main=function(){
-	foo=stepping(import())
+	plot.aggregated(import.aggregated())
+#	foo=stepping(import())
 #	print('Best two-feature system:')
 #	print(foo$call)
 #	print(paste('Percentage correct under the best two-feature system: ',round(100*sum(round(foo$fitted.values)==foo$y)/length(foo$y)),'%',sep=''))
