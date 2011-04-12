@@ -54,7 +54,23 @@ stepping=function(scores){
 }
 
 plot.aggregated=function(ag){
-
+	library(ggplot2)
+	p <- ggplot(ag,aes(colocation,precision,group=classifier))
+	mymean=function(x){
+		if (is.numeric(x)){
+			mean(x)
+		} else {
+			x[1]
+		}
+	}
+	makelines=aggregate(ag,list(ag$classifier,ag$cooccurrence,ag$colocation),mymean)
+	print(makelines)
+	p+geom_point(aes(colour = classifier))+ 
+		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
+		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
+	#bootstrap
+	#base_word
+	#dependency_parsing
 }
 
 main=function(){
