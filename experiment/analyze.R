@@ -53,32 +53,42 @@ stepping=function(scores){
 	#bestglm(cbind(stuff[-4],stuff[4]))
 }
 
-plot.aggregated=function(ag){
-	library(ggplot2)
-	p <- ggplot(ag,aes(colocation,precision,group=classifier))
-	mymean=function(x){
-		if (is.numeric(x)){
-			mean(x)
-		} else {
-			x[1]
-		}
+mymean=function(x){
+	if (is.numeric(x)){
+		mean(x)
+	} else {
+		x[1]
 	}
-	makelines=aggregate(ag,list(ag$classifier,ag$cooccurrence,ag$colocation),mymean)
-	print(makelines)
-	p+geom_point(aes(colour = classifier))+ 
-		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
-		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
-	#bootstrap
-	#base_word
-	#dependency_parsing
 }
 
+plot.aggregated=function(ag){
+	ag$boostrap=as.factor(ag$bootstrap)
+	p <- ggplot(ag,aes(colocation,precision,group=classifier))
+	makelines=aggregate(ag,list(ag$classifier,ag$cooccurrence,ag$colocation),mymean)
+	print(makelines)
+	print(p+geom_point(aes(colour = classifier))+ 
+		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
+		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
+	)
+}
+plot.lowerorder=function(ag){
+	#Let's look at the residuals of those lines
+	ag$resid1.odds=exp(glm(precision~factor(colocation)*classifier*cooccurrence,data=ag,family='binomial')$residuals)
+	ag$resid1=lm(precision~factor(colocation)*classifier*cooccurrence,data=ag,family='binomial')$residuals
+
+	p <- ggplot(ag,aes(colocation,resid1,group=base_word))
+	print(p+geom_point(aes(colour = classifier)))
+
+	p <- ggplot(ag,aes(bootstrap,resid1,group=base_word))
+	print(p+geom_point(aes(colour = factor(base_word))))
+}
 main=function(){
+	library(ggplot2)
 	pdf('plots.pdf')
-	print(plot.aggregated(import.aggregated()))
-#	foo=stepping(import())
-#	print('Best two-feature system:')
-#	print(foo$call)
-#	print(paste('Percentage correct under the best two-feature system: ',round(100*sum(round(foo$fitted.values)==foo$y)/length(foo$y)),'%',sep=''))
+	ag=import.aggregated()
+	plot.aggregated(ag)
+	plot.lowerorder(ag)
+
+	
 	dev.off()
 }
