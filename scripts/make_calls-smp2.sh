@@ -5,7 +5,7 @@ key=$1
 batch=$2
 
 #Edit the nested for loops to select a series of feature combinations
-run=1000
+run=2000
 echo '#!/bin/bash'
 for classifier in -pn -t; do
   for bootstrap in '' '-b 2' '-b 4' ; do #Fix how a lack of bootstrapping for trees doesn't work well here
