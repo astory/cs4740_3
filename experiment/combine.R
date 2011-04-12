@@ -1,13 +1,14 @@
 #library(leaps)
-
+calls='./calls.csv'
 #This takes a comma-separated list of file names
 combine=function(...){
 	#This takes a list of one or two elements.
 	# $files vector of file names
 	# $scores data.frame of data (optional)
 	score.bind=function(s) {if (length(s$files)==0) s$scores else{
-		scores.new=read.csv(s$files[1],header=T)
-		scores.new$id=s$files[1]
+		scores.new=read.csv(s$files[1],header=F)
+		names(scores.new)=c('word','sense','correct')
+		scores.new$run_id=s$files[1]
 		bound=rbind(s$scores,scores.new)
 		Recall(list(files=s$files[-1],scores=bound))}}
 	score.bind(list(files=c(...)))
@@ -16,11 +17,13 @@ combine=function(...){
 
 
 import=function(){
+	library(foreign)
 	#Read the identifiers for the different systems
-	systems=read.csv('system_combinations.csv')[1:8,] #,colClasses=c('character','logical','logical','logical'))	
+	systems=read.csv(calls)
+	systems$run_id=paste('tmp',systems$run_id,'.csv',sep='')
 
-	ids=paste('random_data/randomscores',systems$id[-5],'.csv',sep='')
-	systems$id[-5]=ids
+#	ids=paste(filehead,systems$run_id,'.csv',sep='')
+	ids=list.files()[grep('tmp[0-9]*.csv',list.files())]
 
 	#Combine the systems
 	scores=combine(ids)
@@ -28,13 +31,13 @@ import=function(){
 
 	#Add the information about feature use and
 	#return the data.frame with scores and feature turnings-on
-	merge(scores,systems,by='id',all=F)
+	merge(scores,systems,by='run_id',all=F)
 }
 
 stepping=function(scores){
 	fit=glm(correct~word+colocation*cooccurrence,data=scores,family='binomial')
 	#stepwise
-	step(fit)
+#	step(fit)
 	#best-subsets requires the response at the end
 	#stuff=import()
 	#bestglm(cbind(stuff[-4],stuff[4]))
@@ -42,7 +45,7 @@ stepping=function(scores){
 
 main=function(){
 	foo=stepping(import())
-	print('Best two-feature system:')
-	print(foo$call)
-	print(paste('Percentage correct under the best two-feature system: ',round(100*sum(round(foo$fitted.values)==foo$y)/length(foo$y)),'%',sep=''))
+#	print('Best two-feature system:')
+#	print(foo$call)
+#	print(paste('Percentage correct under the best two-feature system: ',round(100*sum(round(foo$fitted.values)==foo$y)/length(foo$y)),'%',sep=''))
 }
