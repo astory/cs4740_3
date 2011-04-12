@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-import os, os.path
+import os, os.path, sys
 import nltk
-import pairing
 import colocation
 import cooccurrence
+import pairing
+import parser as dep_parser
 from nltk.corpus import senseval
 from optparse import OptionParser
 
@@ -16,12 +17,14 @@ USE_PROBS = False
 COLOCATION_WINDOW = 0
 USE_COOCCURRENCE = False
 USE_BASE_WORD = False
+USE_PARSING = False
 
 CLASSIFIER=nltk.NaiveBayesClassifier
 #CLASSIFIER=nltk.DecisionTreeClassifier #does not provide a probability measure
 #CLASSIFIER=nltk.MaxentClassifier #much slower, prints lots of crap
 
 def assign_features(item, instance):
+	print >> sys.stderr, "classifying an instance"
 	context = instance['context']
 	pos = instance['position']
 	d={}
@@ -30,6 +33,8 @@ def assign_features(item, instance):
 	d = colocation.colocation(COLOCATION_WINDOW,pos, context, d)
 	if USE_COOCCURRENCE:
 		d = cooccurrence.cooccurrence(item, pos, context, d)
+	if USE_PARSING:
+		d = dep_parser.parse(pos, context, d)
 	return d
 
 def build_train(item, instances):
@@ -78,6 +83,7 @@ def bootstrap(train, test, classified):
 def batch_classify(items, tests):
 	senses = []
 	for item in items:
+		print >> sys.stderr, "classifying %s" % item
 		lexitem = ".".join(item.split(".")[0:2])
 		trains=\
 			[dict(context=instance.context,\
@@ -138,6 +144,9 @@ if __name__ == '__main__':
 	parser.add_option("-s", "--sentence_len", dest="sentence_len", default=False,
 					  action="store_true",
 					  help="Enable sentence length feature extractor")
+	parser.add_option("-a", "--parse", dest="parse", default=False,
+					  action="store_true",
+					  help="Enable dependency parsing")
 
 	(options, args) = parser.parse_args()
 
@@ -147,6 +156,7 @@ if __name__ == '__main__':
 	COLOCATION_WINDOW = options.colocation
 	USE_COOCCURRENCE = options.cooccurrence
 	USE_BASE_WORD = options.base_word
+	USE_PARSING = options.parse
 
 	CLASSIFIER=options.classifier
 	CUTOFF_PROB=options.cutoff_prob
@@ -160,8 +170,11 @@ if __name__ == '__main__':
 	if CLASSIFIER == None:
 		raise Exception("No classifier specified, use -n -t or -m")
 
+	print >> sys.stderr, "Gathering Items"
 	items = senseval.fileids()
+	print >> sys.stderr, "Gathering Tests"
 	tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
+	print >> sys.stderr, "Classifying"
 	senses = batch_classify(items, tests)
 
 	f = open('answers.txt')
