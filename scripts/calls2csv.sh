@@ -12,4 +12,4 @@ sed -e 's/\(-[ablrepz]\) -/\1 1 -/g'|
 sed -e 's/\(-[ablrepz]\) -/\1 1 -/g'|
 
 #Format as csv
-sed -e 's+^./classify.py -++' -e 's/-[ablrep]*/,/g' -e 's/ //g'
+sed -e 's+^./classify.py -++' -e 's/-[ablrepz]*/,/g' -e 's/ //g'

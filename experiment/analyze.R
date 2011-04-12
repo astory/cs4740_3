@@ -1,5 +1,6 @@
 #library(leaps)
 calls='./calls.csv'
+scores_file='scores.csv'
 #This takes a comma-separated list of file names
 combine=function(...){
 	#This takes a list of one or two elements.
@@ -16,7 +17,7 @@ combine=function(...){
 
 
 
-import=function(){
+import.instances=function(){
 	library(foreign)
 	#Read the identifiers for the different systems
 	systems=read.csv(calls)
@@ -32,6 +33,16 @@ import=function(){
 	#Add the information about feature use and
 	#return the data.frame with scores and feature turnings-on
 	merge(scores,systems,by='run_id',all=F)
+}
+
+
+import.aggregated=function(){
+        library(foreign)
+        #Read the identifiers for the different systems
+        systems=read.csv(calls)
+	scores=read.csv(scores_file)
+	merge(scores,systems,by='run_id',all=F)
+
 }
 
 stepping=function(scores){
