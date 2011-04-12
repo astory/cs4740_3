@@ -8,7 +8,9 @@ key=$2
 #run=`echo $tmp|sed s/^.*tmp//`
 echo run_id,precision,recall,attempted
 for tmp in $tmps/tmp*[0-9]; do
+	#Remove un-answered
+	grep -v U$ $tmp > $tmp-attempted
 	#Convert to a nice format
-	./scoring/scorer2 $tmp EnglishLS.test/EnglishLS.test.key |sed -e 's+^.*score for.*/tmp+"tmp+' -e 's+ using key.*$++' -e 's+(.*)++' -e 's+^.*:++' -e 's/[ %]//g' -e '/^$/d ' |tr '\n' ','|sed 's/,$//'
+	./scoring/scorer2 $tmp-attempted EnglishLS.test/EnglishLS.test.key |sed -e 's+^.*score for.*/tmp+"tmp+' -e 's+ using key.*$++' -e 's+(.*)++' -e 's+^.*:++' -e 's/[ %]//g' -e '/^$/d ' |tr '\n' ','|sed 's/,$//'
 	echo ''
 done 

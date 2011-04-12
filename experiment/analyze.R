@@ -62,7 +62,6 @@ mymean=function(x){
 }
 
 plot.aggregated=function(ag){
-	ag$boostrap=as.factor(ag$bootstrap)
 	p <- ggplot(ag,aes(colocation,precision,group=classifier))
 	makelines=aggregate(ag,list(ag$classifier,ag$cooccurrence,ag$colocation),mymean)
 	print(makelines)
@@ -73,11 +72,10 @@ plot.aggregated=function(ag){
 }
 plot.lowerorder=function(ag){
 	#Let's look at the residuals of those lines
-	ag$resid1.odds=exp(glm(precision~factor(colocation)*classifier*cooccurrence,data=ag,family='binomial')$residuals)
-	ag$resid1=lm(precision~factor(colocation)*classifier*cooccurrence,data=ag,family='binomial')$residuals
+	ag$resid1=lm(precision~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
 
 	p <- ggplot(ag,aes(colocation,resid1,group=base_word))
-	print(p+geom_point(aes(colour = classifier)))
+#	print(p+geom_point(aes(colour = classifier)))
 
 	p <- ggplot(ag,aes(bootstrap,resid1,group=base_word))
 	print(p+geom_point(aes(colour = factor(base_word))))
@@ -86,6 +84,9 @@ main=function(){
 	library(ggplot2)
 	pdf('plots.pdf')
 	ag=import.aggregated()
+	ag$bootstrap=as.factor(ag$bootstrap)
+	ag$colocation=as.factor(ag$colocation)
+	ag$base_word=as.factor(ag$base_word)
 	plot.aggregated(ag)
 	plot.lowerorder(ag)
 
