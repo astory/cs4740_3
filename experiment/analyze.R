@@ -62,31 +62,53 @@ mymean=function(x){
 }
 
 plot.aggregated=function(ag){
-	p <- ggplot(ag,aes(colocation,precision,group=classifier))
 	makelines=aggregate(ag,list(ag$classifier,ag$cooccurrence,ag$colocation),mymean)
-	print(makelines)
+
+	p <- ggplot(ag,aes(colocation,f,group=classifier))
 	print(p+geom_point(aes(colour = classifier))+ 
 		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
 		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
 	)
+
+
+	p <- ggplot(ag,aes(colocation,precision,group=classifier))
+	print(p+geom_point(aes(colour = classifier))+ 
+		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
+		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
+	)
+
+
+	p <- ggplot(ag,aes(colocation,recall,group=classifier))
+	print(p+geom_point(aes(colour = classifier))+ 
+		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
+		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
+	)
+
 }
 plot.lowerorder=function(ag){
 	#Let's look at the residuals of those lines
-	ag$resid1=lm(precision~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
-
-	p <- ggplot(ag,aes(colocation,resid1,group=base_word))
-#	print(p+geom_point(aes(colour = classifier)))
-
-	p <- ggplot(ag,aes(bootstrap,resid1,group=base_word))
+	ag$resid.f=lm(f~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
+	p <- ggplot(ag,aes(bootstrap,resid.f,group=base_word))
+	print(p+geom_point(aes(colour = factor(base_word))))
+	
+	ag$resid.precision=lm(precision~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
+	p <- ggplot(ag,aes(bootstrap,resid.precision,group=base_word))
+	print(p+geom_point(aes(colour = factor(base_word))))
+	
+	ag$resid.recall=lm(recall~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
+	p <- ggplot(ag,aes(bootstrap,resid.recall,group=base_word))
 	print(p+geom_point(aes(colour = factor(base_word))))
 }
 main=function(){
 	library(ggplot2)
 	pdf('plots.pdf')
+	par(mfrow=c(3,1))
 	ag=import.aggregated()
 	ag$bootstrap=as.factor(ag$bootstrap)
 	ag$colocation=as.factor(ag$colocation)
 	ag$base_word=as.factor(ag$base_word)
+	ag$f=2*ag$precision*ag$recall/(ag$precision+ag$recall)
+	write.csv(ag[order(ag$f),],row.names=F,file='findbrokenness.csv')
 	plot.aggregated(ag)
 	plot.lowerorder(ag)
 
