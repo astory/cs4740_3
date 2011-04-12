@@ -9,7 +9,7 @@ key=$2
 
 for tmp in $tmps/tmp*[0-9]; do
 	#Convert to a nice format
-	./scoring/scorer2 $tmp $key  | #-v|
+	./scoring/scorer2 $tmp $key   -v|
 	sed -n -e 's/^score for //p'|
-	sed -e 's/: /,/' -e 's/^.*_/"/' -e 's/.bnc./.bnc","/' #> $tmp.csv
+	sed -e 's/: /,/' -e 's/^.*_/"/' -e 's/.bnc./.bnc","/' > $tmp.csv
 done
