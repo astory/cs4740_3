@@ -9,11 +9,10 @@ nltk.data.path[0]=path
 items = senseval.fileids()
 print items
 items = items[:1]
-windowSize=4
-dictionary={}
 
 def colocation(windowSize, pos, context,dictionary):
-    contextResult= {}
+    if windowSize<=0:
+        return dictionary
     #going forward
     forward= context[:(pos)]
     f= forward[(-windowSize/2):]
@@ -41,12 +40,14 @@ def colocation(windowSize, pos, context,dictionary):
 if __name__=="__main__":
     for item in items:
         totalResult= []
+        windowSize=4
+        dictionary={}
         for instance in senseval.instances(item)[:10]:
                 pos = instance.position
                 context = instance.context
                 senses = instance.senses
-                print context
-                print context[pos]
+                #print context
+                #print context[pos]
                 d= colocation(windowSize, pos, context,dictionary)
                 print d
                     
