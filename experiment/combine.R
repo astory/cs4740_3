@@ -37,7 +37,7 @@ import=function(){
 stepping=function(scores){
 	fit=glm(correct~word+colocation*cooccurrence,data=scores,family='binomial')
 	#stepwise
-	step(fit)
+#	step(fit)
 	#best-subsets requires the response at the end
 	#stuff=import()
 	#bestglm(cbind(stuff[-4],stuff[4]))
@@ -45,7 +45,7 @@ stepping=function(scores){
 
 main=function(){
 	foo=stepping(import())
-	print('Best two-feature system:')
-	print(foo$call)
-	print(paste('Percentage correct under the best two-feature system: ',round(100*sum(round(foo$fitted.values)==foo$y)/length(foo$y)),'%',sep=''))
+#	print('Best two-feature system:')
+#	print(foo$call)
+#	print(paste('Percentage correct under the best two-feature system: ',round(100*sum(round(foo$fitted.values)==foo$y)/length(foo$y)),'%',sep=''))
 }
