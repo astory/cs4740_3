@@ -35,6 +35,9 @@ def parse(pos, context, d):
 	return d
 
 if __name__ == "__main__":
+	#Uncomment the line below after the first run
+	open('/tmp/malt_train.conll', 'w').close(); malt.demo()
+	
 	pos = 56
 	context = STR2.split()
 	d = parse(pos, context, {})
