@@ -7,7 +7,6 @@ path = os.path.relpath('nltk_data')
 nltk.data.path[0]=path
 
 items = senseval.fileids()
-print items
 items = items[:1]
 
 def colocation(windowSize, pos, context,dictionary):

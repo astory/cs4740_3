@@ -17,7 +17,8 @@ combine=function(...){
 
 import=function(){
 	#Read the identifiers for the different systems
-	systems=read.csv('system_combinations.csv',colClasses=c('character','logical','logical','logical'))
+	systems=read.csv('system_combinations.csv')[1:8,] #,colClasses=c('character','logical','logical','logical'))	
+
 	ids=paste('random_data/randomscores',systems$id[-5],'.csv',sep='')
 	systems$id[-5]=ids
 
@@ -31,8 +32,12 @@ import=function(){
 }
 
 stepping=function(scores){
-	fit=glm(correct~word+colocation*cooccurrence*lastword,data=scores,family='binomial')
+	fit=glm(correct~word+colocation*cooccurrence,data=scores,family='binomial')
+	#stepwise
 	step(fit)
+	#best-subsets requires the response at the end
+	#stuff=import()
+	#bestglm(cbind(stuff[-4],stuff[4]))
 }
 
 main=function(){

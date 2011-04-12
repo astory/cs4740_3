@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 import os, os.path
 import nltk
+import colocation
+import cooccurrence
 import pairing
+import parser
 from nltk.corpus import senseval
 from optparse import OptionParser
 
@@ -11,39 +14,44 @@ BOOTSTRAP_CUTOFF_PROB = .8
 BOOTSTRAP_REPS = 5
 
 USE_PROBS = False
-USE_COLOCATION = False
+COLOCATION_WINDOW = 0
 USE_COOCCURRENCE = False
 USE_BASE_WORD = False
+USE_PARSING = False
 
 CLASSIFIER=nltk.NaiveBayesClassifier
 #CLASSIFIER=nltk.DecisionTreeClassifier #does not provide a probability measure
 #CLASSIFIER=nltk.MaxentClassifier #much slower, prints lots of crap
 
-def assign_features(instance):
+def assign_features(item, instance):
 	context = instance['context']
 	pos = instance['position']
 	d={}
-	d['prev_word']=context[pos-1]
-	d['actual_word']=context[pos]
-	d['next_word']=context[pos+1]
+	if USE_BASE_WORD:
+		d['actual_word']=context[pos]
+	d = colocation.colocation(COLOCATION_WINDOW,pos, context, d)
+	if USE_COOCCURRENCE:
+		d = cooccurrence.cooccurrence(item, pos, context, d)
+	if USE_PARSING:
+		d = parser.parse(pos, context, d)
 	return d
 
-def build_train(instances):
+def build_train(item, instances):
 	"""Builds training instances from instances tagged with senses"""
 	train=[]
 	for instance in instances:
-		d = assign_features(instance)
+		d = assign_features(item, instance)
 		instance_senses = instance['senses']
 		for sense in instance_senses:
 			pair = (d,sense)
 			train.append(pair)
 	return train
 
-def build_test(instances):
+def build_test(item, instances):
 	"""Builds test instances from instances tagged with or without senses"""
 	test=[]
 	for instance in instances:
-		d = assign_features(instance)
+		d = assign_features(item, instance)
 		test.append(d)
 	return test
 
@@ -80,8 +88,8 @@ def batch_classify(items, tests):
 				position=instance.position,\
 				senses=instance.senses)\
 			for instance in senseval.instances(item)]
-		train=build_train(trains)
-		test=build_test(tests[lexitem])
+		train=build_train(item, trains)
+		test=build_test(item, tests[lexitem])
 
 		# TODO(astory): make dynamic?
 		for i in range(BOOTSTRAP_REPS):
@@ -122,9 +130,9 @@ if __name__ == '__main__':
 					  probability cutoff")
 
 	# feature extractor options
-	parser.add_option("-l", "--colocation", dest="colocation",default=False,
-					  action="store_true", help="Enable colocation feature\
-					  extractor")
+	parser.add_option("-l", "--colocation", dest="colocation",default=0,
+					  type="int", action="store",
+					  help="Colocation window size, default=0")
 	parser.add_option("-r", "--cooccurrence", dest="cooccurrence", default=False,
 					  action="store_true",
 					  help="Enable cooccurrence feature extractor")
@@ -134,17 +142,20 @@ if __name__ == '__main__':
 	parser.add_option("-s", "--sentence_len", dest="sentence_len", default=False,
 					  action="store_true",
 					  help="Enable sentence length feature extractor")
+	parser.add_option("-a", "--parse", dest="parse", default=False,
+					  action="store_true",
+					  help="Enable dependency parsing")
 
 	(options, args) = parser.parse_args()
 
-	nltk.data.path[0]=os.path.relpath(options.dir)
+	nltk.data.path.append(os.path.relpath(options.dir))
 
 	USE_PROBS = options.use_probs
-	USE_COLOCATION = options.colocation
+	COLOCATION_WINDOW = options.colocation
 	USE_COOCCURRENCE = options.cooccurrence
 	USE_BASE_WORD = options.base_word
+	USE_PARSING = options.parse
 
-	CLASSIFIER=nltk.NaiveBayesClassifier
 	CLASSIFIER=options.classifier
 	CUTOFF_PROB=options.cutoff_prob
 	BOOTSTRAP_CUTOFF_PROB=options.bootstrap_cutoff
@@ -154,6 +165,8 @@ if __name__ == '__main__':
 	if CLASSIFIER == nltk.DecisionTreeClassifier and USE_PROBS:
 		raise Exception("Decision tree classifier does not support probability\
 		measures")
+	if CLASSIFIER == None:
+		raise Exception("No classifier specified, use -n -t or -m")
 
 	items = senseval.fileids()
 	tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")

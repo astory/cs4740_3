@@ -27,23 +27,6 @@ with one of these files containing each of the instances for
 the corresponding word.
 
 
-Feature extraction
-----------------------------
-Run something on the .pos files
-
-
-Format for scorer
-------------------------------
-
-
-Output from scorer
----------------------------
-For a particular system combination with identification number 04,
-get the score from this system and save it in a nice format.
-
-score2csv [predictions file 04] [keys file] > score04.csv
-
-
 
 Identification of optimal feature combination
 ----------------------------------
