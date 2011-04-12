@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 os.environ['MALTPARSERHOME']='MaltParser/malt-1.2'
+import sys
 import nltk
 import nltk.parse.malt as malt
 
@@ -12,17 +13,25 @@ STR2 = "Do you know what it is ,  and where I can get one ?  We suspect you had 
 def parse(pos, context, d):
 	tree = m.parse(" ".join(context))
 	l = tree.nodelist
-	node = l[pos]
-	deps = node['deps']
-	if len(deps) > 0:
-		dep = l[deps[0]]['word']
+	if pos in range(len(l)):
+		node = l[pos]
+		deps = node['deps']
+		if len(deps) > 0:
+			dep = l[deps[0]]['word']
+		else:
+			dep = ""
+		parent = l[node['head']]['word']
+		d['dependency'] = dep
+		d['has_dependencies'] = len(deps)>0
+		d['dependency_count'] = len(deps)
+		d['parent'] = parent
 	else:
-		dep = ""
-	parent = l[node['head']]['word']
-	d['dependency'] = dep
-	d['has_dependencies'] = len(deps)>0
-	d['dependency_count'] = len(deps)
-	d['parent'] = parent
+		print >> sys.stderr, 'Warning, index %d out of range in nodelist' % pos
+		print >> sys.stderr, l
+		d['dependency'] = ""
+		d['has_dependencies'] = False
+		d['dependency_count'] = False
+		d['parent'] = ""
 	return d
 
 if __name__ == "__main__":

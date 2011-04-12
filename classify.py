@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import os, os.path
+import os, os.path, sys
 import nltk
 import colocation
 import cooccurrence
@@ -24,6 +24,7 @@ CLASSIFIER=nltk.NaiveBayesClassifier
 #CLASSIFIER=nltk.MaxentClassifier #much slower, prints lots of crap
 
 def assign_features(item, instance):
+	print >> sys.stderr, "classifying an instance"
 	context = instance['context']
 	pos = instance['position']
 	d={}
@@ -82,6 +83,7 @@ def bootstrap(train, test, classified):
 def batch_classify(items, tests):
 	senses = []
 	for item in items:
+		print >> sys.stderr, "classifying %s" % item
 		lexitem = ".".join(item.split(".")[0:2])
 		trains=\
 			[dict(context=instance.context,\
@@ -168,8 +170,11 @@ if __name__ == '__main__':
 	if CLASSIFIER == None:
 		raise Exception("No classifier specified, use -n -t or -m")
 
+	print >> sys.stderr, "Gathering Items"
 	items = senseval.fileids()
+	print >> sys.stderr, "Gathering Tests"
 	tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
+	print >> sys.stderr, "Classifying"
 	senses = batch_classify(items, tests)
 
 	f = open('answers.txt')
