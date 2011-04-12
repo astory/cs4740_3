@@ -8,11 +8,11 @@ batch=$2
 run=2000
 echo '#!/bin/bash'
 for classifier in -pn -t; do
-  for bootstrap in '' '-b 1' '-b 2' '-b 4'; do #Fix how a lack of bootstrapping for trees doesn't work well here
-    for colocation in '-l 4' '-l 6' '-l 8'; do # -l NUM is the colocation distance, 0 is "don't use it"
+  for bootstrap in '' '-b 2' '-b 4' ; do #Fix how a lack of bootstrapping for trees doesn't work well here
+    for colocation in '-l 0' '-l 1' '-l 2' '-l 3'; do # -l NUM is the colocation distance, 0 is "don't use it"
       for coocurrence in '' -r; do # -r enables cooccurrence usage
         for base_word in '' -e; do # -e enables base word usage
-          for dependency in ''; do
+          for dependency in '' -a; do
 
 #Run the actual system
 #echo "./classify.py $classifier $bootstrap $colocation $coocurrence $base_word -i EnglishLS.train/EnglishLS.subtest > experiment/trainingSystem/tmp$run"|
