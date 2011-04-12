@@ -1,0 +1,6 @@
+
+Fine-grained score for "common_words_run.txt" using key "EnglishLS.test.key":
+ precision: 0.039 (154.00 correct of 3944.00 attempted)
+ recall: 0.039 (154.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
