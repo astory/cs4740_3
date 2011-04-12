@@ -11,7 +11,8 @@ for classifier in -n -t; do
       for coocurrence in '' -r; do # -r enables cooccurrence usae
         for base_word in '' -e; do # -e enables base word usage
 #Run the actual system
-echo "./classify.py $classifier $bootstrap $colocation $coocurrence $base_word -i EnglishLS.train/EnglishLS.subtest > experiment/trainingSystem/tmp$run"|
+#echo "./classify.py $classifier $bootstrap $colocation $coocurrence $base_word -i EnglishLS.train/EnglishLS.subtest > experiment/trainingSystem/tmp$run"|
+echo "./classify.py $classifier $bootstrap $colocation $coocurrence $base_word > experiment/fullTraining/tmp$run"|
 #Remove runs with bootstrapping and trees
 grep -v '\-t \-b' 
 run=$((run+1))
