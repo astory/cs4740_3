@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 import os, os.path
 import nltk
-import pairing
 import colocation
 import cooccurrence
+import pairing
+import parser
 from nltk.corpus import senseval
 from optparse import OptionParser
 
@@ -16,6 +17,7 @@ USE_PROBS = False
 COLOCATION_WINDOW = 0
 USE_COOCCURRENCE = False
 USE_BASE_WORD = False
+USE_PARSING = False
 
 CLASSIFIER=nltk.NaiveBayesClassifier
 #CLASSIFIER=nltk.DecisionTreeClassifier #does not provide a probability measure
@@ -30,6 +32,8 @@ def assign_features(item, instance):
 	d = colocation.colocation(COLOCATION_WINDOW,pos, context, d)
 	if USE_COOCCURRENCE:
 		d = cooccurrence.cooccurrence(item, pos, context, d)
+	if USE_PARSING:
+		d = parser.parse(pos, context, d)
 	return d
 
 def build_train(item, instances):
@@ -138,6 +142,9 @@ if __name__ == '__main__':
 	parser.add_option("-s", "--sentence_len", dest="sentence_len", default=False,
 					  action="store_true",
 					  help="Enable sentence length feature extractor")
+	parser.add_option("-a", "--parse", dest="parse", default=False,
+					  action="store_true",
+					  help="Enable dependency parsing")
 
 	(options, args) = parser.parse_args()
 
@@ -147,6 +154,7 @@ if __name__ == '__main__':
 	COLOCATION_WINDOW = options.colocation
 	USE_COOCCURRENCE = options.cooccurrence
 	USE_BASE_WORD = options.base_word
+	USE_PARSING = options.parse
 
 	CLASSIFIER=options.classifier
 	CUTOFF_PROB=options.cutoff_prob
