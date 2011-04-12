@@ -4,7 +4,7 @@ import nltk
 import colocation
 import cooccurrence
 import pairing
-import parser
+import parser as dep_parser
 from nltk.corpus import senseval
 from optparse import OptionParser
 
@@ -33,7 +33,7 @@ def assign_features(item, instance):
 	if USE_COOCCURRENCE:
 		d = cooccurrence.cooccurrence(item, pos, context, d)
 	if USE_PARSING:
-		d = parser.parse(pos, context, d)
+		d = dep_parser.parse(pos, context, d)
 	return d
 
 def build_train(item, instances):
