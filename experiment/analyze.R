@@ -74,9 +74,11 @@ plot.aggregated=function(ag){
 }
 
 main=function(){
-	plot.aggregated(import.aggregated())
+	pdf('plots.pdf')
+	print(plot.aggregated(import.aggregated()))
 #	foo=stepping(import())
 #	print('Best two-feature system:')
 #	print(foo$call)
 #	print(paste('Percentage correct under the best two-feature system: ',round(100*sum(round(foo$fitted.values)==foo$y)/length(foo$y)),'%',sep=''))
+	dev.off()
 }
