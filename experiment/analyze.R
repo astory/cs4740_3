@@ -83,8 +83,8 @@ plot.aggregated=function(ag){
 		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
 		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
 	)
-
 }
+
 plot.lowerorder=function(ag){
 	#Let's look at the residuals of those lines
 	ag$resid.f=lm(f~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
@@ -99,6 +99,8 @@ plot.lowerorder=function(ag){
 	p <- ggplot(ag,aes(bootstrap,resid.recall,group=base_word))
 	print(p+geom_point(aes(colour = factor(base_word))))
 }
+
+
 main=function(){
 	library(ggplot2)
 	pdf('plots.pdf')
@@ -129,4 +131,11 @@ main=function(){
 
 	
 	dev.off()
+}
+
+plot.step=function(){
+	ag=subset(import.aggregated(),grain='mixed')
+	ag$f=f(ag)
+	b=ggplot(ag,aes(colocation,f,group=c(cooccurrence,classifier)))
+	b+geom_point(aes(color=cooccurrence))
 }
