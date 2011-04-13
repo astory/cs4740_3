@@ -105,6 +105,12 @@ main=function(){
 	ag=import.aggregated()
 	ag$f=2*ag$precision*ag$recall/(ag$precision+ag$recall)
 
+	measures=c('precision','recall','f')
+	ag.fine=subset(ag,grain=='fine')
+	ag.mixed=subset(ag,grain=='mixed')
+	ag.coarse=subset(ag,grain=='coarse')
+	write.csv(cbind(ag.fine,ag.mixed[measures],ag.coarse[measures])[order(ag.mixed$f),],'finemixedcoarse.csv',row.names=F)
+
 	write.csv(ag[rowSums(ag[c(
 		"bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
 	)])<=1,],row.names=F,file='onefeature.csv')
