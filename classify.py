@@ -34,7 +34,10 @@ def assign_features(item, instance):
 	if USE_COOCCURRENCE:
 		d = cooccurrence.cooccurrence(item, pos, context, d)
 	if USE_PARSING:
-		d = dep_parser.parse(pos, context, d)
+		try:
+			d = dep_parser.parse(pos, context, d)
+		except:
+			pass
 	return d
 
 def build_train(item, instances):
