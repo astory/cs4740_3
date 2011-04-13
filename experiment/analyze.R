@@ -147,9 +147,9 @@ plot.step.import=function(){
 	ag
 }
 
-#Most significant terms from the stepwise regression
+#Most significant terms from the stepwise regressio
 plot.step1=function(){
-	plot.step.import()
+	ag=plot.step.import()
 	b=ggplot(ag,aes(colocation,f,group=c(cooccurrence,classifier)))
 	b+geom_point(aes(color=cooccurrence,shape=classifier))
 }
