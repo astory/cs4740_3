@@ -17,14 +17,13 @@ combine=function(...){
 
 
 
-import.instances=function(){
-	library(foreign)
+import.instances=function(run_ids){
 	#Read the identifiers for the different systems
 	systems=read.csv(calls)
 	systems$run_id=paste('tmp',systems$run_id,'.csv',sep='')
 
 #	ids=paste(filehead,systems$run_id,'.csv',sep='')
-	ids=list.files()[grep('tmp[0-9]*.csv',list.files())]
+	ids=paste(run_ids,'.csv',sep='')
 
 	#Combine the systems
 	scores=combine(ids)
@@ -105,7 +104,14 @@ main=function(){
 	library(ggplot2)
 	pdf('plots.pdf')
 	ag=import.aggregated()
-	ag$f=2*ag$precision*ag$recall/(ag$precision+ag$recall)
+	ag$f=f(ag)
+
+	measures=c('precision','recall','f')
+	ag.fine=subset(ag,grain=='fine')
+	ag.mixed=subset(ag,grain=='mixed')
+	ag.coarse=subset(ag,grain=='coarse')
+	write.csv(cbind(ag.fine,ag.mixed[measures],ag.coarse[measures])[order(ag.mixed$f,decreasing=T),],'finemixedcoarse.csv',row.names=F)
+
 
 	write.csv(ag[rowSums(ag[c(
 		"bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
