@@ -139,9 +139,21 @@ main=function(){
 	dev.off()
 }
 
-plot.step=function(){
+plot.step.import=function(){
 	ag=subset(import.aggregated(),grain='mixed')
 	ag$f=f(ag)
+	ag$cooccurrence=factor(ag$cooccurrence)
+	ag
+}
+
+plot.step1=function(){
+	plot.step.import()
 	b=ggplot(ag,aes(colocation,f,group=c(cooccurrence,classifier)))
-	b+geom_point(aes(color=cooccurrence))
+	b+geom_point(aes(color=cooccurrence,shape=classifier))
+}
+plot.step2=function(){
+	ag=subset(plot.step.import(),cooccurrence<=4&cooccurrence>=2)
+	resid_cooccurrence=lm(f~cooccurrence,data=ag)$residuals
+	b=ggplot(ag,aes(classifier,resid,group=base_word))
+	b+geom_point(aes(shape=classifier))
 }
