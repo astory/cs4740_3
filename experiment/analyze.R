@@ -17,14 +17,13 @@ combine=function(...){
 
 
 
-import.instances=function(){
-	library(foreign)
+import.instances=function(run_ids){
 	#Read the identifiers for the different systems
 	systems=read.csv(calls)
 	systems$run_id=paste('tmp',systems$run_id,'.csv',sep='')
 
 #	ids=paste(filehead,systems$run_id,'.csv',sep='')
-	ids=list.files()[grep('tmp[0-9]*.csv',list.files())]
+	ids=paste(run_ids,'.csv',sep='')
 
 	#Combine the systems
 	scores=combine(ids)
@@ -99,17 +98,34 @@ plot.lowerorder=function(ag){
 	p <- ggplot(ag,aes(bootstrap,resid.recall,group=base_word))
 	print(p+geom_point(aes(colour = factor(base_word))))
 }
+
+plot.instances=function(inst){
+        p <- ggplot(inst,aes(colocation,correct,group=word))
+	print(p+geom_point(aes(colour=word)))
+#        print(p+geom_point(aes(colour = classifier))+
+#                geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
+#                geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
+#        )
+
+
+}
+
+f=function(frame){
+	2*frame$precision*frame$recall/(frame$precision+frame$recall)
+}
+
 main=function(){
 	library(ggplot2)
 	pdf('plots.pdf')
 	ag=import.aggregated()
-	ag$f=2*ag$precision*ag$recall/(ag$precision+ag$recall)
+	ag$f=f(ag)
 
 	measures=c('precision','recall','f')
 	ag.fine=subset(ag,grain=='fine')
 	ag.mixed=subset(ag,grain=='mixed')
 	ag.coarse=subset(ag,grain=='coarse')
-	write.csv(cbind(ag.fine,ag.mixed[measures],ag.coarse[measures])[order(ag.mixed$f),],'finemixedcoarse.csv',row.names=F)
+	write.csv(cbind(ag.fine,ag.mixed[measures],ag.coarse[measures])[order(ag.mixed$f,decreasing=T),],'finemixedcoarse.csv',row.names=F)
+
 
 	write.csv(ag[rowSums(ag[c(
 		"bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
@@ -135,4 +151,22 @@ main=function(){
 
 	
 	dev.off()
+#	X11()
+#	plot.instances(import.instances(ag.mixed$run_id[order(ag.mixed$f,decreasing=T)][1:5]))
+#	a=(import.instances(ag.mixed$run_id[order(ag.mixed$f,decreasing=T)][1:5]))
+#	write.csv(sort(by(a$correct,a$word,mean),decreasing=T),col.names=c('word','precision'))
+}
+
+test.aggregated=function(){
+	foo=subset(import.aggregated(),grain=='coarse')
+#	library(leaps)
+#	leaps(as.matrix(foo[c("classifier","bootstrap","colocation","cooccurrence","base_word","dependency_parsing")]),f(foo))
+#	library(bestglm)
+#	bestglm((data.frame(foo[c("classifier","bootstrap","colocation","cooccurrence","base_word","dependency_parsing")],f(foo))))
+	bar=(lm(f(foo)~classifier*bootstrap*colocation*cooccurrence*base_word*dependency_parsing,data=foo,family='binomial'))
+	step(bar,direction='backward')
+#	step(bar,direction='both')
+	#Best model
+	lm(f(foo) ~ classifier + colocation + cooccurrence + base_word + classifier:colocation + classifier:cooccurrence,family='binomial')
+
 }
