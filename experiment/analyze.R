@@ -139,6 +139,9 @@ main=function(){
 	dev.off()
 }
 
+
+f=function(ag) 2*ag$precision*ag$recall/(ag$precision+ag$recall)
+
 plot.step.import=function(){
 	ag=subset(import.aggregated(),grain='mixed')
 	ag$f=f(ag)
