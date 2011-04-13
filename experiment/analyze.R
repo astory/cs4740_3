@@ -43,15 +43,6 @@ import.aggregated=function(){
 	merge(scores,systems,by='run_id',all=F)
 }
 
-stepping=function(scores){
-	fit=glm(correct~word+colocation*cooccurrence,data=scores,family='binomial')
-	#stepwise
-#	step(fit)
-	#best-subsets requires the response at the end
-	#stuff=import()
-	#bestglm(cbind(stuff[-4],stuff[4]))
-}
-
 mymean=function(x){
 	if (is.numeric(x)){
 		mean(x)
@@ -100,7 +91,7 @@ plot.lowerorder=function(ag){
 }
 
 
-main=function(){
+blah=function(){
 	library(ggplot2)
 	pdf('plots.pdf')
 	ag=import.aggregated()
@@ -151,24 +142,57 @@ plot.step.import=function(){
 }
 
 #Most significant terms from the stepwise regressio
+plot.step0=function(){
+	ag=plot.step.import()
+	ggplot(ag,aes(dependency_parsing,f,group=c(cooccurrence)))+
+	geom_point(aes(color=cooccurrence))+
+	opts(title = expression("Performance of all of our systems as a function of dependency parsing"))
+}
+
 plot.step1=function(){
 	ag=plot.step.import()
-	b=ggplot(ag,aes(colocation,f,group=c(cooccurrence,classifier)))
-	b+geom_point(aes(color=cooccurrence,shape=classifier))
+	ggplot(ag,aes(colocation,f,group=c(cooccurrence)))+
+	geom_point(aes(color=cooccurrence))+
+	opts(title = expression("Performance of all of our systems"))
 }
 
 #Select optimal colocation window and keep looking
 plot.step2=function(){
 	ag=subset(plot.step.import(),colocation>=2&colocation<=4)
-#	ag$resid_cooccurrence=lm(f~cooccurrence,data=ag)$residuals
-#	b=ggplot(ag,aes(cooccurrence,resid_cooccurrence,group=c(base_word,classifier)))
-	b=ggplot(ag,aes(cooccurrence,f,group=c(base_word,classifier)))
-	b+geom_point(aes(colour=base_word,shape=classifier))
+	ggplot(ag,aes(classifier,f,group=c(base_word)))+
+	geom_point(aes(colour=base_word))+
+	opts(title=expression('Performance of the systems with colocation windows between 2 and 4'))
 }
 
 #Little effect of bootstrapping or base-word handling. Bootstrapping seems to plateau at 2 iterations.
 plot.step3=function(){
-	ag=subset(plot.step.import(),colocation>=2&colocation<=4&cooccurrence==1&classifier=='pn')
-	b=ggplot(ag,aes(bootstrap,f,group=c(base_word)))
-	b+geom_point(aes(colour=base_word))
+	ag=subset(plot.step.import(),colocation>=2&colocation<=4&cooccurrence==1&classifier=='pn'&dependency_parsing==0)
+	ggplot(ag,aes(bootstrap,f,group=c(base_word)))+
+	geom_point(aes(colour=base_word))+
+	opts(title=expression('Performance of the systems with colocation windows between 2 and 4, cooccurrence handling on, Naive Bayes classifier and dependency parsing off'))
+	
+}
+
+plot.special1=function(){
+#colocation:cooccurrence1:dependency_parsing  
+}
+
+rank.scores=function(){
+#This demonstrates that the ranking of scores was very similar for different score grains and that the ranking was identical for the first dozen feature combinations
+	foo=plot.step.import()[order(plot.step.import()$f,decreasing=T),]
+	data.frame(
+		coarse=subset(foo,grain=='coarse')$run_id,
+		fine=subset(foo,grain=='fine')$run_id,
+		mixed=subset(foo,grain=='mixed')$run_id
+	)
+}
+
+stepping=function(){
+	pdf('plots.pdf')
+	print(plot.step0())
+	print(plot.step1())
+	print(plot.step2())
+	print(plot.step3())
+	dev.off()
+	step(lm(f~classifier*bootstrap*colocation*cooccurrence*base_word*dependency_parsing,data=plot.step.import()))
 }
