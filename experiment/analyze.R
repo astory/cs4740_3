@@ -133,12 +133,12 @@ blah=function(){
 
 f=function(ag) 2*ag$precision*ag$recall/(ag$precision+ag$recall)
 
-plot.step.import=function(){
+plot.step.import=function(sub='mixed'){
 	ag=subset(import.aggregated(),grain='mixed')
 	ag$f=f(ag)
 	ag$cooccurrence=factor(ag$cooccurrence)
 	ag$base_word=factor(ag$base_word)
-	ag
+	if (!is.na(sub)) subset(ag,grain==sub) else ag
 }
 
 #Most significant terms from the stepwise regressio
@@ -185,6 +185,7 @@ rank.scores=function(){
 		fine=subset(foo,grain=='fine')$run_id,
 		mixed=subset(foo,grain=='mixed')$run_id
 	)
+#head(foo)[c('run_id','f','precision','recall','classifier','attempted','bootstrap','colocation','cooccurrence','base_word','dependency_parsing')]
 }
 
 stepping=function(){
@@ -195,4 +196,13 @@ stepping=function(){
 	print(plot.step3())
 	dev.off()
 	step(lm(f~classifier*bootstrap*colocation*cooccurrence*base_word*dependency_parsing,data=plot.step.import()))
+}
+
+
+plot.baseline=function(){
+	ag=subset(plot.step.import(sub=NA),
+		bootstrap==0&colocation==0&cooccurrence==0&base_word==0&dependency_parsing==0)
+	ggplot(ag,aes(grain,f,group=classifier))+
+	geom_line(aes(color=classifier))+
+	opts(title = expression("Baseline performance"))
 }
