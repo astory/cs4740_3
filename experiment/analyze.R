@@ -53,30 +53,86 @@ stepping=function(scores){
 	#bestglm(cbind(stuff[-4],stuff[4]))
 }
 
-plot.aggregated=function(ag){
-	library(ggplot2)
-	p <- ggplot(ag,aes(colocation,precision,group=classifier))
-	mymean=function(x){
-		if (is.numeric(x)){
-			mean(x)
-		} else {
-			x[1]
-		}
+mymean=function(x){
+	if (is.numeric(x)){
+		mean(x)
+	} else {
+		x[1]
 	}
-	makelines=aggregate(ag,list(ag$classifier,ag$cooccurrence,ag$colocation),mymean)
-	print(makelines)
-	p+geom_point(aes(colour = classifier))+ 
-		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
-		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
-	#bootstrap
-	#base_word
-	#dependency_parsing
 }
 
+plot.aggregated=function(ag){
+	makelines=aggregate(ag,list(ag$classifier,ag$cooccurrence,ag$colocation),mymean)
+
+	p <- ggplot(ag,aes(colocation,f,group=classifier))
+	print(p+geom_point(aes(colour = classifier))+ 
+		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
+		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
+	)
+
+
+	p <- ggplot(ag,aes(colocation,precision,group=classifier))
+	print(p+geom_point(aes(colour = classifier))+ 
+		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
+		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
+	)
+
+
+	p <- ggplot(ag,aes(colocation,recall,group=classifier))
+	print(p+geom_point(aes(colour = classifier))+ 
+		geom_line(data=subset(makelines,cooccurrence==0),aes(linetype='Cooccurrence Off'))+
+		geom_line(data=subset(makelines,cooccurrence==1),aes(linetype='Ooocurrence On'))
+	)
+
+}
+plot.lowerorder=function(ag){
+	#Let's look at the residuals of those lines
+	ag$resid.f=lm(f~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
+	p <- ggplot(ag,aes(bootstrap,resid.f,group=base_word))
+	print(p+geom_point(aes(colour = factor(base_word))))
+	
+	ag$resid.precision=lm(precision~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
+	p <- ggplot(ag,aes(bootstrap,resid.precision,group=base_word))
+	print(p+geom_point(aes(colour = factor(base_word))))
+	
+	ag$resid.recall=lm(recall~factor(colocation)*classifier*cooccurrence,data=ag)$residuals
+	p <- ggplot(ag,aes(bootstrap,resid.recall,group=base_word))
+	print(p+geom_point(aes(colour = factor(base_word))))
+}
 main=function(){
-	plot.aggregated(import.aggregated())
-#	foo=stepping(import())
-#	print('Best two-feature system:')
-#	print(foo$call)
-#	print(paste('Percentage correct under the best two-feature system: ',round(100*sum(round(foo$fitted.values)==foo$y)/length(foo$y)),'%',sep=''))
+	library(ggplot2)
+	pdf('plots.pdf')
+	ag=import.aggregated()
+	ag$f=2*ag$precision*ag$recall/(ag$precision+ag$recall)
+
+	measures=c('precision','recall','f')
+	ag.fine=subset(ag,grain=='fine')
+	ag.mixed=subset(ag,grain=='mixed')
+	ag.coarse=subset(ag,grain=='coarse')
+	write.csv(cbind(ag.fine,ag.mixed[measures],ag.coarse[measures])[order(ag.mixed$f),],'finemixedcoarse.csv',row.names=F)
+
+	write.csv(ag[rowSums(ag[c(
+		"bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
+	)])<=1,],row.names=F,file='onefeature.csv')
+
+	plot(f~bootstrap,data=ag[rowSums(ag[c(
+                "bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
+        )])==ag$bootstrap,])
+
+	plot(f~colocation,data=ag[rowSums(ag[c(
+                "bootstrap","colocation","cooccurrence","base_word","dependency_parsing"
+        )])==ag$colocation,])
+	
+	ag$bootstrap=as.factor(ag$bootstrap)
+	ag$colocation=as.factor(ag$colocation)
+	ag$base_word=as.factor(ag$base_word)
+
+
+	write.csv(ag[order(ag$f),],row.names=F,file='findbrokenness.csv')
+
+	plot.aggregated(ag)
+	plot.lowerorder(ag)
+
+	
+	dev.off()
 }
