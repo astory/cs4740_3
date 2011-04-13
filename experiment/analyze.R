@@ -143,17 +143,29 @@ plot.step.import=function(){
 	ag=subset(import.aggregated(),grain='mixed')
 	ag$f=f(ag)
 	ag$cooccurrence=factor(ag$cooccurrence)
+	ag$base_word=factor(ag$base_word)
 	ag
 }
 
+#Most significant terms from the stepwise regression
 plot.step1=function(){
 	plot.step.import()
 	b=ggplot(ag,aes(colocation,f,group=c(cooccurrence,classifier)))
 	b+geom_point(aes(color=cooccurrence,shape=classifier))
 }
+
+#Select optimal colocation window and keep looking
 plot.step2=function(){
-	ag=subset(plot.step.import(),cooccurrence<=4&cooccurrence>=2)
-	resid_cooccurrence=lm(f~cooccurrence,data=ag)$residuals
-	b=ggplot(ag,aes(classifier,resid,group=base_word))
-	b+geom_point(aes(shape=classifier))
+	ag=subset(plot.step.import(),colocation>=2&colocation<=4)
+#	ag$resid_cooccurrence=lm(f~cooccurrence,data=ag)$residuals
+#	b=ggplot(ag,aes(cooccurrence,resid_cooccurrence,group=c(base_word,classifier)))
+	b=ggplot(ag,aes(cooccurrence,f,group=c(base_word,classifier)))
+	b+geom_point(aes(colour=base_word,shape=classifier))
+}
+
+#Little effect of bootstrapping or base-word handling. Bootstrapping seems to plateau at 2 iterations.
+plot.step3=function(){
+	ag=subset(plot.step.import(),colocation>=2&colocation<=4&cooccurrence==1&classifier=='pn')
+	b=ggplot(ag,aes(bootstrap,f,group=c(base_word)))
+	b+geom_point(aes(colour=base_word))
 }
