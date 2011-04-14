@@ -2,6 +2,7 @@
 \usepackage{url}
 \usepackage{longtable}
 \usepackage{graphicx}
+\usepackage{multirow}
 \title{Word Sense Disambiguation\\
 \small{Leveraging the NLTK Toolkit and External Tools}}
 \author{
@@ -299,6 +300,23 @@ more discussin of graphs
 \includegraphics[width=\textwidth]{pg_0003}
 
 \includegraphics[width=\textwidth]{pg_0004}
+
+\subsection{Baseline Results}
+
+We ran two baselines, one with each machine learning algorithm:
+
+\begin{tabular}{l l | r r r}
+& grain& precision& recall& attempted\\
+\hline
+\multirow{3}{*}{Naive Bayes} &
+coarse  &  0.737 & 0.379 &   51.39\\
+&mixed  &  0.730 & 0.375 &   51.39\\
+& fine  &  0.693 & 0.356 &   51.39\\
+\multirow{3}{*}{Decision Tree} &
+coarse  &  0.612 & 0.612 &  100.00\\
+&mixed  &  0.594 & 0.594 &  100.00\\
+& fine  &  0.552 & 0.552 &  100.00\\
+\end{tabular}
 
 \subsection{Best Run Results}
 
