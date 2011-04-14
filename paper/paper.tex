@@ -173,6 +173,7 @@ package.
 
 \subsection{Co-occurrence}
 
+
 Looks through the training data and compiles a list of most common words for
 each item in the data. When the test data is run, the feature looks for the
 created vector and uses that instead of trying to make a new one. Next the
@@ -192,7 +193,6 @@ accurate classifications based on the limited training data that we have. This
 is an especially important consideration since the feature vectors that select
 the most common words by looking through all the instances of unique lexical
 items in the training data are unsupervised.
-
 
 \section{Methods}
 \newcommand\few{few}
@@ -441,7 +441,7 @@ speech, (activate.\textbf{v}) so we did not use it.
 %We're using this now, just on a different corpus, right?
 %\subsubsection{Bootstrapping on the Brown Corpus} 
 
-\subsection{Looking through Different Corpora}
+\subsubsection{Looking through Different Corpora}
 
 In order to get more data to use with the bootstrapping algorithm, we attempted
 to search through the Brown corpus and return all of the words that were being
@@ -490,5 +490,6 @@ the size of the collocation features.  This suggests that, if the training
 corpus is small, it is appropriate to study which features are the most useful,
 and only include those, rather than our initial approach of throwing them all
 together and letting the learning algorithm sort it out.
+
 
 \end{document}
