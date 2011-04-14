@@ -167,12 +167,17 @@ half the window size up for the part left of the word and rounds down for the
 part right of the word.
 
 We rendered a feature for each position covered, and set its value to be the
-word at that position.
+word at that position. We also used NLTK's part of speech tagger to
+tag the context, and included those as we did the literal words in the
+feature set.  This was trained on NLTK's
+\verb+maximum entropy treebank pos tagger+ data, which is included
+with the NLTK package.
 
-We also used NLTK's part of speech tagger to tag the context, and included those
-as we did the literal words in the feature set.  This was trained on NLTK's
-\verb+maximum entropy treebank pos tagger+ data, which is included with the NLTK
-package.
+Collocation seemed to be fairly powerful at disambiguating, which is to be
+expected, since function words near to the target word can be very strong
+predictors of how the word is being used in context.  Effectiveness was
+strongest with words close to the target, and weaker the farther away we
+extended the feature.
 
 \subsection{Co-occurrence}
 
@@ -493,14 +498,6 @@ For all of its sophistication, the dependency parser didn't seem to improve
 results.  This is probably because most of the relationships caught by the
 parser would have been caught by the collocation feature extractor as well,
 since most dependency relations are among nearby words.
-
-\subsubsection{Collocation}
-
-Collocation seemed to be fairly powerful at disambiguating, which is to be
-expected, since function words near to the target word can be very strong
-predictors of how the word is being used in context.  Effectiveness was
-strongest with words close to the target, and weaker the farther away we
-extended the feature.
 
 \subsubsection{Interactions Between Features}
 
