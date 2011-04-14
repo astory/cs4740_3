@@ -28,18 +28,18 @@ learning algorithms in NLTK which is also Python-based.  We also used NLTK for
 its part of speech tagger, dependency parser, and to import the Senseval data.
 We coded the rest of the assignment on our own.
 
-We wrote our main control program, classify.py, so that it can choose either
-\Naive{} Bayes or Decision Trees classifier and any 
-combination of  features. On top of this we wrote bash scripts that automated
-looping through every combination of classifiers and features, along with
-porting the results directly into the scorer.  Classify.py includes a help
-switch -h, that explains the switches that control the different classifiers
-and features along with any additional parameters that a certain feature might
-support (for example, collocation has a window size parameter which defaults to
-0) Performance was excellent for most of the features, allowing us to typically
-run all of the words in the test set through every combination a classifier and
-feature set in under an hour. (The number of runs can get quite high when you
-factor in several parameters per feature, not just on/off)
+We wrote our main control program, classify.py, so that it can choose either the
+\naive{} Bayes or decision tree classifier and any combination of  features. On
+top of this we wrote bash scripts that automated looping through every
+combination of classifiers and features, along with porting the results directly
+into the scorer.  \verb+classify.py+ includes a help switch -h, that explains
+the switches that control the different classifiers and features along with any
+additional parameters that a certain feature might support (for example,
+collocation has a window size parameter which defaults to 0) Performance was
+excellent for most of the features, allowing us to typically run all of the
+words in the test set through every combination a classifier and feature set in
+under an hour, although dependency parsing was slow (The number of runs can get
+quite high when you factor in several parameters per feature, not just on/off)
 
 A baseline was run by choosing the most frequent sense for each word.
 
@@ -61,22 +61,22 @@ machine learning engines, and several of its other packages for analysis.
 
 \subsection{Classifiers}
 
-The NLTK was used to implement two machine learning algorithms, \naive{} Bayes and
-decision trees.  
+NLTK provided several machine learning algorithms, and we used the two that we
+were able to get running on our systems, \naive{} Bayes and decision tree.  
 
 \subsubsection{\Naive{} Bayes}
 
-The NLTK implements a \naive{} Bayes classifier which chooses the best sense given a
+NLTK implements a \naive{} Bayes classifier which chooses the best sense given a
 dictionary of features and assigns confidence probabilities to the chosen
 sense. \Naive{} Bayes does assume an independence of features. The probability of
 each feature contributes to the overall choice.
 
-\subsubsection{Decision Tree}
+\subsubsection{decision tree}
 
-The NLTK also implements a decision list classifier in which a sequence of
-tests is applied to each target-word feature vector. Each test indicates a
-particular sense of the word: if the test succeeds, the sense of the test is
-returned otherwise the next test in the sequence is performed.
+NLTK also implements a decision tree classifier in which a sequence of tests is
+applied to each target word feature vector. Each test indicates a particular
+sense of the word: if the test succeeds, the sense of the test is returned
+otherwise the next test in the sequence is performed.
 
 \Naive{} Bayes supported probability estimation, while the decision tree did not.
 
@@ -102,12 +102,12 @@ cycle for a fixed number of cycles.  Once we had enriched the training data, we
 ran the classifier a final time to perform classification.
 
 Fortunately, the classifiers were very fast, and almost all of the time the
-system spends is in reading input and building feature sets, which don't need
-to be repeated, so bootstrapping is very cheap to include.  The probability measure that we used for the algorithm was 0.8
+system spends is in reading input and building feature sets, which don't need to
+be repeated, so bootstrapping is very cheap to include.  The probability measure
+that we used for the algorithm was 0.8
 
-% Should we mention which probability measure we used?  Which did we use?  How
-% many iterations?
-
+For simplicity, we did not vary the cutoff values for bootstrapping or for
+confidence.
 
 \subsection{Base Word}
 
@@ -263,7 +263,7 @@ collocation:cooccurrence1:dependency parsing & 0.0147078  \\
 \end{tabular}
 
 As the regression table above shows, it seems that substituting the
-Decision Tree classifier for the Naive Bayes baseline provides the
+decision tree classifier for the \naive{} Bayes baseline provides the
 most significant boost to our f measure. It can also be seen here that
 increasing the collocation window will increase the f measure by about 0.003
 for each additional word added to the window. Additionally, enabling
@@ -274,8 +274,8 @@ The rows that contain negative terms may indicate that the interacting
 features provide similar functionality. That is, the enabled features
 are interfering with each other so that their final influence on the f
 measure may affect the f measure negatively. For instance, the row
-showing ``classifiert:collocation'' indicates a run where the Decision
-Tree classifier was used and the collocation feature was enabled has
+showing ``classifiert:collocation'' indicates a run where the decision
+tree classifier was used and the collocation feature was enabled has
 resulted in a lower accuracy. This seems to be the general trend for
 all of the interacting features. It may be interesting to note that
 the interaction between collocation and cooccurrence1 as well as
@@ -292,10 +292,10 @@ stepwise regression.
 \caption{\label{fig:base}Baseline scores for our two baseline systems}
 \end{figure}
 
-Figure \ref{fig:base} shows our results for running just the Decision
-Tree classifier and the \naive{} Bayes classifier with no features
-enabled. With no bootstrapping, the Decision Tree classifier has a
-much higher f-measure. With bootstrapping, the Decision Tree
+Figure \ref{fig:base} shows our results for running just the decision
+tree classifier and the \naive{} Bayes classifier with no features
+enabled. With no bootstrapping, the decision tree classifier has a
+much higher f-measure. With bootstrapping, the decision tree
 classifier decreases in f-measure while the \naive{} Bayes classifier
 improves in f-measure.
 
@@ -322,7 +322,7 @@ The \naive{} Bayes classifier had better top-range performance.
 According to Figure \ref{fig3}, when the base word feature vector was
 enabled and the dependency parsing was disabled, the \naive{} Bayes
 classifier improved in performance. On the other hand, the performance
-of the Decision Tree classifier seems to be independent of the base
+of the decision tree classifier seems to be independent of the base
 word and dependency parsing features.
 
 \begin{figure}
