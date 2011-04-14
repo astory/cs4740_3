@@ -221,12 +221,11 @@ plot.baseline=function(){
 }
 
 byword=function(file){
-	w=read.csv(file,row.names=as.character(1:171))
-	
+	read.csv(file,row.names=as.character(1:171))
 }
 
 main=function(){
-	stepping()
-	pdf('baseline.pdf');plot.baseline();dev.off()
-	byword('../byword_tmp28')
+#	stepping()
+#	pdf('baseline.pdf');plot.baseline();dev.off()
+	write.csv(byword('../byword_tmp28'),file='byword_scores.csv')
 }
