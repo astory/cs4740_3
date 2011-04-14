@@ -296,7 +296,7 @@ cooccurrence are often advocated to be used together.
 We began by plotting the predictors that seemed most influential in the
 stepwise regression.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{baseline}
 \caption{\label{fig:base}Baseline scores for our two baseline systems}
 \end{figure}
@@ -308,7 +308,7 @@ much higher f-measure. With bootstrapping, the Decision Tree
 classifier decreases in f-measure while the \naive{} Bayes classifier
 improves in f-measure.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{pg_0001}
 \caption{\label{fig1}}
 \end{figure}
@@ -318,7 +318,7 @@ Collocation window of size 2--4 had the best performance (figure
 imply is that words very close to the head word are the most
 important, as expected.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{pg_0002}
 %stepwise graph 1
 %classifiert, collocation, cooccurrence  
@@ -328,12 +328,18 @@ important, as expected.
 
 The \naive{} Bayes classifier had better top-range performance.
 
-\begin{figure}[H]
+\begin{figure}
 \includegraphics[width=\textwidth]{pg_0003}
 \caption{\label{fig3}}
 \end{figure}
 
-\begin{figure}[H]
+According to Figure \ref{fig3}, when the base word feature vector was
+enabled and the dependency parsing was disabled, the \naive{} Bayes
+classifier improved in performance. On the other hand, the performance
+of the Decision Tree classifier seems to be independent of the base
+word and dependency parsing features.
+
+\begin{figure}
 \includegraphics[width=\textwidth]{pg_0004}
 \caption{\label{fig4}}
 \end{figure}
