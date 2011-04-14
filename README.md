@@ -36,3 +36,10 @@ maltparse to work.  Run `./parser.py` to set this state.
 
 Then, run `./classify.py`.  It will read in the training and test files; be sure
 to read it's --help or -h text for flags - running it without flags will fail.
+
+If you want to use the dependency parser, you will have to install and configure
+(possibly with edits to files) MaltParse yourself - it was too large to fit in
+the file size requirement.  Our setup included a MaltParse directory at root,
+containing engmalt.linear.mco, the training file, and a directory malt-1.2, with
+the java binaries in it.  If you mimic that setup, it should work without
+modification.
