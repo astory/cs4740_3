@@ -1,4 +1,4 @@
-run_id,grain,precision,recall,corpus_size
+word,grain,precision,recall,attempted,corpus_size
 "activate.v",coarse,0.650,0.017,2.61, 1874
 "activate.v",mixed,0.650,0.017,2.61, 1874
 "activate.v",fine,0.650,0.017,2.61, 1874

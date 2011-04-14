@@ -160,24 +160,6 @@ in bootstrap iterations does not substantially change the F-measure.
 
 
 %Discuss the coefficients in the regression table
-Call:
-lm(formula = f ~ classifier + collocation + cooccurrence + base_word +     dependency_parsing + classifier:collocation + classifier:cooccurrence +     collocation:cooccurrence + collocation:dependency_parsing +     cooccurrence:dependency_parsing + collocation:cooccurrence:dependency_parsing,     data = plot.step.import())
-
-Coefficients:
-\begin{tabular}{l r}
-                                (Intercept) & 0.5557355 \\
-                                classifiert & 0.0444331  \\
-                                 collocation & 0.0030636  \\
-                              cooccurrence1 & 0.0276413 \\
-                                 base_word1 & 0.0124008  \\
-                         dependency_parsing & -0.0019423 \\
-                     classifiert:collocation & -0.0132109 \\
-                  classifiert:cooccurrence1 & -0.0271825 \\
-                   collocation:cooccurrence1 & -0.0007417 \\
-              collocation:dependency_parsing & -0.0003464 \\
-           cooccurrence1:dependency_parsing & -0.1611043 \\
-collocation:cooccurrence1:dependency_parsing & 0.0147078  \\
-\end{tabular}
 
 
 %The negative interaction terms may indicate that the interacting features provide
