@@ -134,43 +134,56 @@ blah=function(){
 f=function(ag) 2*ag$precision*ag$recall/(ag$precision+ag$recall)
 
 plot.step.import=function(sub='mixed'){
-	ag=subset(import.aggregated(),grain='mixed')
+	ag=import.aggregated()
+	offon=c('Off','On')
+	if (!is.na(sub)) ag=subset(ag,grain==sub)
 	ag$f=f(ag)
 	ag$cooccurrence=factor(ag$cooccurrence)
 	ag$base_word=factor(ag$base_word)
-	if (!is.na(sub)) subset(ag,grain==sub) else ag
+	ag$dependency_parsing=factor(ag$dependency_parsing)
+	levels(ag$classifier)=c('Naive Bayes','Decision tree')
+	levels(ag$base_word)<-offon
+	levels(ag$cooccurrence)<-offon
+	levels(ag$dependency_parsing)<-offon
+	ag
 }
 
 #Most significant terms from the stepwise regressio
 plot.step0=function(){
 	ag=plot.step.import()
 	ggplot(ag,aes(dependency_parsing,f,group=c(cooccurrence)))+
-	geom_point(aes(color=cooccurrence))+
-	opts(title = expression("Performance of all of our systems as a function of dependency parsing"))
+	geom_point(aes(color=cooccurrence),position=position_jitter(w=0.1, h=0))+
+	opts(title = expression("Dependency parsing is only helpful when colocation is off"))
+#	scale_x_continuous('Dependency parsing on (1) or off (0)') + scale_y_continuous('Mixed-grained F-measure')
 }
 
 plot.step1=function(){
 	ag=plot.step.import()
 	ggplot(ag,aes(colocation,f,group=c(cooccurrence)))+
-	geom_point(aes(color=cooccurrence))+
-	opts(title = expression("Performance of all of our systems"))
+	geom_point(aes(color=cooccurrence),position=position_jitter(w=0.1, h=0))+
+	opts(title = expression("The optimal colocation window is between 2 and 4 words"))
+#	opts(title = expression("Performance of all of our systems"))+
+#	scale_x_continuous('Colocation window size') + scale_y_continuous('Mixed-grained F-measure')
 }
 
 #Select optimal colocation window and keep looking
 plot.step2=function(){
 	ag=subset(plot.step.import(),colocation>=2&colocation<=4)
 	ggplot(ag,aes(classifier,f,group=c(base_word)))+
-	geom_point(aes(colour=base_word))+
-	opts(title=expression('Performance of the systems with colocation windows between 2 and 4'))
+	geom_point(aes(colour=base_word),position=position_jitter(w=0.1, h=0))+
+	opts(title=expression('Performance by classifier'))
+#	opts(title=expression('Performance of the systems with colocation windows between 2 and 4'))+
+#	scale_x_continuous('Classifier') + scale_y_continuous('Mixed-grained F-measure')
 }
 
 #Little effect of bootstrapping or base-word handling. Bootstrapping seems to plateau at 2 iterations.
 plot.step3=function(){
-	ag=subset(plot.step.import(),colocation>=2&colocation<=4&cooccurrence==1&classifier=='pn'&dependency_parsing==0)
-	ggplot(ag,aes(bootstrap,f,group=c(base_word)))+
-	geom_point(aes(colour=base_word))+
-	opts(title=expression('Performance of the systems with colocation windows between 2 and 4, cooccurrence handling on, Naive Bayes classifier and dependency parsing off'))
-	
+	ag=subset(plot.step.import(),colocation>=2&colocation<=4&cooccurrence=='On'&classifier=='Naive Bayes'&dependency_parsing=='Off')
+	ggplot(ag,aes(bootstrap,f,group=base_word,label=colocation))+
+	geom_text(aes(colour=base_word))+
+	opts(title=expression('Effect of the remaining features'))
+	#opts(title=expression('Performance of the systems with colocation windows between 2 and 4, cooccurrence handling on, Naive Bayes classifier and dependency parsing off'))+
+#	scale_x_continuous('Bootstrap iterations') + scale_y_continuous('Mixed-grained F-measure')
 }
 
 plot.special1=function(){
@@ -201,8 +214,13 @@ stepping=function(){
 
 plot.baseline=function(){
 	ag=subset(plot.step.import(sub=NA),
-		bootstrap==0&colocation==0&cooccurrence==0&base_word==0&dependency_parsing==0)
+		bootstrap==0&colocation==0&cooccurrence=='Off'&base_word=='Off'&dependency_parsing=='Off')
 	ggplot(ag,aes(grain,f,group=classifier))+
 	geom_line(aes(color=classifier))+
 	opts(title = expression("Baseline performance"))
+}
+
+main=function(){
+	stepping()
+	pdf('baseline.pdf');plot.baseline();dev.off()
 }
