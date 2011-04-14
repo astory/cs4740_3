@@ -166,7 +166,7 @@ plot.step1=function(){
 	ag=plot.step.import()
 	ggplot(ag,aes(colocation,f,group=c(cooccurrence)))+
 	geom_point(aes(color=cooccurrence),position=position_jitter(w=0.1, h=0))+
-	opts(title = expression("The optimal colocation window is between 2 and 4 words"))
+	opts(title = expression("The optimal colocation window is between 3 and 4 words"))
 #	opts(title = expression("Performance of all of our systems"))+
 #	scale_x_continuous('Colocation window size') + scale_y_continuous('Mixed-grained F-measure')
 }
@@ -174,8 +174,8 @@ plot.step1=function(){
 #Select optimal colocation window and keep looking
 plot.step2=function(){
 	ag=subset(plot.step.import(),colocation>=2&colocation<=4)
-	ggplot(ag,aes(classifier,f,group=c(base_word)))+
-	geom_point(aes(colour=base_word),position=position_jitter(w=0.1, h=0))+
+	ggplot(ag,aes(classifier,f,group=c(base_word,dependency_parsing)))+
+	geom_point(aes(colour=base_word,shape=dependency_parsing),position=position_jitter(w=0.1, h=0))+
 	opts(title=expression('Performance by classifier'))
 #	opts(title=expression('Performance of the systems with colocation windows between 2 and 4'))+
 #	scale_x_continuous('Classifier') + scale_y_continuous('Mixed-grained F-measure')
@@ -234,6 +234,6 @@ byword=function(file){
 
 main=function(){
 	stepping()
-#	pdf('baseline.pdf');plot.baseline();dev.off()
+# 	pdf('baseline.pdf');plot.baseline();dev.off()
 	byword('../byword_tmp28')
 }
