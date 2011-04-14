@@ -208,7 +208,7 @@ stepping=function(){
 	print(plot.step2())
 	print(plot.step3())
 	dev.off()
-	step(lm(f~classifier*bootstrap*colocation*cooccurrence*base_word*dependency_parsing,data=plot.step.import()))
+	#step(lm(f~classifier*bootstrap*colocation*cooccurrence*base_word*dependency_parsing,data=plot.step.import()))
 }
 
 
@@ -220,7 +220,13 @@ plot.baseline=function(){
 	opts(title = expression("Baseline performance"))
 }
 
+byword=function(file){
+	w=read.csv(file,row.names=as.character(1:171))
+	
+}
+
 main=function(){
 	stepping()
 	pdf('baseline.pdf');plot.baseline();dev.off()
+	byword('../byword_tmp28')
 }

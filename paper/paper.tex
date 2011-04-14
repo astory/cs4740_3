@@ -1,0 +1,175 @@
+\documentclass{article}
+\usepackage{url}
+\title{Word Sense Disambiguation\\
+\small{Leveraging the NLTK Toolkit and External Tools}}
+\author{
+Alec Story
+Ansu Abraham
+Craig Frey\\
+Dustin Tiedemann
+Michael Zhu
+Thomas Levine
+Whitney Foster\\
+}
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+
+We  chose to implement our system in Python, and chose to use the machine
+learning algorithms in the NLTK toolkit which is also Python-based.
+
+We wrote our main control program, classify.py, so that it can choose either
+[we're just doing nb and decision trees now right?] classifier and any
+combination of  features. On top of this we wrote bash scripts that automated
+looping through every combination of classifiers and features, along with
+porting the results directly into the scorer.  Classify.py includes a help
+switch -h, that explains the switches that control the different classifiers
+and features along with any additional parameters that a certain feature might
+support (for example, collocation has a window size parameter which defaults to
+0) Performance was excellent for most of the features, allowing us to typically
+run all of the words in the test set through every combination a classifier and
+feature set in under an hour. (The number of runs can get quite high when you
+factor in several parameters per feature, not just on/off)
+
+A baseline was run by choosing the most frequent sense for each word.
+
+\subsection{Data details}
+
+The  NLTK has a corpus reader  that imports Senseval-2 files. The Senseval-3
+file format is slightly  different which necessitated a few changes. We
+separated the training  and test files by word into .pos files to match  what
+the existing  parser looked for. In the interest of time we modified  the
+training and  test files to contain a single tagged word per chunk  (but still
+allowing for multiple senses) again to match the Senseval-2  format.
+
+\subsection{Selecting optimal feature combination}
+\newcommand\ward{forward} %or maybe backwards
+
+We used a \ward stepwise approach to indentifying optimal feature combinations.
+We first ran the system with all features on, producing a total of $256=2^8$
+combinations.  We then used backwards stepwise regression to identify feature
+combinations with a small number of features but with high performance
+
+\section{System}
+
+We made heavy use of python's NLTK
+package\footnote{\url{http://www.nltk.org/}}, using its classifiers as our
+machine learning engines, and several of its other packages for analysis.
+
+\subsection{Classifiers}
+
+The NLTK was used to implement two machine learning algorithms, naive Bayes and
+decision trees.  
+
+\subsubsection{Naive Bayes}
+
+The NLTK implements a naï bayes classifier which chooses the best sense given a
+dictionary of features and assigns confidence probabilities to the chosen
+sense. Naive bayes does assume an independence of features. The probability of
+each feature contributes to the overall choice.
+
+\subsubsection{Decision Tree}
+
+The NLTK also implements a decision list classifier in which a sequence of
+tests is applied to each target-word feature vector. Each test indicates a
+particular sense of the word: if the test succeeds, the sense of the test is
+returned otherwise the next test in the sequence is performed.
+
+Naive Bayes supported probability estimation, while the decision tree did not.
+
+\subsection{Confidence Cutoffs}
+
+NLTK provides probability measures for each of its guesses when using the
+maximum entropy and the naive Bayes learning methods.  We harnessed these to
+determine the cutoff for making a guess, or resorting to a ``U'' if we were
+unconfident in the tagging.  Occasional unknowns also occur because such
+unknowns are present in the training data, and we made no effort to remove
+them, so the learning algorithm views them as any other label.
+
+% Should we mention which cutoff we used?  Which did we use?
+
+\subsection{Bootstrapping}
+
+We used the same probability measure from the confidence cutoffs to fuel a
+bootstrapping method.  Instead of directly taking the output of the classifier,
+we instead looked at its performance on the test data, and wherever it was very
+confident, we copied that test instance to the training data, and repeated this
+cycle for a fixed number of cycles.  Once we had enriched the training data, we
+ran the classifier a final time to perform classification.
+
+Fortunately, the classifiers were very fast, and almost all of the time the
+system spends is in reading input and building feature sets, which don't need
+to be repeated, so bootstrapping is very cheap to include.
+
+% Should we mention which probability measure we used?  Which did we use?  How
+% many iterations?
+
+\section{Looking through Different Corpora}
+
+In order to get more data to use with the bootstrapping algorithm, we attempted
+to search through the Brown corpus and return all of the words that were being
+disambiguated in the Senseval 3 task.  To do this we needed to find all of the
+instances of the words that we needed to disambiguate and return a context
+(list of words) and the position of the word in that list.  We also made sure
+that we the context that we returned both started at the beginning of the
+sentence and ended at the end of a sentence and had a minimum of 25 words
+returned on either side of the word.  This data would then be converted into
+the form of the data that we received from the Senseval document and ran
+through the bootstrapping algorithm to have more data to train with.  However
+when we actually tested this feature alone we found it to be very
+uninformative.  First, there were very few instances of the words that we were
+looking for (ex: activate only appeared 3 times), which made searching through
+the entire corpus to find these words more time consuming than it was helpful.
+Therefore, we decided not to use it for the actual test because it was not
+informative enough by itself.
+
+\subsection{Base Word}
+
+Because the target words were grouped by part of speech, we included the word
+as it appears literally in context as a feature.  For example, ``activate''
+versus ``activating,'' which both appear under activate.v.
+
+\subsection{Dependency Parsing}
+
+We included as one feature the MaltParser dependency parser, and used the
+engmalt.linear.mco linear support vector machine
+configuration\footnote{\url{http://maltparser.org/mco/english_parser/engmalt.html}}
+for parsing (the other option was an SVM with a polynomial kernel, which the
+Malt website said would run just as accurately, more slowly, but with less
+memory, so we decided to go with the faster option).
+
+From the parser we rendered several features:
+
+\begin{description}
+
+\item[The Dependency:] whatever the first of the list of dependencies given for
+the target word is.  It is difficult to represent lists in the key and value
+feature format, so we did not attempt to.  Instead, we use the rest of the
+features as mitigating factors.  The empty string if there is no dependency.
+
+\item[Presence of Absence of Dependency]
+
+\item[Number of Dependencies]
+
+\item[The Parent:] the word with the target word as (one of) its dependencies.
+
+\end{description}
+
+Dependency parsing is fairly slow, requiring about a second per instance to run
+on a computer running an Atom D525 processor (which is fairly underpowered, but
+modern).  To help alleviate this problem, we wrote a system that saves parses
+for each context, and only calls the parser if it observes a new parse, so we
+could reuse parsing information across runs of our program.  Because this file
+is several hundred megabytes in size, it is not included in our submitted code.
+\subsection{Collocation}
+
+Encodes the part-of-speech tag of words to the left and right of the target
+word. The number of words extracted is determined by a variable window size
+(context) which the function takes in as an input. Half the window size is
+taken from left the word and half from the right of the word; thus window size
+is the total number of words examined. For an odd window size, it rounds up
+half the window size up for the part left of the word and rounds down for the
+part right of the word.
+
