@@ -321,13 +321,16 @@ The \naive{} Bayes classifier had better top-range performance.
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{pg_0004}
-\caption{\label{fig4}}
+\caption{\label{fig4}The scores of systems with colocation window between 2 and 4, cooccurrence handling on, \naive{} Bayes classifier and dependency parsing off are presented here. Each plotted number corresponds to a system, and the number refers to the colocation window}
 \end{figure}
+
+
 
 \subsection{Baseline Results}
 
-We ran two baselines, one with each machine learning algorithm:
+We ran two baselines, one with each machine learning algorithm (table \ref{tab:base} and figure \ref{fig:base}).
 
+\begin{table}
 \begin{tabular}{l l | r r r}
 & grain& precision& recall& attempted\\
 \hline
@@ -340,6 +343,8 @@ coarse  &  0.612 & 0.612 &  100.00\\
 &mixed  &  0.594 & 0.594 &  100.00\\
 & fine  &  0.552 & 0.552 &  100.00\\
 \end{tabular}
+\caption{\label{tab:base}Scores for the baseline system}
+\end{table}
 
 \subsection{Best Run Results}
 
