@@ -277,7 +277,7 @@ Collocation window of size 2--4 had the best performance, so we looked more clos
 
 \includegraphics[width=\textwidth]{pg_0002}
 
-more discussin of graphs
+The naive Bayes classifier had better top-range performance.
 
 \includegraphics[width=\textwidth]{pg_0003}
 
@@ -301,6 +301,10 @@ coarse  &  0.612 & 0.612 &  100.00\\
 \end{tabular}
 
 \subsection{Best Run Results}
+
+Our run with the highest overall F-measure (overall precision 0.718, overall
+recall 0.610), used cooccurrence, colocation out to a distance of 2, base word,
+no dependency parsing, and bootstrapped once:
 
 \begin{longtable}{l | r r r r r r r}
 		&	&	\multicolumn{2}{c}{Fine Grain}	&	\multicolumn{2}{c}{Course Grain}	&	\multicolumn{2}{c}{Mixed}\\
