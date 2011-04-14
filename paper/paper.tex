@@ -29,7 +29,7 @@ its part of speech tagger, dependency parser, and to import the Senseval data.
 We coded the rest of the assignment on our own.
 
 We wrote our main control program, classify.py, so that it can choose either
-Naive Bayes or Decision Trees classifier and any 
+\Naive{} Bayes or Decision Trees classifier and any 
 combination of  features. On top of this we wrote bash scripts that automated
 looping through every combination of classifiers and features, along with
 porting the results directly into the scorer.  Classify.py includes a help
@@ -45,15 +45,15 @@ A baseline was run by choosing the most frequent sense for each word.
 
 \subsection{Data details}
 
-The  NLTK has a corpus reader  that imports Senseval-2 files. The Senseval-3
+The NLTK has a corpus reader that imports Senseval-2 files. The Senseval-3
 file format is slightly  different which necessitated a few changes. We
 separated the training  and test files by word into .pos files to match  what
-the existing  parser looked for. In the interest of time we modified  the
-training and  test files to contain a single tagged word per chunk  (but still
+the existing parser looked for. In the interest of time we modified  the
+training and test files to contain a single tagged word per chunk (but still
 allowing for multiple senses) again to match the Senseval-2  format.
 
 \subsection{Selecting optimal feature combination}
-\newcommand\ward{forward} %or maybe backwards
+\newcommand\ward{backward} %or maybe backwards
 
 We used a \ward stepwise approach to identifying optimal feature combinations.
 We first ran the system with all features on, producing a total of $256=2^8$
@@ -71,7 +71,7 @@ machine learning engines, and several of its other packages for analysis.
 The NLTK was used to implement two machine learning algorithms, \naive{} Bayes and
 decision trees.  
 
-\subsubsection{Naive Bayes}
+\subsubsection{\Naive{} Bayes}
 
 The NLTK implements a \naive{} Bayes classifier which chooses the best sense given a
 dictionary of features and assigns confidence probabilities to the chosen
@@ -85,7 +85,7 @@ tests is applied to each target-word feature vector. Each test indicates a
 particular sense of the word: if the test succeeds, the sense of the test is
 returned otherwise the next test in the sequence is performed.
 
-Naive Bayes supported probability estimation, while the decision tree did not.
+\Naive{} Bayes supported probability estimation, while the decision tree did not.
 
 \subsection{Confidence Cutoffs}
 
@@ -152,7 +152,9 @@ on a computer running an Atom D525 processor (which is fairly underpowered, but
 modern).  To help alleviate this problem, we wrote a system that saves parses
 for each context, and only calls the parser if it observes a new parse, so we
 could reuse parsing information across runs of our program.  Because this file
-is several hundred megabytes in size, it is not included in our submitted code.
+is several hundred megabytes in size, it is not included in our
+submitted code.
+
 \subsection{Collocation}
 
 Encodes the part-of-speech tag of words to the left and right of the target
@@ -172,7 +174,6 @@ as we did the literal words in the feature set.  This was trained on NLTK's
 package.
 
 \subsection{Co-occurrence}
-
 
 Looks through the training data and compiles a list of most common words for
 each item in the data. When the test data is run, the feature looks for the
@@ -212,7 +213,6 @@ consideration of all three grain-levels of score and scores by word.
 
 \section{Results}
 
-
 \subsection{Stepwise regression}
 
 We ran backward stepwise regression with the F-measure from the coarse-grained
@@ -244,7 +244,6 @@ included the following parameters.
 This does not include bootstrap iterations, indicating that changes
 in bootstrap iterations does not substantially change the F-measure.
 
-
 %Discuss the coefficients in the regression table
 %Call:
 %lm(formula = f ~ classifier + collocation + cooccurrence + base_word +     dependency_parsing + classifier:collocation + classifier:cooccurrence +     collocation:cooccurrence + collocation:dependency_parsing +     cooccurrence:dependency_parsing + collocation:cooccurrence:dependency_parsing,     data = plot.step.import())
@@ -266,9 +265,26 @@ Coefficients:
 collocation:cooccurrence1:dependency parsing & 0.0147078  \\
 \end{tabular}
 
+As the regression table above shows, it seems that substituting the
+Decision Tree classifier for the Naive Bayes baseline provides the
+most significant boost to our f measure. It can also be seen here that
+increasing the collocation window will increase the f measure by about 0.003
+for each additional word added to the window. Additionally, enabling
+the cooccurrence feature extractor with the Naive Bayes classifier
+will increase the f measure by a significant amount as well.
 
-%The negative interaction terms may indicate that the interacting features provide
-similar functionality and blah blah blah
+The rows that contain negative terms may indicate that the interacting
+features provide similar functionality. That is, the enabled features
+are interfering with each other so that their final influence on the f
+measure may affect the f measure negatively. For instance, the row
+showing ``classifiert:collocation'' indicates a run where the Decision
+Tree classifier was used and the collocation feature was enabled has
+resulted in a lower accuracy. This seems to be the general trend for
+all of the interacting features. It may be interesting to note that
+the interaction between collocation and cooccurrence1 as well as
+collocation and dependency parsing produce the most innocuous
+cumulative effect. Perhaps this may be why collocation and
+cooccurrence are often advocated to be used together.
 
 \subsection{Graphical methods}
 We began by plotting the predictors that seemed most influential in the
@@ -279,7 +295,12 @@ stepwise regression.
 \caption{\label{fig:base}Baseline scores for our two baseline systems}
 \end{figure}
 
-
+Figure \ref{fig:base} shows our results for running just the Decision
+Tree classifier and the \naive{} Bayes classifier with no features
+enabled. With no bootstrapping, the Decision Tree classifier has a
+much higher f-measure. With bootstrapping, the Decision Tree
+classifier decreases in f-measure while the \naive{} Bayes classifier
+improves in f-measure.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{pg_0001}
@@ -315,7 +336,7 @@ We ran two baselines, one with each machine learning algorithm:
 \begin{tabular}{l l | r r r}
 & grain& precision& recall& attempted\\
 \hline
-\multirow{3}{*}{Naive Bayes} &
+\multirow{3}{*}{\Naive{} Bayes} &
 coarse  &  0.737 & 0.379 &   51.39\\
 &mixed  &  0.730 & 0.375 &   51.39\\
 & fine  &  0.693 & 0.356 &   51.39\\
@@ -491,5 +512,13 @@ corpus is small, it is appropriate to study which features are the most useful,
 and only include those, rather than our initial approach of throwing them all
 together and letting the learning algorithm sort it out.
 
+\section{Conclusion}
+
+The \naive{} Bayes and decision tree classifiers are not smart enough to sort out
+a large number of features when the data sets are of small or moderate size,
+which requires judicious choosing of features.  Co-occurrence, base word and
+collocation with part of speech collocation seem to be more powerful features
+than dependency parsing, and bootstrapping on the data in an attempt to get a
+larger training base was ineffective because precision was too low.
 
 \end{document}
