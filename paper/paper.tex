@@ -21,7 +21,7 @@ We  chose to implement our system in Python, and chose to use the machine
 learning algorithms in NLTK which is also Python-based.  We also used NLTK for its part of speech tagger, dependecy parser, and to import the Senseval data.  We coded the rest of the assignment on our own.
 
 We wrote our main control program, classify.py, so that it can choose either
-[we're just doing nb and decision trees now right?] classifier and any
+Naive Bayes or Decision Trees classifier and any 
 combination of  features. On top of this we wrote bash scripts that automated
 looping through every combination of classifiers and features, along with
 porting the results directly into the scorer.  Classify.py includes a help
@@ -106,7 +106,7 @@ to be repeated, so bootstrapping is very cheap to include.
 % Should we mention which probability measure we used?  Which did we use?  How
 % many iterations?
 
-\section{Looking through Different Corpora}
+\subsection{Looking through Different Corpora}
 
 In order to get more data to use with the bootstrapping algorithm, we attempted
 to search through the Brown corpus and return all of the words that were being
@@ -291,7 +291,7 @@ Collocation window of size 2--4 had the best performance, so we looked more clos
 
 %stepwise graph 2
 
-more discussin of graphs
+more discussion of graphs
 
 %stepwise graph 33
 
