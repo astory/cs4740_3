@@ -1,0 +1,70 @@
+\section{Methods}
+\newcommand\few{few}
+We ran the system with several hundred different combinations of features.
+We used two approaches to identifying the best feature combinations, and then
+we did more detailed analysis on the top \few systems.
+
+\subsection{Identification of the best feature combinations}
+We identified optimal feature combinations through backward stepwise simple linear regression
+and through the creation and visual analysis of charts. The former has the
+advantage of discovering relationships and testing them more quantitatively
+but has the disadvantage of making assumptions about normality, linearity and equal variance.
+The latter has the advantage of elucidating more complex and higher-order relationships.
+
+\subsubsection{Stepwise regression}
+We ran backward stepwise regression with the F-measure from the coarse-grained scores
+regressed on predictors representing the feature combination.
+The saturated model contained the following predictors and all interactions
+\begin{itemize}
+\item Classifier (naive Bayes or decision list)
+\item Colocation window length (0--8)
+\item Cooccurrence handling (on or off)
+\item Base word handling (on or off)
+\item Bootstrap iterations (0--4)
+\item Dependency parsing (on or off)
+\end{itemize}
+The predictor combination yeilding the lowest value of the Akaike information criterion
+included the following parameters.
+\begin{itemize}
+\item Intercept
+\item Classifier
+\item Colocation window size
+\item Coocurrence
+\item Base word handling
+\item Classifier$\times$colocation window size interaction
+\item Classifier$\times$cooccurrence interaction
+\end{itemize}
+This does not include bootstrap iterations, indicating that changes
+in bootstrap iterations does not substantially change the F-measure.
+
+%Discuss the coefficients in the regression table
+                         Estimate Std. Error t value Pr(>|t|)    
+(Intercept)               0.572768   0.006419  89.229  < 2e-16 ***
+classifiert               0.050648   0.015703   3.225  0.00162 ** 
+colocation                0.003961   0.001146   3.455  0.00076 ***
+cooccurrence              0.025666   0.005986   4.288 3.65e-05 ***
+base_word                 0.011615   0.005599   2.074  0.04017 *  
+classifiert:colocation   -0.013670   0.005475  -2.497  0.01388 *  
+classifiert:cooccurrence -0.025294   0.016931  -1.494  0.13780  
+
+
+
+
+%lm(formula = f(foo) ~ classifier + colocation + cooccurrence + 
+%    base_word + classifier:colocation + classifier:cooccurrence, 
+%    data = foo)
+
+
+\subsubsection{Graphical methods}
+We began by plotting the predictors that seemed most influential in the
+stepwise regression.
+
+%lassifiert, colocation, cooccurrence  
+%Interpret this graph
+
+
+
+
+
+
+\subsection{Characterization of the top feature combinations}
