@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{url}
 \usepackage{longtable}
+\usepackage{graphicx}
 \title{Word Sense Disambiguation\\
 \small{Leveraging the NLTK Toolkit and External Tools}}
 \author{
@@ -19,7 +20,7 @@ Whitney Foster\\
 \section{Overview}
 
 We  chose to implement our system in Python, and chose to use the machine
-learning algorithms in the NLTK toolkit which is also Python-based.
+learning algorithms in NLTK which is also Python-based.  We also used NLTK for its part of speech tagger, dependecy parser, and to import the Senseval data.  We coded the rest of the assignment on our own.
 
 We wrote our main control program, classify.py, so that it can choose either
 [we're just doing nb and decision trees now right?] classifier and any
@@ -66,7 +67,7 @@ decision trees.
 
 \subsubsection{Naive Bayes}
 
-The NLTK implements a naï bayes classifier which chooses the best sense given a
+The NLTK implements a naïve bayes classifier which chooses the best sense given a
 dictionary of features and assigns confidence probabilities to the chosen
 sense. Naive bayes does assume an independence of features. The probability of
 each feature contributes to the overall choice.
@@ -114,7 +115,7 @@ to search through the Brown corpus and return all of the words that were being
 disambiguated in the Senseval 3 task.  To do this we needed to find all of the
 instances of the words that we needed to disambiguate and return a context
 (list of words) and the position of the word in that list.  We also made sure
-that we the context that we returned both started at the beginning of the
+that the context that we returned both started at the beginning of the
 sentence and ended at the end of a sentence and had a minimum of 25 words
 returned on either side of the word.  This data would then be converted into
 the form of the data that we received from the Senseval document and ran
@@ -284,21 +285,20 @@ similar functionality and blah blah blah
 We began by plotting the predictors that seemed most influential in the
 stepwise regression.
 
+\includegraphics[width=\textwidth]{pg_0001}
 %stepwise graph 1
 %classifiert, collocation, cooccurrence  
 %Interpret this graph
 
 Collocation window of size 2--4 had the best performance, so we looked more closely at those.
 
-%stepwise graph 2
+\includegraphics[width=\textwidth]{pg_0002}
 
 more discussin of graphs
 
-%stepwise graph 33
+\includegraphics[width=\textwidth]{pg_0003}
 
-\subsection{Characterization of the top feature combinations}
-
-%Let's get a comparison between our best performer(s) and the baseline
+\includegraphics[width=\textwidth]{pg_0004}
 
 \subsection{Best Run Results}
 
