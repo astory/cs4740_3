@@ -149,12 +149,17 @@ plot.step.import=function(sub='mixed'){
 }
 
 #Most significant terms from the stepwise regressio
-plot.step0=function(){
+plot.step0a=function(){
+	ag=plot.step.import()
+	ggplot(ag,aes(colocation,f,group=c(dependency_parsing)))+
+	geom_point(aes(color=dependency_parsing),position=position_jitter(w=0.1, h=0))+
+	opts(title = expression("Dependency parsing is only helpful when colocation is off"))
+}
+plot.step0b=function(){
 	ag=plot.step.import()
 	ggplot(ag,aes(dependency_parsing,f,group=c(cooccurrence)))+
 	geom_point(aes(color=cooccurrence),position=position_jitter(w=0.1, h=0))+
-	opts(title = expression("Dependency parsing is only helpful when colocation is off"))
-#	scale_x_continuous('Dependency parsing on (1) or off (0)') + scale_y_continuous('Mixed-grained F-measure')
+	opts(title = expression("Dependency parsing is only helpful when cooccurrence is off"))
 }
 
 plot.step1=function(){
@@ -203,7 +208,7 @@ rank.scores=function(){
 
 stepping=function(){
 	pdf('plots.pdf')
-	print(plot.step0())
+	print(plot.step0b())
 	print(plot.step1())
 	print(plot.step2())
 	print(plot.step3())
@@ -221,11 +226,14 @@ plot.baseline=function(){
 }
 
 byword=function(file){
-	read.csv(file,row.names=as.character(1:171))
+	a=read.csv(file,row.names=as.character(1:171))
+	#ggplot(a,corpus_size,f,group=grain)+
+#	ggplot(subset(a,grain=='mixed'),aes(corpus_size,f,label=word))+
+#	geom_text()
 }
 
 main=function(){
-#	stepping()
+	stepping()
 #	pdf('baseline.pdf');plot.baseline();dev.off()
-	write.csv(byword('../byword_tmp28'),file='byword_scores.csv')
+	byword('../byword_tmp28')
 }
