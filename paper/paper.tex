@@ -152,7 +152,9 @@ on a computer running an Atom D525 processor (which is fairly underpowered, but
 modern).  To help alleviate this problem, we wrote a system that saves parses
 for each context, and only calls the parser if it observes a new parse, so we
 could reuse parsing information across runs of our program.  Because this file
-is several hundred megabytes in size, it is not included in our submitted code.
+is several hundred megabytes in size, it is not included in our
+submitted code.
+
 \subsection{Collocation}
 
 Encodes the part-of-speech tag of words to the left and right of the target
@@ -210,7 +212,6 @@ We ran a more detailed analysis on the top \few systems.  This analysis included
 consideration of all three grain-levels of score and scores by word.
 
 \section{Results}
-
 
 \subsection{Stepwise regression}
 
@@ -294,7 +295,12 @@ stepwise regression.
 \caption{\label{fig:base}Baseline scores for our two baseline systems}
 \end{figure}
 
-
+Figure \ref{fig:base} shows our results for running just the Decision
+Tree classifier and the \naive{} Bayes classifier with no features
+enabled. With no bootstrapping, the Decision Tree classifier has a
+much higher f-measure. With bootstrapping, the Decision Tree
+classifier decreases in f-measure while the \naive{} Bayes classifier
+improves in f-measure.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{pg_0001}
