@@ -43,3 +43,5 @@ the file size requirement.  Our setup included a MaltParse directory at root,
 containing engmalt.linear.mco, the training file, and a directory malt-1.2, with
 the java binaries in it.  If you mimic that setup, it should work without
 modification.
+
+The example outputs can be found at experiment/allruns.  The file calls.csv describes the parameters used to generate each file.  The tmp# files are our actual output.
