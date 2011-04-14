@@ -52,13 +52,6 @@ the existing parser looked for. In the interest of time we modified  the
 training and test files to contain a single tagged word per chunk (but still
 allowing for multiple senses) again to match the Senseval-2  format.
 
-\subsection{Selecting optimal feature combination}
-\newcommand\ward{backward} %or maybe backwards
-
-We used a \ward stepwise approach to identifying optimal feature combinations.
-We first ran the system with all features on, producing a total of $256=2^8$
-combinations.  We then used backwards stepwise regression to identify feature
-combinations with a small number of features but with high performance
 
 \section{System}
 
@@ -197,8 +190,6 @@ the most common words by looking through all the instances of unique lexical
 items in the training data are unsupervised.
 
 \section{Methods}
-\newcommand\few{few}
-
 We ran the system with several hundred different combinations of features over
 all the words in the input set.
 
@@ -209,7 +200,7 @@ quantitatively but has the disadvantage of making assumptions about normality,
 linearity and equal variance.  The latter has the advantage of elucidating more
 complex and higher-order relationships.
 
-We ran a more detailed analysis on the top \few systems.  This analysis included
+We ran a more detailed analysis on the top system.  This analysis included
 consideration of all three grain-levels of score and scores by word.
 
 \section{Results}
