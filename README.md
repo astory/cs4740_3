@@ -26,4 +26,4 @@ and the latter contains one file per word type of interest,
 with one of these files containing each of the instances for
 the corresponding word.
 
-Because we automated all of the tests we wrote the output to files as we tested it.  The results are included in the folder experiment/allruns.  The calls.csv file shows the features that were used in each test and the output for each test.  The output was formatted in a way that the scorer would accept.
+Because we automated all of the tests we wrote the output to files as we tested it.  The results are included in the folder experiment/allruns.  The calls.csv file shows the features that were used in each test and the output for each test.  The output was formatted in a way that the scorer would accept.  In order to run the results BeatifulSoup must be installed
