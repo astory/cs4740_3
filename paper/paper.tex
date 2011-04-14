@@ -173,3 +173,205 @@ is the total number of words examined. For an odd window size, it rounds up
 half the window size up for the part left of the word and rounds down for the
 part right of the word.
 
+We rendered a feature for each position covered, and set its value to be the
+word at that position.
+
+We also used nltk's part of speech tagger to tag the context, and included those
+as we did the literal words in the feature set.  This was trained on nltk's
+\verb+maximum entropy treebank pos tagger+ data, which is included with the nltk
+package.
+
+\subsection{Cooccurrence}
+
+Looks through the training data and compiles a list of most common words for
+each item in the data. When the test data is run, the feature looks for the
+created vector and uses that instead of trying to make a new one. Next the
+extractor takes a window of words around the head word and generates the 0, 1
+tuple of features for inclusion to the dictionary. This word list is used as the
+keys of the feature vector when using the test data as a list of words that may
+cooccur with each item in the data. The value associated with each key in the
+feature vector starts out as 0 (for occurring 0 times in the window near a test
+word) If a key in the feature vector does occur with a word in the test data,
+the value associated with the key changes to 1 even if the key occurs more than
+once.  This is necessary because the machine learning algorithm we used does not
+attempt to analyze the keys beyond simple equality, so higher numbers than one
+could have masked the possibly more important distinction between 0 and not-0.
+In other words, keeping track of the instances of occurrence vs clustering them
+into 2 groups reduces the sparsity of the data and allows for a higher chance of
+accurate classifications based on the limited training data that we have. This
+is an especially important consideration since the feature vectors that select
+the most common words by looking through all the instances of unique lexical
+items in the training data are unsupervised.
+
+
+\section{Methods}
+\newcommand\few{few}
+
+We ran the system with several hundred different combinations of features over
+all the words in the input set.
+
+We identified optimal feature combinations through backward stepwise simple
+linear regression and through the creation and visual analysis of charts. The
+former has the advantage of discovering relationships and testing them more
+quantitatively but has the disadvantage of making assumptions about normality,
+linearity and equal variance.  The latter has the advantage of elucidating more
+complex and higher-order relationships.
+
+We ran a more detailed analysis on the top \few systems.  This analysis included
+consideration of all three grain-levels of score and scores by word.
+
+\section{Results}
+
+\subsubsection{Stepwise regression}
+
+We ran backward stepwise regression with the F-measure from the coarse-grained
+scores regressed on predictors representing the feature combination.  The
+saturated model contained the following predictors and all interactions
+
+\begin{itemize}
+\item Classifier (naive Bayes or decision list)
+\item Collocation window length (0--8)
+\item Cooccurrence handling (on or off)
+\item Base word handling (on or off)
+\item Bootstrap iterations (0--4)
+\item Dependency parsing (on or off)
+\end{itemize}
+
+The predictor combination yeilding the lowest value of the Akaike information criterion
+included the following parameters.
+
+\begin{itemize}
+\item Intercept
+\item Classifier
+\item Collocation window size
+\item Coocurrence
+\item Base word handling
+\item Classifier$\times$collocation window size interaction
+\item Classifier$\times$cooccurrence interaction
+\end{itemize}
+
+This does not include bootstrap iterations, indicating that changes
+in bootstrap iterations does not substantially change the F-measure.
+
+
+%Discuss the coefficients in the regression table
+%Call:
+%lm(formula = f ~ classifier + collocation + cooccurrence + base_word +     dependency_parsing + classifier:collocation + classifier:cooccurrence +     collocation:cooccurrence + collocation:dependency_parsing +     cooccurrence:dependency_parsing + collocation:cooccurrence:dependency_parsing,     data = plot.step.import())
+
+Coefficients:
+
+\begin{tabular}{l r}
+                                (Intercept) & 0.5557355 \\
+                                classifiert & 0.0444331  \\
+                                 collocation & 0.0030636  \\
+                              cooccurrence1 & 0.0276413 \\
+                                 base word1 & 0.0124008  \\
+                         dependency parsing & -0.0019423 \\
+                     classifiert:collocation & -0.0132109 \\
+                  classifiert:cooccurrence1 & -0.0271825 \\
+                   collocation:cooccurrence1 & -0.0007417 \\
+              collocation:dependency parsing & -0.0003464 \\
+           cooccurrence1:dependency parsing & -0.1611043 \\
+collocation:cooccurrence1:dependency parsing & 0.0147078  \\
+\end{tabular}
+
+
+%The negative interaction terms may indicate that the interacting features provide
+similar functionality and blah blah blah
+
+\subsubsection{Graphical methods}
+We began by plotting the predictors that seemed most influential in the
+stepwise regression.
+
+%stepwise graph 1
+%classifiert, collocation, cooccurrence  
+%Interpret this graph
+
+Collocation window of size 2--4 had the best performance, so we looked more closely at those.
+
+%stepwise graph 2
+
+more discussin of graphs
+
+%stepwise graph 33
+
+\subsection{Characterization of the top feature combinations}
+
+%Let's get a comparison between our best performer(s) and the baseline
+
+\section{Discussion}
+
+\subsection{Bootstrapping}
+
+Bootstrapping did not seem to be an effective method for improving accuracy.  This is probably because the input data is not very clean, and additionally our system is probably not very accurately estimating confidence.  When the system is not confident, it bootstraps very few examples, so it does not significantly change the model.
+
+\subsection{Methods We Discarded}
+
+We attempted some preliminary testing on a variety of features, but did not include them because they did not seem to provide insight:
+
+\subsubsection{Sentence Length} For the sentence containing the word of
+interest, we extracted sentence length in both characters and words. We ran two
+preliminary tests to see whether this feature might be useful.
+
+First, we used nearest-neighbor clustering to sort the lengths for a particular
+word into as many groups as the word had senses. The clusters did not seem to be
+related to a particular word sense; the chance of a particular instance being in
+a particular group seemed to be independent of its sense.
+
+Second, we plotted histograms sentence length. The distributions appeared to be
+unimodal, further suggesting that the lengths could not be nicely grouped into
+sense clusters, or any clusters for that matter.
+
+\subsubsection{Common Words in Context}
+
+An idea for a feature extractor was to take the most common words in a context
+of a lexeme and use those words as features. Based off of the cooccurrence code,
+this would generate a vector from the training data, find the most common words
+from the test data, and then run the collected data through the classifier.
+
+Unfortunately, this feature extractor did not give very good results. Both the
+precision and recall for this feature extractor alone on the EnglishLS test data
+were 0.039. This is to be expected since it is essentially the cooccurrence
+feature extractor but without grouping data into buckets. The sparsity problem
+is even more noticeable in this extractor.
+
+\subsubsection{Part of Speech Tagging For Target Words}
+
+We built a part-of-speech tagger and trained it on the Brown corpus. We planned
+on using it to tag words, but the target words were already grouped by part of
+speech, (activate.\textbf{v}) so we did not use it.
+
+%We're using this now, just on a different corpus, right?
+%\subsubsection{Bootstrapping on the Brown Corpus} 
+%The instances of the target words in the Brown corpus were very few, e.g., activate appeared only 3 times, and bootstrapping didn't seem to be very accurate in general.
+
+\subsubsection{Dependency Parsing}
+
+For all of its sophistication, the dependency parser didn't seem to improve
+results.  This is probably because most of the relationships caught by the
+parser would have been caught by the collocation feature extractor as well,
+since most dependency relations are among nearby words.
+
+\subsubsection{Collocation}
+
+Collocation seemed to be a fairly powerful disambugator, which is to be
+expected, since function words near to the target word can be very strong
+predictors of how the word is being used in context.  Effectiveness was
+strongest with words close to the target, and weaker the farther away we
+extended the feature.
+
+\subsubsection{Interactions Between Features}
+
+In principle, adding more features should not decrease our accuracy assuming
+that they're at worst non-predictive, and not somehow anti-predictive, where
+they fool the machine learning algorithm during training and fail spectacularly
+on the test corpora.  However, because the size of the datasets is so small, it
+is probable that the machine learning algorithm has too many features and too
+few examples to reliably disambiguate between them, which is why we see
+decreased effectiveness as we turn up the number of features, particularly with
+the size of the collocation features.  This suggests that, if the training
+corpus is small, it is appropriate to study which features are the most useful,
+and only include those, rather than our initial approach of throwing them all
+together and letting the learning algorithm sort it out.
+
+\end{document}
