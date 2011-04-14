@@ -94,7 +94,8 @@ maximum entropy and the \naive{} Bayes learning methods.  We harnessed these to
 determine the cutoff for making a guess, or resorting to a ``U'' if we were not
 confident in the tagging.  Occasional unknowns also occur because such unknowns
 are present in the training data, and we made no effort to remove them, so the
-learning algorithm views them as any other label.
+learning algorithm views them as any other label.  Where we used confidence
+cutoffs, we used .5 as our cutoff.
 
 % Should we mention which cutoff we used?  Which did we use?
 
