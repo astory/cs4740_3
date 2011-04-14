@@ -167,26 +167,27 @@ package.
 
 \subsection{Cooccurrence}
 
-Looks through the training data and compiles a list of most common words for
-each item in the data. When the test data is run, the feature looks for the
-created vector and uses that instead of trying to make a new one. Next the
-extractor takes a window of words around the head word and generates the 0, 1
-tuple of features for inclusion to the dictionary. This word list is used as the
-keys of the feature vector when using the test data as a list of words that may
-cooccur with each item in the data. The value associated with each key in the
-feature vector starts out as 0 (for occurring 0 times in the window near a test
-word) If a key in the feature vector does occur with a word in the test data,
-the value associated with the key changes to 1 even if the key occurs more than
-once.  This is necessary because the machine learning algorithm we used does not
-attempt to analyze the keys beyond simple equality, so higher numbers than one
-could have masked the possibly more important distinction between 0 and not-0.
-In other words, keeping track of the instances of occurrence vs clustering them
-into 2 groups reduces the sparsity of the data and allows for a higher chance of
-accurate classifications based on the limited training data that we have. This
-is an especially important consideration since the feature vectors that select
-the most common words by looking through all the instances of unique lexical
+Looks through the training data and compiles a list of most common
+words for each item in the data in the form of a vector. When the test
+data is run, the feature looks for the previously made vector and uses that instead of
+trying to make a new one. Next the extractor takes a window of words
+around the head word and generates the 0, 1 tuple of features for
+inclusion to the dictionary. This list constitues the features in the
+feature vector rather than the list of common words. The value
+associated with each key in the feature vector starts out as 0 (for
+occurring 0 times in the window near a test word) If a key in the
+feature vector does occur with a word in the test data, the value
+associated with the key changes to 1 even if the key occurs more than
+once.  This is necessary because the machine learning algorithm we
+used does not attempt to analyze the keys beyond simple equality, so
+higher numbers than one could have masked the possibly more important
+distinction between 0 and not-0. In other words, keeping track of the
+instances of occurrence vs clustering them into 2 groups reduces the
+sparsity of the data and allows for a higher chance of accurate classifications
+based on the limited training data that we have. This is an especially
+important consideration since the feature vectors that select the most
+common words by looking through all the instances of unique lexical
 items in the training data are unsupervised.
-
 
 \section{Methods}
 \newcommand\few{few}
@@ -443,5 +444,7 @@ the size of the collocation features.  This suggests that, if the training
 corpus is small, it is appropriate to study which features are the most useful,
 and only include those, rather than our initial approach of throwing them all
 together and letting the learning algorithm sort it out.
+
+\end{description}
 
 \end{document}
