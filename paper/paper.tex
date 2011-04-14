@@ -506,6 +506,13 @@ corpus is small, it is appropriate to study which features are the most useful,
 and only include those, rather than our initial approach of throwing them all
 together and letting the learning algorithm sort it out.
 
-\end{description}
+\section{Conclusion}
+
+The \naive Bayes and decision tree classifiers are not smart enough to sort out
+a large number of features when the data sets are of small or moderate size,
+which requires judicious choosing of features.  Co-occurrence, base word and
+collocation with part of speech collocation seem to be more powerful features
+than dependency parsing, and bootstrapping on the data in an attempt to get a
+larger training base was ineffective because precision was too low.
 
 \end{document}
