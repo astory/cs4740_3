@@ -34,7 +34,10 @@ def assign_features(item, instance):
 	if USE_COOCCURRENCE:
 		d = cooccurrence.cooccurrence(item, pos, context, d)
 	if USE_PARSING:
-		d = dep_parser.parse(pos, context, d)
+		try:
+			d = dep_parser.parse(pos, context, d)
+		except:
+			pass
 	return d
 
 def build_train(item, instances):
@@ -170,12 +173,22 @@ if __name__ == '__main__':
 	if CLASSIFIER == None:
 		raise Exception("No classifier specified, use -n -t or -m")
 
+	parses = open("parses.pickle", 'r')
+	dep_parser.all_of_them = dep_parser.load(parses)
+	parses.close()
+
 	print >> sys.stderr, "Gathering Items"
 	items = senseval.fileids()
 	print >> sys.stderr, "Gathering Tests"
 	tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
+
 	print >> sys.stderr, "Classifying"
 	senses = batch_classify(items, tests)
+
+#	parses = open("parses.pickle", 'w')
+#	dep_parser.pickle(parses)
+#	parses.close()
+
 
 	f = open('answers.txt')
 	l = []
