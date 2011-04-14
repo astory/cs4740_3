@@ -26,12 +26,4 @@ and the latter contains one file per word type of interest,
 with one of these files containing each of the instances for
 the corresponding word.
 
-
-
-Identification of optimal feature combination
-----------------------------------
-I need to figure out how to run R scripts from the command line.
-This will run stepwise regression and identify a few possibilities.
-We may consider saving some of the training set as an intermediary
-test set so that we can identify a few optimal systems and try
-them on the test set.
+Because we automated all of the tests we wrote the output to files as we tested it.  The results are included in the folder experiment/allruns.  The calls.csv file shows the features that were used in each test and the output for each test.  The output was formatted in a way that the scorer would accept.
