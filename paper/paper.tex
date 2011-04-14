@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{url}
 \usepackage{longtable}
+\usepackage{graphicx}
 \title{Word Sense Disambiguation\\
 \small{Leveraging the NLTK Toolkit and External Tools}}
 \author{
@@ -18,12 +19,14 @@ Whitney Foster\\
 
 \section{Overview}
 
-We chose to implement our system in Python, and chose to use the machine
-learning algorithms in the NLTK toolkit which is also Python-based.
+We  chose to implement our system in Python, and chose to use the machine
+learning algorithms in NLTK which is also Python-based.  We also used
+NLTK for its part of speech tagger, dependecy parser, and to import
+the Senseval data. We coded the rest of the assignment on our own.
 
 We wrote our main control program, classify.py, so that it can choose either
-the Naive Bayes classifier or the Decision Tree classifier and any combination of
-features. On top of this we wrote bash scripts that automated
+Naive Bayes or Decision Trees classifier and any combination of
+features. On top of this we wrote bash scripts that automated 
 looping through every combination of classifiers and features, along with
 porting the results directly into the scorer.  Classify.py includes a help
 switch -h, that explains the switches that control the different classifiers
@@ -46,7 +49,7 @@ training and test files to contain a single tagged word per chunk (but still
 allowing for multiple senses) again to match the Senseval-2  format.
 
 \subsection{Selecting optimal feature combination}
-\newcommand\ward{forward} %or maybe backwards
+\newcommand\ward{backward} %or maybe backwards
 
 We used a \ward stepwise approach to indentifying optimal feature combinations.
 We first ran the system with all features on, producing a total of $256=2^8$
@@ -66,7 +69,7 @@ decision trees.
 
 \subsubsection{Naive Bayes}
 
-The NLTK implements a Naive Bayes classifier which chooses the best sense given a
+The NLTK implements a naïve bayes classifier which chooses the best sense given a
 dictionary of features and assigns confidence probabilities to the chosen
 sense. Naive Bayes does assume an independence of features. The probability of
 each feature contributes to the overall choice.
@@ -107,14 +110,14 @@ to be repeated, so bootstrapping is very cheap to include.
 % Should we mention which probability measure we used?  Which did we use?  How
 % many iterations?
 
-\section{Looking through Different Corpora}
+\subsection{Looking through Different Corpora}
 
 In order to get more data to use with the bootstrapping algorithm, we attempted
 to search through the Brown corpus and return all of the words that were being
 disambiguated in the Senseval 3 task.  To do this we needed to find all of the
 instances of the words that we needed to disambiguate and return a context
 (list of words) and the position of the word in that list.  We also made sure
-that we the context that we returned both started at the beginning of the
+that the context that we returned both started at the beginning of the
 sentence and ended at the end of a sentence and had a minimum of 25 words
 returned on either side of the word.  This data would then be converted into
 the form of the data that we received from the Senseval document and ran
@@ -276,28 +279,45 @@ Coefficients:
 collocation:cooccurrence1:dependency parsing & 0.0147078  \\
 \end{tabular}
 
-%The negative interaction terms may indicate that the interacting
-features provide similar functionality and blah blah blah
+As the regression table above shows, it seems that substituting the
+Decision Tree classifier for the Naive Bayes baseline provides the
+most significant boost to our f measure. It can also be seen here that
+increasing the collocation window will increase the f measure by about 0.003
+for each additional word added to the window. Additionally, enabling
+the cooccurrence feature extractor with the Naive Bayes classifier
+will increase the f measure by a significant amount as well.
+
+The rows that contain negative terms may indicate that the interacting
+features provide similar functionality. That is, the enabled features
+are interfering with each other so that their final influence on the f
+measure may affect the f measure negatively. For instance, the row
+showing ``classifiert:collocation'' indicates a run where the Decision
+Tree classifier was used and the collocation feature was enabled has
+resulted in a lower accuracy. This seems to be the general trend for
+all of the interacting features. It may be interesting to note that
+the interaction between collocation and cooccurrence1 as well as
+collocation and dependency parsing produce the most innocuous
+cumulative effect. Perhaps this may be why collocation and
+cooccurrence are often advocated to be used together.
 
 \subsection{Graphical methods}
 We began by plotting the predictors that seemed most influential in the
 stepwise regression.
 
+\includegraphics[width=\textwidth]{pg_0001}
 %stepwise graph 1
 %classifiert, collocation, cooccurrence  
 %Interpret this graph
 
 Collocation window of size 2--4 had the best performance, so we looked more closely at those.
 
-%stepwise graph 2
+\includegraphics[width=\textwidth]{pg_0002}
 
 more discussin of graphs
 
-%stepwise graph 33
+\includegraphics[width=\textwidth]{pg_0003}
 
-\subsection{Characterization of the top feature combinations}
-
-%Let's get a comparison between our best performer(s) and the baseline
+\includegraphics[width=\textwidth]{pg_0004}
 
 \subsection{Best Run Results}
 
@@ -364,7 +384,6 @@ solid.a	&	475	&	0.25	&	0.001	&	0.25	&	0.001	&	0.25	&	0.001\\
 simple.a	&	298	&	0.182	&	0.001	&	0.545	&	0.002	&	0.409	&	0.001\\
 
 \end{longtable}
-
 
 \section{Discussion}
 
