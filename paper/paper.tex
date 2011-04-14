@@ -32,14 +32,15 @@ We wrote our main control program, classify.py, so that it can choose either the
 \naive{} Bayes or decision tree classifier and any combination of  features. On
 top of this we wrote bash scripts that automated looping through every
 combination of classifiers and features, along with porting the results directly
-into the scorer.  \verb+classify.py+ includes a help switch -h, that explains
-the switches that control the different classifiers and features along with any
-additional parameters that a certain feature might support (for example,
-collocation has a window size parameter which defaults to 0) Performance was
-excellent for most of the features, allowing us to typically run all of the
-words in the test set through every combination a classifier and feature set in
-under an hour, although dependency parsing was slow (The number of runs can get
-quite high when you factor in several parameters per feature, not just on/off)
+into the scorer.  \verb+classify.py+ includes a help switch \verb+-h+, that
+explains the switches that control the different classifiers and features along
+with any additional parameters that a certain feature might support (for
+example, collocation has a window size parameter which defaults to 0)
+Performance was excellent for most of the features, allowing us to typically run
+all of the words in the test set through every combination a classifier and
+feature set in under an hour, although dependency parsing was slow (The number
+of runs can get quite high when you factor in several parameters per feature,
+not just on/off)
 
 A baseline was run by choosing the most frequent sense for each word.
 
