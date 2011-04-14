@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{url}
+\usepackage{longtable}
 \title{Word Sense Disambiguation\\
 \small{Leveraging the NLTK Toolkit and External Tools}}
 \author{
@@ -222,7 +223,7 @@ consideration of all three grain-levels of score and scores by word.
 
 \section{Results}
 
-\subsubsection{Stepwise regression}
+\subsection{Stepwise regression}
 
 We ran backward stepwise regression with the F-measure from the coarse-grained
 scores regressed on predictors representing the feature combination.  The
@@ -279,7 +280,7 @@ collocation:cooccurrence1:dependency parsing & 0.0147078  \\
 %The negative interaction terms may indicate that the interacting features provide
 similar functionality and blah blah blah
 
-\subsubsection{Graphical methods}
+\subsection{Graphical methods}
 We began by plotting the predictors that seemed most influential in the
 stepwise regression.
 
@@ -298,6 +299,73 @@ more discussin of graphs
 \subsection{Characterization of the top feature combinations}
 
 %Let's get a comparison between our best performer(s) and the baseline
+
+\subsection{Best Run Results}
+
+\begin{longtable}{l | r r r r r r r}
+		&	&	\multicolumn{2}{c}{Fine Grain}	&	\multicolumn{2}{c}{Course Grain}	&	\multicolumn{2}{c}{Mixed}\\
+Word	&	Corpus Size	&	Precision	&	Recall	&	Precision	&	Recall	&	Precision	&	Recall\\
+\hline
+provide.v	&	1094	&	0.906	&	0.015	&	0.938	&	0.015	&	0.922	&	0.015\\
+watch.v	&	806	&	0.878	&	0.011	&	0.918	&	0.011	&	0.918	&	0.011\\
+remain.v	&	1118	&	0.871	&	0.015	&	0.871	&	0.015	&	0.871	&	0.015\\
+hot.a	&	696	&	0.853	&	0.007	&	0.853	&	0.007	&	0.853	&	0.007\\
+arm.n	&	2137	&	0.841	&	0.027	&	0.841	&	0.027	&	0.841	&	0.027\\
+eat.v	&	1463	&	0.833	&	0.018	&	0.833	&	0.018	&	0.833	&	0.018\\
+add.v	&	2148	&	0.806	&	0.026	&	0.806	&	0.026	&	0.806	&	0.026\\
+plan.n	&	1353	&	0.797	&	0.016	&	0.835	&	0.017	&	0.835	&	0.017\\
+talk.v	&	1174	&	0.797	&	0.014	&	0.797	&	0.014	&	0.797	&	0.014\\
+use.v	&	214	&	0.786	&	0.003	&	0.786	&	0.003	&	0.786	&	0.003\\
+smell.v	&	874	&	0.784	&	0.01	&	0.804	&	0.01	&	0.804	&	0.01\\
+audience.n	&	1637	&	0.768	&	0.019	&	0.96	&	0.024	&	0.904	&	0.023\\
+expect.v	&	1275	&	0.756	&	0.015	&	0.756	&	0.015	&	0.756	&	0.015\\
+mean.v	&	646	&	0.737	&	0.007	&	0.737	&	0.007	&	0.737	&	0.007\\
+appear.v	&	2139	&	0.731	&	0.024	&	0.731	&	0.024	&	0.731	&	0.024\\
+express.v	&	887	&	0.731	&	0.01	&	0.769	&	0.01	&	0.769	&	0.01\\
+interest.n	&	1489	&	0.728	&	0.015	&	0.728	&	0.015	&	0.728	&	0.015\\
+sort.n	&	1566	&	0.728	&	0.017	&	0.88	&	0.021	&	0.853	&	0.02\\
+begin.v	&	1478	&	0.723	&	0.012	&	0.723	&	0.012	&	0.723	&	0.012\\
+note.v	&	1064	&	0.712	&	0.012	&	0.712	&	0.012	&	0.712	&	0.012\\
+receive.v	&	422	&	0.708	&	0.004	&	0.708	&	0.004	&	0.708	&	0.004\\
+decide.v	&	982	&	0.705	&	0.011	&	0.705	&	0.011	&	0.705	&	0.011\\
+wash.v	&	534	&	0.7	&	0.005	&	0.867	&	0.007	&	0.717	&	0.005\\
+climb.v	&	1073	&	0.698	&	0.011	&	0.698	&	0.011	&	0.698	&	0.011\\
+degree.n	&	2085	&	0.695	&	0.021	&	0.78	&	0.023	&	0.775	&	0.023\\
+bank.n	&	2113	&	0.684	&	0.02	&	0.744	&	0.022	&	0.718	&	0.021\\
+ask.v	&	2150	&	0.659	&	0.015	&	0.659	&	0.015	&	0.659	&	0.015\\
+rule.v	&	478	&	0.655	&	0.005	&	0.655	&	0.005	&	0.655	&	0.005\\
+activate.v	&	1874	&	0.65	&	0.017	&	0.65	&	0.017	&	0.65	&	0.017\\
+organization.n	&	905	&	0.648	&	0.009	&	0.778	&	0.011	&	0.75	&	0.01\\
+operate.v	&	286	&	0.643	&	0.002	&	0.714	&	0.003	&	0.714	&	0.003\\
+hear.v	&	510	&	0.633	&	0.005	&	0.7	&	0.005	&	0.7	&	0.005\\
+win.v	&	631	&	0.633	&	0.005	&	0.633	&	0.005	&	0.633	&	0.005\\
+shelter.n	&	1604	&	0.63	&	0.013	&	0.63	&	0.013	&	0.63	&	0.013\\
+party.n	&	1863	&	0.622	&	0.014	&	0.622	&	0.014	&	0.622	&	0.014\\
+source.n	&	527	&	0.607	&	0.004	&	0.607	&	0.004	&	0.607	&	0.004\\
+difference.n	&	1841	&	0.604	&	0.014	&	0.637	&	0.015	&	0.632	&	0.015\\
+write.v	&	355	&	0.579	&	0.003	&	0.579	&	0.003	&	0.579	&	0.003\\
+argument.n	&	1831	&	0.577	&	0.01	&	0.676	&	0.012	&	0.669	&	0.012\\
+atmosphere.n	&	1332	&	0.574	&	0.009	&	0.574	&	0.009	&	0.574	&	0.009\\
+paper.n	&	1914	&	0.574	&	0.009	&	0.721	&	0.011	&	0.689	&	0.011\\
+lose.v	&	574	&	0.552	&	0.004	&	0.552	&	0.004	&	0.552	&	0.004\\
+produce.v	&	1496	&	0.538	&	0.012	&	0.538	&	0.012	&	0.538	&	0.012\\
+encounter.v	&	1046	&	0.534	&	0.008	&	0.966	&	0.014	&	0.615	&	0.009\\
+image.n	&	1176	&	0.508	&	0.008	&	0.508	&	0.008	&	0.508	&	0.008\\
+disc.n	&	1633	&	0.488	&	0.005	&	0.488	&	0.005	&	0.488	&	0.005\\
+difficulty.n	&	378	&	0.474	&	0.002	&	0.842	&	0.004	&	0.719	&	0.003\\
+suspend.v	&	1032	&	0.456	&	0.007	&	0.456	&	0.007	&	0.456	&	0.007\\
+treat.v	&	903	&	0.442	&	0.005	&	0.465	&	0.005	&	0.465	&	0.005\\
+important.a	&	305	&	0.438	&	0.002	&	0.562	&	0.002	&	0.531	&	0.002\\
+miss.v	&	470	&	0.435	&	0.003	&	0.435	&	0.003	&	0.435	&	0.003\\
+judgment.n	&	502	&	0.429	&	0.003	&	0.429	&	0.003	&	0.429	&	0.003\\
+performance.n	&	1398	&	0.396	&	0.005	&	0.562	&	0.007	&	0.521	&	0.006\\
+play.v	&	838	&	0.389	&	0.004	&	0.389	&	0.004	&	0.389	&	0.004\\
+different.a	&	796	&	0.378	&	0.004	&	0.556	&	0.006	&	0.489	&	0.006\\
+solid.a	&	475	&	0.25	&	0.001	&	0.25	&	0.001	&	0.25	&	0.001\\
+simple.a	&	298	&	0.182	&	0.001	&	0.545	&	0.002	&	0.409	&	0.001\\
+
+\end{longtable}
+
 
 \section{Discussion}
 
