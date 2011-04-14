@@ -15,13 +15,18 @@ Thomas Levine
 Whitney Foster\\
 }
 
+\newcommand{\naive}{na\"ive}
+\newcommand{\Naive}{Na\"ive}
+
 \begin{document}
 \maketitle
 
 \section{Overview}
 
 We  chose to implement our system in Python, and chose to use the machine
-learning algorithms in NLTK which is also Python-based.  We also used NLTK for its part of speech tagger, dependecy parser, and to import the Senseval data.  We coded the rest of the assignment on our own.
+learning algorithms in NLTK which is also Python-based.  We also used NLTK for
+its part of speech tagger, dependency parser, and to import the Senseval data.
+We coded the rest of the assignment on our own.
 
 We wrote our main control program, classify.py, so that it can choose either
 Naive Bayes or Decision Trees classifier and any 
@@ -50,7 +55,7 @@ allowing for multiple senses) again to match the Senseval-2  format.
 \subsection{Selecting optimal feature combination}
 \newcommand\ward{forward} %or maybe backwards
 
-We used a \ward stepwise approach to indentifying optimal feature combinations.
+We used a \ward stepwise approach to identifying optimal feature combinations.
 We first ran the system with all features on, producing a total of $256=2^8$
 combinations.  We then used backwards stepwise regression to identify feature
 combinations with a small number of features but with high performance
@@ -63,14 +68,14 @@ machine learning engines, and several of its other packages for analysis.
 
 \subsection{Classifiers}
 
-The NLTK was used to implement two machine learning algorithms, naive Bayes and
+The NLTK was used to implement two machine learning algorithms, \naive{} Bayes and
 decision trees.  
 
 \subsubsection{Naive Bayes}
 
-The NLTK implements a naïve bayes classifier which chooses the best sense given a
+The NLTK implements a \naive{} Bayes classifier which chooses the best sense given a
 dictionary of features and assigns confidence probabilities to the chosen
-sense. Naive bayes does assume an independence of features. The probability of
+sense. \Naive{} Bayes does assume an independence of features. The probability of
 each feature contributes to the overall choice.
 
 \subsubsection{Decision Tree}
@@ -85,11 +90,11 @@ Naive Bayes supported probability estimation, while the decision tree did not.
 \subsection{Confidence Cutoffs}
 
 NLTK provides probability measures for each of its guesses when using the
-maximum entropy and the naive Bayes learning methods.  We harnessed these to
-determine the cutoff for making a guess, or resorting to a ``U'' if we were
-unconfident in the tagging.  Occasional unknowns also occur because such
-unknowns are present in the training data, and we made no effort to remove
-them, so the learning algorithm views them as any other label.
+maximum entropy and the \naive{} Bayes learning methods.  We harnessed these to
+determine the cutoff for making a guess, or resorting to a ``U'' if we were not
+confident in the tagging.  Occasional unknowns also occur because such unknowns
+are present in the training data, and we made no effort to remove them, so the
+learning algorithm views them as any other label.
 
 % Should we mention which cutoff we used?  Which did we use?
 
@@ -161,12 +166,12 @@ part right of the word.
 We rendered a feature for each position covered, and set its value to be the
 word at that position.
 
-We also used nltk's part of speech tagger to tag the context, and included those
-as we did the literal words in the feature set.  This was trained on nltk's
-\verb+maximum entropy treebank pos tagger+ data, which is included with the nltk
+We also used NLTK's part of speech tagger to tag the context, and included those
+as we did the literal words in the feature set.  This was trained on NLTK's
+\verb+maximum entropy treebank pos tagger+ data, which is included with the NLTK
 package.
 
-\subsection{Cooccurrence}
+\subsection{Co-occurrence}
 
 Looks through the training data and compiles a list of most common words for
 each item in the data. When the test data is run, the feature looks for the
@@ -174,7 +179,7 @@ created vector and uses that instead of trying to make a new one. Next the
 extractor takes a window of words around the head word and generates the 0, 1
 tuple of features for inclusion to the dictionary. This word list is used as the
 keys of the feature vector when using the test data as a list of words that may
-cooccur with each item in the data. The value associated with each key in the
+co-occur with each item in the data. The value associated with each key in the
 feature vector starts out as 0 (for occurring 0 times in the window near a test
 word) If a key in the feature vector does occur with a word in the test data,
 the value associated with the key changes to 1 even if the key occurs more than
@@ -214,25 +219,25 @@ scores regressed on predictors representing the feature combination.  The
 saturated model contained the following predictors and all interactions
 
 \begin{itemize}
-\item Classifier (naive Bayes or decision list)
+\item Classifier (\naive{} Bayes or decision list)
 \item Collocation window length (0--8)
-\item Cooccurrence handling (on or off)
+\item Co-occurrence handling (on or off)
 \item Base word handling (on or off)
 \item Bootstrap iterations (0--4)
 \item Dependency parsing (on or off)
 \end{itemize}
 
-The predictor combination yeilding the lowest value of the Akaike information criterion
+The predictor combination yielding the lowest value of the Akaike information criterion
 included the following parameters.
 
 \begin{itemize}
 \item Intercept
 \item Classifier
 \item Collocation window size
-\item Coocurrence
+\item Co-occurrence
 \item Base word handling
 \item Classifier$\times$collocation window size interaction
-\item Classifier$\times$cooccurrence interaction
+\item Classifier$\times$co-occurrence interaction
 \end{itemize}
 
 This does not include bootstrap iterations, indicating that changes
@@ -277,7 +282,7 @@ Collocation window of size 2--4 had the best performance, so we looked more clos
 
 \includegraphics[width=\textwidth]{pg_0002}
 
-The naive Bayes classifier had better top-range performance.
+The \naive{} Bayes classifier had better top-range performance.
 
 \includegraphics[width=\textwidth]{pg_0003}
 
@@ -303,7 +308,7 @@ coarse  &  0.612 & 0.612 &  100.00\\
 \subsection{Best Run Results}
 
 Our run with the highest overall F-measure (overall precision 0.718, overall
-recall 0.610), used cooccurrence, colocation out to a distance of 2, base word,
+recall 0.610), used co-occurrence, collocation out to a distance of 2, base word,
 no dependency parsing, and bootstrapped once:
 
 \begin{longtable}{l | r r r r r r r}
@@ -396,13 +401,13 @@ sense clusters, or any clusters for that matter.
 \subsubsection{Common Words in Context}
 
 An idea for a feature extractor was to take the most common words in a context
-of a lexeme and use those words as features. Based off of the cooccurrence code,
+of a lexeme and use those words as features. Based off of the co-occurrence code,
 this would generate a vector from the training data, find the most common words
 from the test data, and then run the collected data through the classifier.
 
 Unfortunately, this feature extractor did not give very good results. Both the
 precision and recall for this feature extractor alone on the EnglishLS test data
-were 0.039. This is to be expected since it is essentially the cooccurrence
+were 0.039. This is to be expected since it is essentially the co-occurrence
 feature extractor but without grouping data into buckets. The sparsity problem
 is even more noticeable in this extractor.
 
@@ -446,7 +451,7 @@ since most dependency relations are among nearby words.
 
 \subsubsection{Collocation}
 
-Collocation seemed to be a fairly powerful disambugator, which is to be
+Collocation seemed to be fairly powerful at disambiguating, which is to be
 expected, since function words near to the target word can be very strong
 predictors of how the word is being used in context.  Effectiveness was
 strongest with words close to the target, and weaker the farther away we
