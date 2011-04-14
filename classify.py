@@ -185,9 +185,9 @@ if __name__ == '__main__':
 	print >> sys.stderr, "Classifying"
 	senses = batch_classify(items, tests)
 
-#	parses = open("parses.pickle", 'w')
-#	dep_parser.pickle(parses)
-#	parses.close()
+	parses = open("parses.pickle", 'w')
+	dep_parser.pickle(parses)
+	parses.close()
 
 
 	f = open('answers.txt')
