@@ -108,24 +108,6 @@ to be repeated, so bootstrapping is very cheap to include.
 % Should we mention which probability measure we used?  Which did we use?  How
 % many iterations?
 
-\subsection{Looking through Different Corpora}
-
-In order to get more data to use with the bootstrapping algorithm, we attempted
-to search through the Brown corpus and return all of the words that were being
-disambiguated in the Senseval 3 task.  To do this we needed to find all of the
-instances of the words that we needed to disambiguate and return a context
-(list of words) and the position of the word in that list.  We also made sure
-that the context that we returned both started at the beginning of the
-sentence and ended at the end of a sentence and had a minimum of 25 words
-returned on either side of the word.  This data would then be converted into
-the form of the data that we received from the Senseval document and ran
-through the bootstrapping algorithm to have more data to train with.  However
-when we actually tested this feature alone we found it to be very
-uninformative.  First, there were very few instances of the words that we were
-looking for (ex: activate only appeared 3 times), which made searching through
-the entire corpus to find these words more time consuming than it was helpful.
-Therefore, we decided not to use it for the actual test because it was not
-informative enough by itself.
 
 \subsection{Base Word}
 
@@ -409,8 +391,29 @@ We built a part-of-speech tagger and trained it on the Brown corpus. We planned
 on using it to tag words, but the target words were already grouped by part of
 speech, (activate.\textbf{v}) so we did not use it.
 
+
 %We're using this now, just on a different corpus, right?
 %\subsubsection{Bootstrapping on the Brown Corpus} 
+
+\subsection{Looking through Different Corpora}
+
+In order to get more data to use with the bootstrapping algorithm, we attempted
+to search through the Brown corpus and return all of the words that were being
+disambiguated in the Senseval 3 task.  To do this we needed to find all of the
+instances of the words that we needed to disambiguate and return a context
+(list of words) and the position of the word in that list.  We also made sure
+that the context that we returned both started at the beginning of the
+sentence and ended at the end of a sentence and had a minimum of 25 words
+returned on either side of the word.  This data would then be converted into
+the form of the data that we received from the Senseval document and ran
+through the bootstrapping algorithm to have more data to train with.  However
+when we actually tested this feature alone we found it to be very
+uninformative.  First, there were very few instances of the words that we were
+looking for (ex: activate only appeared 3 times), which made searching through
+the entire corpus to find these words more time consuming than it was helpful.
+Therefore, we decided not to use it for the actual test because it was not
+informative enough by itself.
+
 %The instances of the target words in the Brown corpus were very few, e.g., activate appeared only 3 times, and bootstrapping didn't seem to be very accurate in general.
 
 \subsubsection{Dependency Parsing}
