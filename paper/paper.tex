@@ -173,6 +173,7 @@ package.
 
 \subsection{Co-occurrence}
 
+
 Looks through the training data and compiles a list of most common words for
 each item in the data. When the test data is run, the feature looks for the
 created vector and uses that instead of trying to make a new one. Next the
@@ -193,7 +194,6 @@ is an especially important consideration since the feature vectors that select
 the most common words by looking through all the instances of unique lexical
 items in the training data are unsupervised.
 
-
 \section{Methods}
 \newcommand\few{few}
 
@@ -211,6 +211,7 @@ We ran a more detailed analysis on the top \few systems.  This analysis included
 consideration of all three grain-levels of score and scores by word.
 
 \section{Results}
+
 
 \subsection{Stepwise regression}
 
@@ -273,20 +274,39 @@ similar functionality and blah blah blah
 We began by plotting the predictors that seemed most influential in the
 stepwise regression.
 
+\begin{figure}
+\includegraphics[width=\textwidth]{baseline}
+\caption{\label{fig:base}Baseline scores for our two baseline systems}
+\end{figure}
+
+
+
+\begin{figure}
 \includegraphics[width=\textwidth]{pg_0001}
+\caption{\label{fig1}}
+\end{figure}
+
+Collocation window of size 2--4 had the best performance (figure \ref{fig2}), so we looked more closely at those.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{pg_0002}
 %stepwise graph 1
 %classifiert, collocation, cooccurrence  
 %Interpret this graph
-
-Collocation window of size 2--4 had the best performance, so we looked more closely at those.
-
-\includegraphics[width=\textwidth]{pg_0002}
+\caption{\label{fig2}}
+\end{figure}
 
 The \naive{} Bayes classifier had better top-range performance.
 
+\begin{figure}
 \includegraphics[width=\textwidth]{pg_0003}
+\caption{\label{fig3}}
+\end{figure}
 
+\begin{figure}
 \includegraphics[width=\textwidth]{pg_0004}
+\caption{\label{fig4}}
+\end{figure}
 
 \subsection{Baseline Results}
 
@@ -421,7 +441,7 @@ speech, (activate.\textbf{v}) so we did not use it.
 %We're using this now, just on a different corpus, right?
 %\subsubsection{Bootstrapping on the Brown Corpus} 
 
-\subsection{Looking through Different Corpora}
+\subsubsection{Looking through Different Corpora}
 
 In order to get more data to use with the bootstrapping algorithm, we attempted
 to search through the Brown corpus and return all of the words that were being
