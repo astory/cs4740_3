@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-import os, os.path
+import os, os.path, sys
 import nltk
 import colocation
 import cooccurrence
 import pairing
-import parser
+import parser as dep_parser
 from nltk.corpus import senseval
 from optparse import OptionParser
 
@@ -24,6 +24,7 @@ CLASSIFIER=nltk.NaiveBayesClassifier
 #CLASSIFIER=nltk.MaxentClassifier #much slower, prints lots of crap
 
 def assign_features(item, instance):
+	print >> sys.stderr, "classifying an instance"
 	context = instance['context']
 	pos = instance['position']
 	d={}
@@ -33,7 +34,10 @@ def assign_features(item, instance):
 	if USE_COOCCURRENCE:
 		d = cooccurrence.cooccurrence(item, pos, context, d)
 	if USE_PARSING:
-		d = parser.parse(pos, context, d)
+		try:
+			d = dep_parser.parse(pos, context, d)
+		except:
+			pass
 	return d
 
 def build_train(item, instances):
@@ -82,6 +86,7 @@ def bootstrap(train, test, classified):
 def batch_classify(items, tests):
 	senses = []
 	for item in items:
+		print >> sys.stderr, "classifying %s" % item
 		lexitem = ".".join(item.split(".")[0:2])
 		trains=\
 			[dict(context=instance.context,\
@@ -168,9 +173,22 @@ if __name__ == '__main__':
 	if CLASSIFIER == None:
 		raise Exception("No classifier specified, use -n -t or -m")
 
+	parses = open("parses.pickle", 'r')
+	dep_parser.all_of_them = dep_parser.load(parses)
+	parses.close()
+
+	print >> sys.stderr, "Gathering Items"
 	items = senseval.fileids()
+	print >> sys.stderr, "Gathering Tests"
 	tests = pairing.parse_file("EnglishLS.test/EnglishLS.test")
+
+	print >> sys.stderr, "Classifying"
 	senses = batch_classify(items, tests)
+
+#	parses = open("parses.pickle", 'w')
+#	dep_parser.pickle(parses)
+#	parses.close()
+
 
 	f = open('answers.txt')
 	l = []

@@ -1,0 +1,481 @@
+The scores for tmp1  and tmp65 are baselines for naive Bayes and decision trees respectively.
+-----------------------
+Fine-grained score for "experiment/fullTraining/tmp1" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.552 (2176.00 correct of 3944.00 attempted)
+ recall: 0.552 (2176.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp10" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.599 (2361.00 correct of 3944.00 attempted)
+ recall: 0.599 (2361.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp11" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.617 (2434.00 correct of 3944.00 attempted)
+ recall: 0.617 (2434.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp12" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.622 (2455.00 correct of 3944.00 attempted)
+ recall: 0.622 (2455.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp13" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.581 (2291.00 correct of 3944.00 attempted)
+ recall: 0.581 (2291.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp14" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.585 (2306.00 correct of 3944.00 attempted)
+ recall: 0.585 (2306.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp15" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.602 (2374.00 correct of 3944.00 attempted)
+ recall: 0.602 (2374.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp16" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.608 (2397.00 correct of 3944.00 attempted)
+ recall: 0.608 (2397.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp17" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.373 (1471.00 correct of 3944.00 attempted)
+ recall: 0.373 (1471.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp18" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.418 (1647.00 correct of 3944.00 attempted)
+ recall: 0.418 (1647.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp19" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.406 (1601.00 correct of 3944.00 attempted)
+ recall: 0.406 (1601.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp2" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.572 (2254.00 correct of 3944.00 attempted)
+ recall: 0.572 (2254.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp20" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.470 (1855.00 correct of 3944.00 attempted)
+ recall: 0.470 (1855.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp21" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.445 (1756.00 correct of 3944.00 attempted)
+ recall: 0.445 (1756.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp22" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.456 (1800.00 correct of 3944.00 attempted)
+ recall: 0.456 (1800.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp23" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.498 (1963.00 correct of 3944.00 attempted)
+ recall: 0.498 (1963.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp24" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.501 (1977.00 correct of 3944.00 attempted)
+ recall: 0.501 (1977.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp25" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.536 (2113.00 correct of 3944.00 attempted)
+ recall: 0.536 (2113.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp26" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.545 (2151.00 correct of 3944.00 attempted)
+ recall: 0.545 (2151.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp27" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.567 (2235.00 correct of 3944.00 attempted)
+ recall: 0.567 (2235.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp28" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.579 (2284.00 correct of 3944.00 attempted)
+ recall: 0.579 (2284.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp29" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.529 (2087.00 correct of 3944.00 attempted)
+ recall: 0.529 (2087.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp3" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.557 (2196.00 correct of 3944.00 attempted)
+ recall: 0.557 (2196.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp30" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.545 (2150.00 correct of 3944.00 attempted)
+ recall: 0.545 (2150.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp31" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.566 (2231.00 correct of 3944.00 attempted)
+ recall: 0.566 (2231.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp32" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.569 (2243.00 correct of 3944.00 attempted)
+ recall: 0.569 (2243.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp33" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.373 (1471.00 correct of 3944.00 attempted)
+ recall: 0.373 (1471.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp34" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.418 (1647.00 correct of 3944.00 attempted)
+ recall: 0.418 (1647.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp35" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.406 (1601.00 correct of 3944.00 attempted)
+ recall: 0.406 (1601.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp36" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.470 (1855.00 correct of 3944.00 attempted)
+ recall: 0.470 (1855.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp37" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.445 (1756.00 correct of 3944.00 attempted)
+ recall: 0.445 (1756.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp38" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp39" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp4" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.573 (2260.00 correct of 3944.00 attempted)
+ recall: 0.573 (2260.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp40" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp41" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.536 (2113.00 correct of 3944.00 attempted)
+ recall: 0.536 (2113.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp42" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.545 (2151.00 correct of 3944.00 attempted)
+ recall: 0.545 (2151.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp43" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.567 (2235.00 correct of 3944.00 attempted)
+ recall: 0.567 (2235.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp44" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.579 (2284.00 correct of 3944.00 attempted)
+ recall: 0.579 (2284.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp45" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.530 (2091.00 correct of 3944.00 attempted)
+ recall: 0.530 (2091.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp46" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.546 (2152.00 correct of 3944.00 attempted)
+ recall: 0.546 (2152.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp47" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.566 (2234.00 correct of 3944.00 attempted)
+ recall: 0.566 (2234.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp48" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.569 (2246.00 correct of 3944.00 attempted)
+ recall: 0.569 (2246.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp49" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.373 (1471.00 correct of 3944.00 attempted)
+ recall: 0.373 (1471.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp5" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.561 (2212.00 correct of 3944.00 attempted)
+ recall: 0.561 (2212.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp50" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.418 (1647.00 correct of 3944.00 attempted)
+ recall: 0.418 (1647.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp51" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.406 (1601.00 correct of 3944.00 attempted)
+ recall: 0.406 (1601.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp52" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.470 (1855.00 correct of 3944.00 attempted)
+ recall: 0.470 (1855.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp53" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.445 (1756.00 correct of 3944.00 attempted)
+ recall: 0.445 (1756.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp54" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.456 (1800.00 correct of 3944.00 attempted)
+ recall: 0.456 (1800.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp55" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.498 (1963.00 correct of 3944.00 attempted)
+ recall: 0.498 (1963.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp56" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp57" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp58" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp59" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp6" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.568 (2241.00 correct of 3944.00 attempted)
+ recall: 0.568 (2241.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp60" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp61" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp62" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp63" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp64" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.569 (2246.00 correct of 3944.00 attempted)
+ recall: 0.569 (2246.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp65" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.552 (2176.00 correct of 3944.00 attempted)
+ recall: 0.552 (2176.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp66" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.572 (2255.00 correct of 3944.00 attempted)
+ recall: 0.572 (2255.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp67" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.555 (2189.00 correct of 3944.00 attempted)
+ recall: 0.555 (2189.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp68" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.573 (2260.00 correct of 3944.00 attempted)
+ recall: 0.573 (2260.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp69" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.561 (2213.00 correct of 3944.00 attempted)
+ recall: 0.561 (2213.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp7" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.582 (2295.00 correct of 3944.00 attempted)
+ recall: 0.582 (2295.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp70" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.564 (2224.00 correct of 3944.00 attempted)
+ recall: 0.564 (2224.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp71" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.560 (2210.00 correct of 3944.00 attempted)
+ recall: 0.560 (2210.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp72" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.564 (2225.00 correct of 3944.00 attempted)
+ recall: 0.564 (2225.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp73" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.573 (2261.00 correct of 3944.00 attempted)
+ recall: 0.573 (2261.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp74" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.574 (2263.00 correct of 3944.00 attempted)
+ recall: 0.574 (2263.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp75" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.571 (2252.00 correct of 3944.00 attempted)
+ recall: 0.571 (2252.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp76" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.572 (2254.00 correct of 3944.00 attempted)
+ recall: 0.572 (2254.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp77" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp78" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp79" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp8" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.588 (2321.00 correct of 3944.00 attempted)
+ recall: 0.588 (2321.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp80" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: -nan (0.00 correct of 0.00 attempted)
+ recall: 0.000 (0.00 correct of 3944.00 in total)
+ attempted: 0.00 % (0.00 attempted of 3944.00 in total)
+
+
+Fine-grained score for "experiment/fullTraining/tmp9" using key "EnglishLS.test/EnglishLS.test.key":
+ precision: 0.599 (2363.00 correct of 3944.00 attempted)
+ recall: 0.599 (2363.00 correct of 3944.00 in total)
+ attempted: 100.00 % (3944.00 attempted of 3944.00 in total)
+
