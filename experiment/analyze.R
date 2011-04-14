@@ -166,7 +166,7 @@ plot.step1=function(){
 	ag=plot.step.import()
 	ggplot(ag,aes(colocation,f,group=c(cooccurrence)))+
 	geom_point(aes(color=cooccurrence),position=position_jitter(w=0.1, h=0))+
-	opts(title = expression("The optimal colocation window is between 3 and 4 words"))
+	opts(title = expression("The optimal colocation window is between 2 and 4 words"))
 #	opts(title = expression("Performance of all of our systems"))+
 #	scale_x_continuous('Colocation window size') + scale_y_continuous('Mixed-grained F-measure')
 }
